@@ -1,0 +1,77 @@
+# Build results - applies to all bin/ and obj/ folders recursively
+**/bin/
+**/obj/
+**/build/
+**/artifacts/
+
+# Logs
+**/logs/
+*.log
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# macOS system files
+.DS_Store
+
+# Node / Frontend (if used)
+**/node_modules/
+**/dist/
+
+# Publish outputs
+**/wwwroot/
+**/app.publish/
+*.Publish.xml
+
+# Temporary files
+*.tmp
+*.bak
+*.old
+*.swp
+*.pid
+
+# EF Core Migrations Snapshots (optional)
+**/*Snapshot.cs
+
+# Test results and coverage
+**/TestResults/
+**/coverage/
+*.coverage
+*.coveragexml
+
+# NuGet and packaging
+packages/
+*.nupkg
+*.snupkg
+
+# Environment and secrets
+.env
+.env.*
+secrets.json
+
+# Docker (optional overrides)
+**/docker-compose.override.yml
+
+# Dotnet tools
+.tools/
+
+# Global JSON
+global.json
+
+# Ignore generated files
+ScaffoldingReadMe.txt
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
