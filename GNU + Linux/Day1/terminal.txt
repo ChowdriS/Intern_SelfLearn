@@ -1,0 +1,327 @@
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % cd GNU\ +\ Linux 
+presidio@Presidios-MacBook-Pro GNU + Linux % chmod 400 Chowdri_S.pem 
+presidio@Presidios-MacBook-Pro GNU + Linux % ls -a
+.                                                               Chowdri_S.pem
+..                                                              GNU+Linux with Shell Scripting – Day-1 Assignments.pdf
+presidio@Presidios-MacBook-Pro GNU + Linux % ls -la
+total 216
+drwxr-xr-x  4 presidio  staff     128 Sep  1 12:46 .
+drwxr-xr-x@ 9 presidio  staff     288 Sep  1 12:46 ..
+-r--------@ 1 presidio  staff    3243 Sep  1 12:43 Chowdri_S.pem
+-rw-r--r--@ 1 presidio  staff  104949 Sep  1 12:42 GNU+Linux with Shell Scripting – Day-1 Assignments.pdf
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@18.215.117.161
+The authenticity of host '18.215.117.161 (18.215.117.161)' can't be established.
+ED25519 key fingerprint is SHA256:prTcGQmZ5uAvLmzJzdf9LMtWorq9svDVy0bWb0jbIhI.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '18.215.117.161' (ED25519) to the list of known hosts.
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1011-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Sep  1 07:20:02 UTC 2025
+
+  System load:  0.0               Processes:             107
+  Usage of /:   31.6% of 6.71GB   Users logged in:       0
+  Memory usage: 22%               IPv4 address for enX0: 10.0.9.45
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+19 updates can be applied immediately.
+17 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Sep  1 03:41:18 2025 from 106.51.176.206
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+ubuntu@ip-10-0-9-45:~$ ls -la
+total 36
+drwxr-x--- 5 ubuntu ubuntu 4096 Sep  1 03:36 .
+drwxr-xr-x 3 root   root   4096 Sep  1 03:04 ..
+drwx------ 3 ubuntu ubuntu 4096 Sep  1 03:36 .ansible
+-rw------- 1 ubuntu ubuntu    5 Sep  1 03:10 .bash_history
+-rw-r--r-- 1 ubuntu ubuntu  220 Mar 31  2024 .bash_logout
+-rw-r--r-- 1 ubuntu ubuntu 3771 Mar 31  2024 .bashrc
+drwx------ 2 ubuntu ubuntu 4096 Sep  1 03:10 .cache
+-rw-r--r-- 1 ubuntu ubuntu  807 Mar 31  2024 .profile
+drwx------ 2 ubuntu ubuntu 4096 Sep  1 03:04 .ssh
+ubuntu@ip-10-0-9-45:~$ ls
+ubuntu@ip-10-0-9-45:~$ ls -la /
+total 84
+drwxr-xr-x  22 root root  4096 Sep  1 03:04 .
+drwxr-xr-x  22 root root  4096 Sep  1 03:04 ..
+lrwxrwxrwx   1 root root     7 Apr 22  2024 bin -> usr/bin
+drwxr-xr-x   2 root root  4096 Feb 26  2024 bin.usr-is-merged
+drwxr-xr-x   5 root root  4096 Aug 21 10:15 boot
+drwxr-xr-x  16 root root  3240 Sep  1 03:04 dev
+drwxr-xr-x 108 root root  4096 Sep  1 03:04 etc
+drwxr-xr-x   3 root root  4096 Sep  1 03:04 home
+lrwxrwxrwx   1 root root     7 Apr 22  2024 lib -> usr/lib
+drwxr-xr-x   2 root root  4096 Apr  8  2024 lib.usr-is-merged
+lrwxrwxrwx   1 root root     9 Apr 22  2024 lib64 -> usr/lib64
+drwx------   2 root root 16384 Aug 21 10:07 lost+found
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 media
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 mnt
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 opt
+dr-xr-xr-x 169 root root     0 Sep  1 03:04 proc
+drwx------   4 root root  4096 Sep  1 03:04 root
+drwxr-xr-x  29 root root   940 Sep  1 07:20 run
+lrwxrwxrwx   1 root root     8 Apr 22  2024 sbin -> usr/sbin
+drwxr-xr-x   2 root root  4096 Mar 31  2024 sbin.usr-is-merged
+drwxr-xr-x   6 root root  4096 Aug 21 10:16 snap
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 srv
+dr-xr-xr-x  13 root root     0 Sep  1 03:04 sys
+drwxrwxrwt  12 root root  4096 Sep  1 07:13 tmp
+drwxr-xr-x  12 root root  4096 Aug 21 10:04 usr
+drwxr-xr-x  13 root root  4096 Sep  1 03:04 var
+ubuntu@ip-10-0-9-45:~$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.3 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.3 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+ubuntu@ip-10-0-9-45:~$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 24.04.3 LTS
+Release:        24.04
+Codename:       noble
+ubuntu@ip-10-0-9-45:~$ which yum || which apt
+/usr/bin/apt
+ubuntu@ip-10-0-9-45:~$ uname -r && uname -a
+6.14.0-1011-aws
+Linux ip-10-0-9-45 6.14.0-1011-aws #11~24.04.1-Ubuntu SMP Fri Aug  1 02:07:25 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+ubuntu@ip-10-0-9-45:~$ client_loop: send disconnect: Broken pipe
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@18.215.117.161
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1011-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Sep  1 07:38:35 UTC 2025
+
+  System load:  0.0               Processes:             109
+  Usage of /:   31.6% of 6.71GB   Users logged in:       1
+  Memory usage: 22%               IPv4 address for enX0: 10.0.9.45
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+19 updates can be applied immediately.
+17 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Sep  1 07:20:04 2025 from 106.195.36.162
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+ubuntu@ip-10-0-9-45:~$ 
+ubuntu@ip-10-0-9-45:/var/log$ ls -l
+total 940
+lrwxrwxrwx  1 root      root                39 Aug 21 10:04 README -> ../../usr/share/doc/systemd/README.logs
+-rw-r--r--  1 root      root               444 Aug 21 10:08 alternatives.log
+drwx------  3 root      root              4096 Sep  1 03:04 amazon
+-rw-r-----  1 root      adm                  0 Sep  1 03:04 apport.log
+drwxr-xr-x  2 root      root              4096 Aug 21 10:16 apt
+-rw-r-----  1 syslog    adm             197699 Sep  1 09:17 auth.log
+-rw-rw----  1 root      utmp            202752 Sep  1 08:38 btmp
+drwxr-x---  2 _chrony   _chrony           4096 Sep  1 03:04 chrony
+-rw-r-----  1 root      adm               4286 Sep  1 03:04 cloud-init-output.log
+-rw-r-----  1 syslog    adm             132675 Sep  1 03:04 cloud-init.log
+drwxr-xr-x  2 root      root              4096 Jul 25 16:08 dist-upgrade
+-rw-r-----  1 root      adm              43788 Sep  1 03:04 dmesg
+-rw-r--r--  1 root      root             37948 Aug 21 10:16 dpkg.log
+drwxr-sr-x+ 3 root      systemd-journal   4096 Sep  1 03:04 journal
+-rw-r-----  1 syslog    adm              53387 Sep  1 07:04 kern.log
+drwxr-xr-x  2 landscape landscape         4096 Sep  1 03:10 landscape
+-rw-rw-r--  1 root      utmp            292292 Sep  1 09:14 lastlog
+drwx------  2 root      root              4096 Sep  1 03:04 private
+-rw-r-----  1 syslog    adm             192647 Sep  1 09:20 syslog
+drwxr-xr-x  2 root      root              4096 Sep  1 03:04 sysstat
+drwxr-x---  2 root      adm               4096 Sep  1 06:16 unattended-upgrades
+-rw-rw-r--  1 root      utmp             14976 Sep  1 09:14 wtmp
+ubuntu@ip-10-0-9-45:/var/log$ echo 'test' > /dev/null
+ubuntu@ip-10-0-9-45:/var/log$ pwd
+/var/log
+ubuntu@ip-10-0-9-45:/var/log$ ps
+    PID TTY          TIME CMD
+   5522 pts/2    00:00:00 bash
+   5575 pts/2    00:00:00 ps
+ubuntu@ip-10-0-9-45:/var/log$ ls -l /proc/5522/wd
+ls: cannot access '/proc/5522/wd': No such file or directory
+ubuntu@ip-10-0-9-45:/var/log$ ls -l /proc/5522/cwd
+lrwxrwxrwx 1 ubuntu ubuntu 0 Sep  1 09:25 /proc/5522/cwd -> /var/log
+ubuntu@ip-10-0-9-45:/var/log$ man -f man
+man (1)              - an interface to the system reference manuals
+ubuntu@ip-10-0-9-45:/var/log$ man -f pwd
+pwd (1)              - print name of current/working directory
+ubuntu@ip-10-0-9-45:/var/log$ 
+ubuntu@ip-10-0-9-45:/var/log$ ls -l
+total 940
+lrwxrwxrwx  1 root      root                39 Aug 21 10:04 README -> ../../usr/share/doc/systemd/README.logs
+-rw-r--r--  1 root      root               444 Aug 21 10:08 alternatives.log
+drwx------  3 root      root              4096 Sep  1 03:04 amazon
+-rw-r-----  1 root      adm                  0 Sep  1 03:04 apport.log
+drwxr-xr-x  2 root      root              4096 Aug 21 10:16 apt
+-rw-r-----  1 syslog    adm             197699 Sep  1 09:17 auth.log
+-rw-rw----  1 root      utmp            202752 Sep  1 08:38 btmp
+drwxr-x---  2 _chrony   _chrony           4096 Sep  1 03:04 chrony
+-rw-r-----  1 root      adm               4286 Sep  1 03:04 cloud-init-output.log
+-rw-r-----  1 syslog    adm             132675 Sep  1 03:04 cloud-init.log
+drwxr-xr-x  2 root      root              4096 Jul 25 16:08 dist-upgrade
+-rw-r-----  1 root      adm              43788 Sep  1 03:04 dmesg
+-rw-r--r--  1 root      root             37948 Aug 21 10:16 dpkg.log
+drwxr-sr-x+ 3 root      systemd-journal   4096 Sep  1 03:04 journal
+-rw-r-----  1 syslog    adm              53387 Sep  1 07:04 kern.log
+drwxr-xr-x  2 landscape landscape         4096 Sep  1 03:10 landscape
+-rw-rw-r--  1 root      utmp            292292 Sep  1 09:14 lastlog
+drwx------  2 root      root              4096 Sep  1 03:04 private
+-rw-r-----  1 syslog    adm             192647 Sep  1 09:20 syslog
+drwxr-xr-x  2 root      root              4096 Sep  1 03:04 sysstat
+drwxr-x---  2 root      adm               4096 Sep  1 06:16 unattended-upgrades
+-rw-rw-r--  1 root      utmp             14976 Sep  1 09:14 wtmp
+ubuntu@ip-10-0-9-45:/var/log$ echo 'test' > /dev/null
+ubuntu@ip-10-0-9-45:/var/log$ pwd
+/var/log
+ubuntu@ip-10-0-9-45:/var/log$ ps
+    PID TTY          TIME CMD
+   5522 pts/2    00:00:00 bash
+   5575 pts/2    00:00:00 ps
+ubuntu@ip-10-0-9-45:/var/log$ ls -l /proc/5522/wd
+ls: cannot access '/proc/5522/wd': No such file or directory
+ubuntu@ip-10-0-9-45:/var/log$ ls -l /proc/5522/cwd
+lrwxrwxrwx 1 ubuntu ubuntu 0 Sep  1 09:25 /proc/5522/cwd -> /var/log
+ubuntu@ip-10-0-9-45:/var/log$ man -f man
+man (1)              - an interface to the system reference manuals
+ubuntu@ip-10-0-9-45:/var/log$ man -f pwd
+pwd (1)              - print name of current/working directory
+ubuntu@ip-10-0-9-45:/var/log$ grep -i cpu /proc
+grep: /proc: Is a directory
+ubuntu@ip-10-0-9-45:/var/log$ grep -i cpu /proc/
+grep: /proc/: Is a directory
+ubuntu@ip-10-0-9-45:/var/log$ ls -d /proc/*cpu*
+/proc/cpuinfo
+ubuntu@ip-10-0-9-45:/var/log$ cat /proc/cpuinfo
+processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 79
+model name      : Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz
+stepping        : 1
+microcode       : 0xb000040
+cpu MHz         : 2300.154
+cache size      : 46080 KB
+physical id     : 0
+siblings        : 1
+core id         : 0
+cpu cores       : 1
+apicid          : 0
+initial apicid  : 0
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 13
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm cpuid_fault pti fsgsbase bmi1 avx2 smep bmi2 erms invpcid xsaveopt
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit mmio_stale_data bhi its
+bogomips        : 4600.01
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+ubuntu@ip-10-0-9-45:/var/log$ cat /proc/meminfo
+MemTotal:         980324 kB
+MemFree:           98704 kB
+MemAvailable:     613088 kB
+Buffers:           16740 kB
+Cached:           628260 kB
+SwapCached:            0 kB
+Active:           231040 kB
+Inactive:         475824 kB
+Active(anon):      43624 kB
+Inactive(anon):    40836 kB
+Active(file):     187416 kB
+Inactive(file):   434988 kB
+Unevictable:       40228 kB
+Mlocked:           27264 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:        102128 kB
+Mapped:            92528 kB
+Shmem:               900 kB
+KReclaimable:      39516 kB
+Slab:              83804 kB
+SReclaimable:      39516 kB
+SUnreclaim:        44288 kB
+KernelStack:        2588 kB
+PageTables:         3676 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      490160 kB
+Committed_AS:     523568 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:        8644 kB
+VmallocChunk:          0 kB
+Percpu:             8704 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+Unaccepted:            0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:       61440 kB
+DirectMap2M:      987136 kB
+ubuntu@ip-10-0-9-45:/var/log$ ps -ef | wc -l
+111
+ubuntu@ip-10-0-9-45:/var/log$ who
+ubuntu   pts/1        2025-09-01 07:38 (106.195.36.162)
+ubuntu   pts/2        2025-09-01 09:14 (223.185.217.127)
+ubuntu@ip-10-0-9-45:/var/log$ users
+ubuntu ubuntu
+ubuntu@ip-10-0-9-45:/var/log$ users | wc -w
+2
+ubuntu@ip-10-0-9-45:/var/log$ 
