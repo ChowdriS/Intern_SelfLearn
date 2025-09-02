@@ -5,9 +5,6 @@
 **/artifacts/
 **/*.pem
 
-# Logs
-**/logs/
-*.log
 
 # User-specific files
 *.user

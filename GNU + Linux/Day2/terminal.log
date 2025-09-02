@@ -1,0 +1,614 @@
+1) Create a user named qa 
+
+ubuntu@ip-10-0-9-45:~$ useradd -m -s /bin/bash qa
+useradd: Permission denied.
+useradd: cannot lock /etc/passwd; try again later.
+
+ubuntu@ip-10-0-9-45:~$ sudo su
+
+root@ip-10-0-9-45:/home/ubuntu# useradd -m -s /bin/bash qa
+
+root@ip-10-0-9-45:/home/ubuntu# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:998:998:systemd Network Management:/:/usr/sbin/nologin
+systemd-timesync:x:996:996:systemd Time Synchronization:/:/usr/sbin/nologin
+dhcpcd:x:100:65534:DHCP Client Daemon,,,:/usr/lib/dhcpcd:/bin/false
+messagebus:x:101:101::/nonexistent:/usr/sbin/nologin
+syslog:x:102:102::/nonexistent:/usr/sbin/nologin
+systemd-resolve:x:991:991:systemd Resolver:/:/usr/sbin/nologin
+uuidd:x:103:103::/run/uuidd:/usr/sbin/nologin
+tss:x:104:104:TPM software stack,,,:/var/lib/tpm:/bin/false
+sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
+pollinate:x:106:1::/var/cache/pollinate:/bin/false
+tcpdump:x:107:108::/nonexistent:/usr/sbin/nologin
+landscape:x:108:109::/var/lib/landscape:/usr/sbin/nologin
+fwupd-refresh:x:990:990:Firmware update daemon:/var/lib/fwupd:/usr/sbin/nologin
+polkitd:x:989:989:User for polkitd:/:/usr/sbin/nologin
+ec2-instance-connect:x:109:65534::/nonexistent:/usr/sbin/nologin
+_chrony:x:110:112:Chrony daemon,,,:/var/lib/chrony:/usr/sbin/nologin
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+abc:x:1001:1001::/home/abc:/bin/sh
+qa:x:1002:1002::/home/qa:/bin/bash
+
+root@ip-10-0-9-45:/home/ubuntu# passwd qa
+New password: 
+Retype new password: 
+passwd: password updated successfully
+
+root@ip-10-0-9-45:/home/ubuntu# chage -E 2025-09-09 qa
+
+root@ip-10-0-9-45:/home/ubuntu# passwd -S qa
+qa P 2025-09-02 0 99999 7 -1
+
+root@ip-10-0-9-45:/home/ubuntu# chage -l qa
+Last password change					: Sep 02, 2025
+Password expires					: never
+Password inactive					: never
+Account expires						: Sep 09, 2025
+Minimum number of days between password change		: 0
+Maximum number of days between password change		: 99999
+Number of days of warning before password expires	: 7
+
+root@ip-10-0-9-45:/home/ubuntu# 
+
+
+2) Find the process which is consuming more CPU and kill it.
+
+
+ubuntu@ip-10-0-9-45:/home/ubuntu# top
+
+  System load:  0.95              Processes:             130
+top - 09:20:42 up 1 day,  6:16,  4 users,  load average: 1.00, 1.00, 1.00
+Tasks: 119 total,   2 running, 117 sleeping,   0 stopped,   0 zombie
+%Cpu(s):100.0 us,  0.0 sy,  0.0 ni,  0.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :    957.3 total,    106.3 free,    382.1 used,    647.8 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.    575.3 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                        
+  17616 root      20   0   18336  10420   6708 R  98.6   1.1 159:56.62 python3                                                                        
+      1 root      20   0   22668  13748   9524 S   0.0   1.4   0:08.92 systemd                                                                        
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd                                                                       
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                         
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                               
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                              
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                   
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                         
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                
+     10 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-events_highpri                                                    
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                         
+     14 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_rude_kthread                                                         
+     15 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_trace_kthread                                                        
+     16 root      20   0       0      0      0 S   0.0   0.0   0:00.68 ksoftirqd/0                                                                    
+     17 root      20   0       0      0      0 I   0.0   0.0   0:01.36 rcu_sched                                                                      
+     18 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                
+     19 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_gp_kthread_worker                                                      
+     20 root      rt   0       0      0      0 S   0.0   0.0   0:00.64 migration/0                                                                    
+     21 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                  
+     22 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                        
+     23 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kdevtmpfs                                                                      
+     24 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-inet_frag_wq                                                         
+     25 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kauditd                                                                        
+     26 root      20   0       0      0      0 S   0.0   0.0   0:00.02 khungtaskd                                                                     
+     27 root      20   0       0      0      0 S   0.0   0.0   0:00.00 oom_reaper                                                                     
+     29 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-writeback                                                            
+     30 root      20   0       0      0      0 S   0.0   0.0   0:04.52 kcompactd0                                                                     
+     31 root      25   5       0      0      0 S   0.0   0.0   0:00.00 ksmd                                                                           
+     32 root      39  19       0      0      0 S   0.0   0.0   0:00.00 khugepaged                                                                     
+     33 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kintegrityd                                                          
+     34 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kblockd                                                              
+     35 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-blkcg_punt_bio                                                       
+     36 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 irq/9-acpi                                                                     
+     37 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xen-balloon                                                                    
+     38 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-tpm_dev_wq                                                           
+     39 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-ata_sff                                                              
+     40 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md                                                                   
+     41 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md_bitmap                                                            
+     42 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-edac-poller                                                          
+     43 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-devfreq_wq                                                           
+     44 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 watchdogd                                                                      
+     45 root       0 -20       0      0      0 I   0.0   0.0   0:00.25 kworker/0:1H-kblockd                                                           
+     46 root      20   0       0      0      0 S   0.0   0.0   0:00.41 kswapd0                                                                        
+     47 root      20   0       0      0      0 S   0.0   0.0   0:00.00 ecryptfs-kthread                                                               
+     48 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kthrotld                                                             
+     49 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-acpi_thermal_pm                                                      
+     50 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xenbus                                                                         
+     51 root      20   0       0      0      0 S   0.0   0.0   0:00.02 xenwatch                                                                       
+     52 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-wq                                                              
+     53 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-reset-wq                                                        
+     54 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-delete-wq                                                       
+     55 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-auth-wq                                                         
+ubuntu@ip-10-0-9-45:~$ kill 17616
+-bash: kill: (17616) - Operation not permitted
+ubuntu@ip-10-0-9-45:~$ sudo su
+root@ip-10-0-9-45:/home/ubuntu# kill 17616
+root@ip-10-0-9-45:/home/ubuntu# ps -p 17616
+    PID TTY          TIME CMD
+root@ip-10-0-9-45:/home/ubuntu# top
+
+top - 09:21:41 up 1 day,  6:17,  4 users,  load average: 1.00, 1.00, 1.00
+Tasks: 123 total,   2 running, 121 sleeping,   0 stopped,   0 zombie
+%Cpu(s):100.0 us,  0.0 sy,  0.0 ni,  0.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :    957.3 total,    105.8 free,    382.5 used,    647.8 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.    574.8 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                        
+  18789 root      20   0   18336  10512   6800 R  99.9   1.1   0:34.47 python3                                                                        
+      1 root      20   0   22668  13748   9524 S   0.0   1.4   0:08.92 systemd                                                                        
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd                                                                       
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                         
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                               
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                              
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                   
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                         
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                
+     10 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-events_highpri                                                    
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                         
+     14 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_rude_kthread                                                         
+     15 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_trace_kthread                                                        
+     16 root      20   0       0      0      0 S   0.0   0.0   0:00.68 ksoftirqd/0                                                                    
+     17 root      20   0       0      0      0 I   0.0   0.0   0:01.36 rcu_sched                                                                      
+     18 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                
+     19 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_gp_kthread_worker                                                      
+     20 root      rt   0       0      0      0 S   0.0   0.0   0:00.64 migration/0                                                                    
+     21 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                  
+     22 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                        
+     23 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kdevtmpfs                                                                      
+     24 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-inet_frag_wq                                                         
+     25 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kauditd                                                                        
+     26 root      20   0       0      0      0 S   0.0   0.0   0:00.02 khungtaskd                                                                     
+     27 root      20   0       0      0      0 S   0.0   0.0   0:00.00 oom_reaper                                                                     
+     29 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-writeback                                                            
+     30 root      20   0       0      0      0 S   0.0   0.0   0:04.52 kcompactd0                                                                     
+     31 root      25   5       0      0      0 S   0.0   0.0   0:00.00 ksmd                                                                           
+     32 root      39  19       0      0      0 S   0.0   0.0   0:00.00 khugepaged                                                                     
+     33 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kintegrityd                                                          
+     34 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kblockd                                                              
+     35 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-blkcg_punt_bio                                                       
+     36 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 irq/9-acpi                                                                     
+     37 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xen-balloon                                                                    
+     38 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-tpm_dev_wq                                                           
+     39 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-ata_sff                                                              
+     40 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md                                                                   
+     41 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md_bitmap                                                            
+     42 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-edac-poller                                                          
+     43 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-devfreq_wq                                                           
+     44 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 watchdogd                                                                      
+     45 root       0 -20       0      0      0 I   0.0   0.0   0:00.25 kworker/0:1H-kblockd                                                           
+     46 root      20   0       0      0      0 S   0.0   0.0   0:00.41 kswapd0                                                                        
+     47 root      20   0       0      0      0 S   0.0   0.0   0:00.00 ecryptfs-kthread                                                               
+     48 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kthrotld                                                             
+     49 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-acpi_thermal_pm                                                      
+     50 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xenbus                                                                         
+     51 root      20   0       0      0      0 S   0.0   0.0   0:00.02 xenwatch                                                                       
+     52 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-wq                                                              
+     53 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-reset-wq                                                        
+     54 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-delete-wq                                                       
+     55 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-auth-wq                                                         
+root@ip-10-0-9-45:/home/ubuntu# kill -9 18789
+root@ip-10-0-9-45:/home/ubuntu# ps -p 18789
+    PID TTY          TIME CMD
+root@ip-10-0-9-45:/home/ubuntu# top
+
+top - 09:24:43 up 1 day,  6:20,  4 users,  load average: 1.00, 1.00, 1.00
+Tasks: 123 total,   2 running, 121 sleeping,   0 stopped,   0 zombie
+%Cpu(s):100.0 us,  0.0 sy,  0.0 ni,  0.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :    957.3 total,    105.8 free,    382.5 used,    647.9 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.    574.9 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                        
+  18795 root      20   0   18336  10520   6808 R  99.7   1.1   2:31.41 python3                                                                        
+      1 root      20   0   22668  13748   9524 S   0.0   1.4   0:08.93 systemd                                                                        
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd                                                                       
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                         
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                               
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                              
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                   
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                         
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                
+     10 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-events_highpri                                                    
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                         
+     14 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_rude_kthread                                                         
+     15 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_trace_kthread                                                        
+     16 root      20   0       0      0      0 S   0.0   0.0   0:00.68 ksoftirqd/0                                                                    
+     17 root      20   0       0      0      0 I   0.0   0.0   0:01.36 rcu_sched                                                                      
+     18 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                
+     19 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_gp_kthread_worker                                                      
+     20 root      rt   0       0      0      0 S   0.0   0.0   0:00.64 migration/0                                                                    
+     21 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                  
+     22 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                        
+     23 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kdevtmpfs                                                                      
+     24 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-inet_frag_wq                                                         
+     25 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kauditd                                                                        
+     26 root      20   0       0      0      0 S   0.0   0.0   0:00.02 khungtaskd                                                                     
+     27 root      20   0       0      0      0 S   0.0   0.0   0:00.00 oom_reaper                                                                     
+     29 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-writeback                                                            
+     30 root      20   0       0      0      0 S   0.0   0.0   0:04.53 kcompactd0                                                                     
+     31 root      25   5       0      0      0 S   0.0   0.0   0:00.00 ksmd                                                                           
+     32 root      39  19       0      0      0 S   0.0   0.0   0:00.00 khugepaged                                                                     
+     33 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kintegrityd                                                          
+     34 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kblockd                                                              
+     35 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-blkcg_punt_bio                                                       
+     36 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 irq/9-acpi                                                                     
+     37 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xen-balloon                                                                    
+     38 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-tpm_dev_wq                                                           
+     39 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-ata_sff                                                              
+     40 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md                                                                   
+     41 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md_bitmap                                                            
+     42 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-edac-poller                                                          
+     43 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-devfreq_wq                                                           
+     44 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 watchdogd                                                                      
+     45 root       0 -20       0      0      0 I   0.0   0.0   0:00.25 kworker/0:1H-kblockd                                                           
+     46 root      20   0       0      0      0 S   0.0   0.0   0:00.41 kswapd0                                                                        
+     47 root      20   0       0      0      0 S   0.0   0.0   0:00.00 ecryptfs-kthread                                                               
+     48 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kthrotld                                                             
+     49 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-acpi_thermal_pm                                                      
+     50 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xenbus                                                                         
+     51 root      20   0       0      0      0 S   0.0   0.0   0:00.02 xenwatch                                                                       
+     52 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-wq                                                              
+     53 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-reset-wq                                                        
+     54 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-delete-wq                                                       
+     55 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-auth-wq                                                         
+root@ip-10-0-9-45:/home/ubuntu# ps -o pid,ppid -p 18795
+    PID    PPID
+  18795       1
+root@ip-10-0-9-45:/home/ubuntu# systemctl status | grep python
+           │ │ └─18795 python3 /usr/local/bin/cpu_hog.py
+           │ │ └─591 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+           │   └─764 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+               │ └─18804 grep --color=auto python
+root@ip-10-0-9-45:/home/ubuntu# systemctl status cpu_hog
+Unit cpu_hog.service could not be found.
+root@ip-10-0-9-45:/home/ubuntu# systemctl | grep cpu
+  cpu-hog.service                                                              loaded active running   CPU Hog Service
+root@ip-10-0-9-45:/home/ubuntu# systemctl stop cpu-hog
+root@ip-10-0-9-45:/home/ubuntu# top
+
+top - 09:28:46 up 1 day,  6:24,  3 users,  load average: 0.92, 0.98, 0.99
+Tasks: 119 total,   1 running, 118 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.3 us,  0.0 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :    957.3 total,    120.6 free,    367.5 used,    648.1 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.    589.9 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                        
+      1 root      20   0   22668  13876   9524 S   0.0   1.4   0:08.96 systemd                                                                        
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd                                                                       
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                         
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                               
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                              
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                   
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                         
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                
+     10 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-events_highpri                                                    
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                         
+     14 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_rude_kthread                                                         
+     15 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_trace_kthread                                                        
+     16 root      20   0       0      0      0 S   0.0   0.0   0:00.68 ksoftirqd/0                                                                    
+     17 root      20   0       0      0      0 I   0.0   0.0   0:01.36 rcu_sched                                                                      
+     18 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                
+     19 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_gp_kthread_worker                                                      
+     20 root      rt   0       0      0      0 S   0.0   0.0   0:00.64 migration/0                                                                    
+     21 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                  
+     22 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                        
+     23 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kdevtmpfs                                                                      
+     24 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-inet_frag_wq                                                         
+     25 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kauditd                                                                        
+     26 root      20   0       0      0      0 S   0.0   0.0   0:00.02 khungtaskd                                                                     
+     27 root      20   0       0      0      0 S   0.0   0.0   0:00.00 oom_reaper                                                                     
+     29 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-writeback                                                            
+     30 root      20   0       0      0      0 S   0.0   0.0   0:04.53 kcompactd0                                                                     
+     31 root      25   5       0      0      0 S   0.0   0.0   0:00.00 ksmd                                                                           
+     32 root      39  19       0      0      0 S   0.0   0.0   0:00.00 khugepaged                                                                     
+     33 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kintegrityd                                                          
+     34 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kblockd                                                              
+     35 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-blkcg_punt_bio                                                       
+     36 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 irq/9-acpi                                                                     
+     37 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xen-balloon                                                                    
+     38 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-tpm_dev_wq                                                           
+     39 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-ata_sff                                                              
+     40 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md                                                                   
+     41 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-md_bitmap                                                            
+     42 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-edac-poller                                                          
+     43 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-devfreq_wq                                                           
+     44 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 watchdogd                                                                      
+     45 root       0 -20       0      0      0 I   0.0   0.0   0:00.25 kworker/0:1H-kblockd                                                           
+     46 root      20   0       0      0      0 S   0.0   0.0   0:00.41 kswapd0                                                                        
+     47 root      20   0       0      0      0 S   0.0   0.0   0:00.00 ecryptfs-kthread                                                               
+     48 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kthrotld                                                             
+     49 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-acpi_thermal_pm                                                      
+     50 root      20   0       0      0      0 S   0.0   0.0   0:00.00 xenbus                                                                         
+     51 root      20   0       0      0      0 S   0.0   0.0   0:00.02 xenwatch                                                                       
+     52 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-wq                                                              
+     53 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-reset-wq                                                        
+     54 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-delete-wq                                                       
+     55 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-nvme-auth-wq                                                         
+     56 root      20   0       0      0      0 S   0.0   0.0   0:00.02 scsi_eh_0                                                                      
+root@ip-10-0-9-45:/home/ubuntu# 
+
+
+3) Create two users u1 and u2. Create a group sharedgroup and add both users to this group.
+
+ubuntu@ip-10-0-9-45:~$ useradd -m u1
+useradd: Permission denied.
+useradd: cannot lock /etc/passwd; try again later.
+ubuntu@ip-10-0-9-45:~$ sudo su
+root@ip-10-0-9-45:/home/ubuntu# useradd u1
+root@ip-10-0-9-45:/home/ubuntu# useradd u2
+root@ip-10-0-9-45:/home/ubuntu# groupadd sharedgroup
+root@ip-10-0-9-45:/home/ubuntu# usermod -aG sharedgroup u1
+root@ip-10-0-9-45:/home/ubuntu# usermod -aG sharedgroup u2
+root@ip-10-0-9-45:/home/ubuntu# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:998:998:systemd Network Management:/:/usr/sbin/nologin
+systemd-timesync:x:996:996:systemd Time Synchronization:/:/usr/sbin/nologin
+dhcpcd:x:100:65534:DHCP Client Daemon,,,:/usr/lib/dhcpcd:/bin/false
+messagebus:x:101:101::/nonexistent:/usr/sbin/nologin
+syslog:x:102:102::/nonexistent:/usr/sbin/nologin
+systemd-resolve:x:991:991:systemd Resolver:/:/usr/sbin/nologin
+uuidd:x:103:103::/run/uuidd:/usr/sbin/nologin
+tss:x:104:104:TPM software stack,,,:/var/lib/tpm:/bin/false
+sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
+pollinate:x:106:1::/var/cache/pollinate:/bin/false
+tcpdump:x:107:108::/nonexistent:/usr/sbin/nologin
+landscape:x:108:109::/var/lib/landscape:/usr/sbin/nologin
+fwupd-refresh:x:990:990:Firmware update daemon:/var/lib/fwupd:/usr/sbin/nologin
+polkitd:x:989:989:User for polkitd:/:/usr/sbin/nologin
+ec2-instance-connect:x:109:65534::/nonexistent:/usr/sbin/nologin
+_chrony:x:110:112:Chrony daemon,,,:/var/lib/chrony:/usr/sbin/nologin
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+abc:x:1001:1001::/home/abc:/bin/sh
+qa:x:1002:1002::/home/qa:/bin/bash
+u1:x:1003:1003::/home/u1:/bin/sh
+u2:x:1004:1004::/home/u2:/bin/sh
+root@ip-10-0-9-45:/home/ubuntu# groups u1
+u1 : u1 sharedgroup
+root@ip-10-0-9-45:/home/ubuntu# getent groups
+Unknown database: groups
+Try `getent --help' or `getent --usage' for more information.
+root@ip-10-0-9-45:/home/ubuntu# getent group
+root:x:0:
+daemon:x:1:
+bin:x:2:
+sys:x:3:
+adm:x:4:syslog,ubuntu
+tty:x:5:
+disk:x:6:
+lp:x:7:
+mail:x:8:
+news:x:9:
+uucp:x:10:
+man:x:12:
+proxy:x:13:
+kmem:x:15:
+dialout:x:20:
+fax:x:21:
+voice:x:22:
+cdrom:x:24:ubuntu
+floppy:x:25:
+tape:x:26:
+sudo:x:27:ubuntu
+audio:x:29:
+dip:x:30:ubuntu
+www-data:x:33:
+backup:x:34:
+operator:x:37:
+list:x:38:
+irc:x:39:
+src:x:40:
+shadow:x:42:
+utmp:x:43:
+video:x:44:
+sasl:x:45:
+plugdev:x:46:
+staff:x:50:
+games:x:60:
+users:x:100:
+nogroup:x:65534:
+systemd-journal:x:999:
+systemd-network:x:998:
+crontab:x:997:
+systemd-timesync:x:996:
+input:x:995:
+sgx:x:994:
+kvm:x:993:
+render:x:992:
+messagebus:x:101:
+syslog:x:102:
+systemd-resolve:x:991:
+uuidd:x:103:
+tss:x:104:
+lxd:x:105:ubuntu
+_ssh:x:106:
+rdma:x:107:
+tcpdump:x:108:
+landscape:x:109:
+fwupd-refresh:x:990:
+polkitd:x:989:
+admin:x:110:
+netdev:x:111:
+_chrony:x:112:
+ubuntu:x:1000:
+abc:x:1001:
+qa:x:1002:
+u1:x:1003:
+u2:x:1004:
+sharedgroup:x:1005:u1,u2
+root@ip-10-0-9-45:/home/ubuntu# ls
+hello.sh  node_exporter.tar.gz
+root@ip-10-0-9-45:/home/ubuntu# mkdir -p /srv/shared
+root@ip-10-0-9-45:/home/ubuntu# cd /
+root@ip-10-0-9-45:/# ls
+bin                boot  etc   lib                lib64       media  opt   root  sbin                snap  sys  usr
+bin.usr-is-merged  dev   home  lib.usr-is-merged  lost+found  mnt    proc  run   sbin.usr-is-merged  srv   tmp  var
+root@ip-10-0-9-45:/# cd srv
+root@ip-10-0-9-45:/srv# ls
+shared
+root@ip-10-0-9-45:/srv# cd ..
+root@ip-10-0-9-45:/# chown root:sharedgroup /srv/shared
+root@ip-10-0-9-45:/# ls -l
+total 76
+lrwxrwxrwx   1 root root     7 Apr 22  2024 bin -> usr/bin
+drwxr-xr-x   2 root root  4096 Feb 26  2024 bin.usr-is-merged
+drwxr-xr-x   5 root root  4096 Sep  2 06:06 boot
+drwxr-xr-x  16 root root  3240 Sep  1 03:04 dev
+drwxr-xr-x 108 root root  4096 Sep  2 09:38 etc
+drwxr-xr-x   5 root root  4096 Sep  2 09:10 home
+lrwxrwxrwx   1 root root     7 Apr 22  2024 lib -> usr/lib
+drwxr-xr-x   2 root root  4096 Apr  8  2024 lib.usr-is-merged
+lrwxrwxrwx   1 root root     9 Apr 22  2024 lib64 -> usr/lib64
+drwx------   2 root root 16384 Aug 21 10:07 lost+found
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 media
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 mnt
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 opt
+dr-xr-xr-x 189 root root     0 Sep  1 03:04 proc
+drwx------   5 root root  4096 Sep  2 09:27 root
+drwxr-xr-x  30 root root  1020 Sep  2 09:37 run
+lrwxrwxrwx   1 root root     8 Apr 22  2024 sbin -> usr/sbin
+drwxr-xr-x   2 root root  4096 Mar 31  2024 sbin.usr-is-merged
+drwxr-xr-x   6 root root  4096 Aug 21 10:16 snap
+drwxr-xr-x   3 root root  4096 Sep  2 09:41 srv
+dr-xr-xr-x  13 root root     0 Sep  1 07:21 sys
+drwxrwxrwt  12 root root  4096 Sep  2 08:12 tmp
+drwxr-xr-x  12 root root  4096 Aug 21 10:04 usr
+drwxr-xr-x  13 root root  4096 Sep  1 03:04 var
+root@ip-10-0-9-45:/# cd srv & ls -l
+[1] 18955
+total 76
+lrwxrwxrwx   1 root root     7 Apr 22  2024 bin -> usr/bin
+drwxr-xr-x   2 root root  4096 Feb 26  2024 bin.usr-is-merged
+drwxr-xr-x   5 root root  4096 Sep  2 06:06 boot
+drwxr-xr-x  16 root root  3240 Sep  1 03:04 dev
+drwxr-xr-x 108 root root  4096 Sep  2 09:38 etc
+drwxr-xr-x   5 root root  4096 Sep  2 09:10 home
+lrwxrwxrwx   1 root root     7 Apr 22  2024 lib -> usr/lib
+drwxr-xr-x   2 root root  4096 Apr  8  2024 lib.usr-is-merged
+lrwxrwxrwx   1 root root     9 Apr 22  2024 lib64 -> usr/lib64
+drwx------   2 root root 16384 Aug 21 10:07 lost+found
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 media
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 mnt
+drwxr-xr-x   2 root root  4096 Aug 21 10:04 opt
+dr-xr-xr-x 190 root root     0 Sep  1 03:04 proc
+drwx------   5 root root  4096 Sep  2 09:27 root
+drwxr-xr-x  30 root root  1020 Sep  2 09:37 run
+lrwxrwxrwx   1 root root     8 Apr 22  2024 sbin -> usr/sbin
+drwxr-xr-x   2 root root  4096 Mar 31  2024 sbin.usr-is-merged
+drwxr-xr-x   6 root root  4096 Aug 21 10:16 snap
+drwxr-xr-x   3 root root  4096 Sep  2 09:41 srv
+dr-xr-xr-x  13 root root     0 Sep  1 07:21 sys
+drwxrwxrwt  12 root root  4096 Sep  2 08:12 tmp
+drwxr-xr-x  12 root root  4096 Aug 21 10:04 usr
+drwxr-xr-x  13 root root  4096 Sep  1 03:04 var
+[1]+  Done                    cd srv
+root@ip-10-0-9-45:/# cd srv
+root@ip-10-0-9-45:/srv# ls -l
+total 4
+drwxr-xr-x 2 root sharedgroup 4096 Sep  2 09:41 shared
+root@ip-10-0-9-45:/srv# chmod 2770 /srv/shared
+root@ip-10-0-9-45:/srv# ls -l
+total 4
+drwxrws--- 2 root sharedgroup 4096 Sep  2 09:41 shared
+root@ip-10-0-9-45:/srv# chmod +t /srv/shared
+root@ip-10-0-9-45:/srv# ls -l
+total 4
+drwxrws--T 2 root sharedgroup 4096 Sep  2 09:41 shared
+root@ip-10-0-9-45:/srv# exit
+exit
+ubuntu@ip-10-0-9-45:~$ sudo su qa
+qa@ip-10-0-9-45:/home/ubuntu$ cd /srv
+qa@ip-10-0-9-45:/srv$ ls
+shared
+qa@ip-10-0-9-45:/srv$ cd shared/
+bash: cd: shared/: Permission denied
+qa@ip-10-0-9-45:/srv$ 
+
+
+4) Set node exporter as a service. Start the service
+ubuntu@ip-10-0-9-45:~$ ls
+hello.sh  node_exporter.tar.gz
+ubuntu@ip-10-0-9-45:~$ tar -xvzf node_exporter.tar.gz
+node_exporter-1.9.1.linux-amd64/
+node_exporter-1.9.1.linux-amd64/LICENSE
+node_exporter-1.9.1.linux-amd64/NOTICE
+node_exporter-1.9.1.linux-amd64/node_exporter
+ubuntu@ip-10-0-9-45:~$ cd  node_exporter-1.9.1.linux-amd64/
+ubuntu@ip-10-0-9-45:~/node_exporter-1.9.1.linux-amd64$ cp node_exporter /usr/local/bin
+cp: cannot create regular file '/usr/local/bin/node_exporter': Permission denied
+ubuntu@ip-10-0-9-45:~/node_exporter-1.9.1.linux-amd64$ sudo cp node_exporter /usr/local/bin
+ubuntu@ip-10-0-9-45:~/node_exporter-1.9.1.linux-amd64$ sudo su
+root@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64# cd /
+root@ip-10-0-9-45:/# cd usr/local/bin/
+root@ip-10-0-9-45:/usr/local/bin# ls
+cpu_hog.py  node_exporter
+root@ip-10-0-9-45:/usr/local/bin# cd /etc/systemd/system
+root@ip-10-0-9-45:/etc/systemd/system# ls
+ chronyd.service                              iscsi.service                              snap.amazon-ssm-agent.amazon-ssm-agent.service
+ cloud-config.target.wants                    mdmonitor.service.wants                    snapd.mounts.target.wants
+ cloud-final.service.wants                    multi-user.target.wants                    sockets.target.wants
+ cloud-init.target.wants                      network-online.target.wants                ssh.service.requires
+ cpu-hog.service                              open-vm-tools.service.requires             suspend-then-hibernate.target.wants
+ dbus-org.freedesktop.ModemManager1.service   paths.target.wants                         suspend.target.wants
+ dbus-org.freedesktop.resolve1.service        rescue.target.wants                        sysinit.target.wants
+ emergency.target.wants                       sleep.target.wants                         syslog.service
+ final.target.wants                          'snap-amazon\x2dssm\x2dagent-11797.mount'   sysstat.service.wants
+ getty.target.wants                           snap-core22-2045.mount                     timers.target.wants
+ graphical.target.wants                       snap-core22-2111.mount                     vmtoolsd.service
+ hibernate.target.wants                       snap-snapd-24792.mount
+ hybrid-sleep.target.wants                    snap-snapd-25202.mount
+root@ip-10-0-9-45:/etc/systemd/system# vim node_exporter.service
+root@ip-10-0-9-45:/etc/systemd/system# systemctl daemon-reload
+root@ip-10-0-9-45:/etc/systemd/system# systemctl enable --now node_exporter
+Created symlink /etc/systemd/system/multi-user.target.wants/node_exporter.service → /etc/systemd/system/node_exporter.service.
+root@ip-10-0-9-45:/etc/systemd/system# systemctl | grep node
+  kmod-static-nodes.service                                                    loaded active exited    Create List of Static Device Nodes
+  node_exporter.service                                                        loaded active running   node_exporter.service
+root@ip-10-0-9-45:/etc/systemd/system# 
+
+5)
+
+qa@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64$ sudo ls
+[sudo] password for qa: 
+LICENSE  NOTICE  node_exporter
+qa@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64$ sudo su
+root@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64# vim /etc/ssh/sshd_config
+root@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64# vim /etc/ssh/ssh_config
+root@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64# sudo visudo
+root@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64# sudo su qa
+qa@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64$ sudo ls
+LICENSE  NOTICE  node_exporter
+qa@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64$ 
+
+
+18.207.110.55
