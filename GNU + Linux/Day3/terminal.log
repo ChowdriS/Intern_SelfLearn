@@ -1,0 +1,339 @@
+1)
+
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh-keygen -t rsa -b 4096 -C "new-ec2-key" -f ~/.ssh/new_key.pem
+
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/presidio/.ssh/new_key.pem
+Your public key has been saved in /Users/presidio/.ssh/new_key.pem.pub
+The key fingerprint is:
+SHA256:g5SmfP8gRNbTwJO8PK3z+ZkLXiiszO4kHaWwfVakFqk new-ec2-key
+The key's randomart image is:
++---[RSA 4096]----+
+|       ooo.      |
+|       o**       |
+|    . *o*+o      |
+|   . XE=+o.      |
+|    + B So       |
+|     + *o. .     |
+|    . + =oo..    |
+|     = o =oo o   |
+|     o*   o.=.   |
++----[SHA256]-----+
+presidio@Presidios-MacBook-Pro GNU + Linux % cat ~/.ssh/new_key.pem.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDdCrJEMYE8c9GRI6aHxY0q1NStYr0FdBXjefzV5xnYaQNywqG2BAduh+sPARf9wKa9snZJ/jIgd2Mvlpwmd+D8ypTi0LyJKDeZde/Kbh8EeqoJCYeDL4y8mY2Kvn/gUtSVABdXFV4ITfHO8p0Me6oiAux0vJDO9x+EGSSaSSBJp7Oz9sshh7B8Zj3KZb8r2QBDVR1JfJJHtoQZAp8tW6Mb7aiaFHxPdBpg2SekXDFiwfsntTyY0ASzUNP+AApfIF4MbbCYzz0reRm48+k1sXNogXZrAuIOJr+8Smb1HAnUOKTR9410YHHZ+VINok0pqnGucbTTRLRfJfc6eo4ZmVuadjwun2s7eRAkx7SsKFaQJA1TL07vlCk+PwoiAudUBJVMRrcde8kdWVYVaIwyvUEHq742osFz3KnSdb3hHMQ0BFw+QGMpzB0NdOWTkIEso18xZqMAvmqa/UPEXkxFy1U1pcXReY3HjtXOF7W9vBF5T0hfQ3clSsdckZpKxbER0nP+SKccs4t8CUnozn6YUMt6kp5O3BTTunF4HNwrf0hF16TKtBibAXmUnJAGhqXDrNSRf1U2nfOJqadNnFH5cm+xDe6gvHx9eqA1MjIsHjRjuaI79ukZ7D990er/wGSTyUxMJapg3u0pwk9AM3/n3ihNjvqIxX5LLxTIfKSdmd9xyw== new-ec2-key
+presidio@Presidios-MacBook-Pro GNU + Linux % ls -l ~/.ssh/new_key.pem*
+
+-rw-------  1 presidio  staff  3434 Sep  3 19:23 /Users/presidio/.ssh/new_key.pem
+-rw-r--r--  1 presidio  staff   737 Sep  3 19:23 /Users/presidio/.ssh/new_key.pem.pub
+presidio@Presidios-MacBook-Pro GNU + Linux % clear
+
+
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@34.201.29.23  "mkdir -p ~/.ssh && chmod 700 ~/.ssh" 
+presidio@Presidios-MacBook-Pro GNU + Linux % scp -i Chowdri_S.pem ~/.ssh/new_key.pem.pub ubuntu@34.201.29.23:/home/ubuntu/
+new_key.pem.pub                                                                                            100%  737     2.2KB/s   00:00    
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@34.201.29.23  "cat ~/new_key.pem.pub >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i ~/.ssh/new_key.pem ubuntu@34.201.29.23
+Enter passphrase for key '/Users/presidio/.ssh/new_key.pem': 
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1012-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Sep  2 11:08:06 UTC 2025
+
+  System load:  0.0               Processes:             141
+  Usage of /:   35.2% of 6.71GB   Users logged in:       3
+  Memory usage: 31%               IPv4 address for enX0: 10.0.9.45
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Wed Sep  3 13:52:51 2025 from 223.181.243.179
+ubuntu@ip-10-0-9-45:~$ exit
+logout
+Connection to 34.201.29.23 closed.
+presidio@Presidios-MacBook-Pro GNU + Linux % cat ~/.ssh/new_key.pem > newkey.pem   
+presidio@Presidios-MacBook-Pro GNU + Linux % ls
+Chowdri_S.pem	Day1		Day2		Day3		newkey.pem
+presidio@Presidios-MacBook-Pro GNU + Linux % cat newkey.pem  
+-----BEGIN OPENSSH PRIVATE KEY-----
+-----END OPENSSH PRIVATE KEY-----
+presidio@Presidios-MacBook-Pro GNU + Linux % 
+
+
+
+ubuntu@ip-10-0-9-45:~$ sudo su
+root@ip-10-0-9-45:/home/ubuntu# vim /etc/ssh/sshd_config
+root@ip-10-0-9-45:/home/ubuntu# sshd -t
+root@ip-10-0-9-45:/home/ubuntu# systemctl daemon-reexec
+root@ip-10-0-9-45:/home/ubuntu# systemctl restart ssh.socket
+root@ip-10-0-9-45:/home/ubuntu# systemctl restart ssh
+root@ip-10-0-9-45:/home/ubuntu# ss -lp | grep ssh
+u_str LISTEN 0      4096              /run/user/1000/gnupg/S.gpg-agent.ssh 29645                          * 0    users:(("systemd",pid=3927,fd=12))                               
+tcp   LISTEN 0      4096                                           0.0.0.0:27243                    0.0.0.0:*    users:(("sshd",pid=4404,fd=3),("systemd",pid=1,fd=71))           
+tcp   LISTEN 0      4096                                              [::]:27243                       [::]:*    users:(("sshd",pid=4404,fd=4),("systemd",pid=1,fd=72))    
+root@ip-10-0-9-45:/home/ubuntu# 
+
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@18.207.110.55
+ssh: connect to host 18.207.110.55 port 22: Connection refused
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem -p 27243 ubuntu@18.207.110.55
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1012-aws x86_64)
+ubuntu@ip-10-0-9-45:~$ exit
+logout
+Connection to 18.207.110.55 closed.
+presidio@Presidios-MacBook-Pro GNU + Linux % vim ~/.ssh/config 
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@18.207.110.55         
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1012-aws x86_64)
+Last login: Wed Sep  3 09:05:45 2025 from 171.79.48.87
+ubuntu@ip-10-0-9-45:~$ 
+
+2)
+
+ubuntu@ip-10-0-9-45:~$ ping 13.222.131.35
+PING 13.222.131.35 (13.222.131.35) 56(84) bytes of data.
+^C
+--- 13.222.131.35 ping statistics ---
+15 packets transmitted, 0 received, 100% packet loss, time 14953ms
+
+ubuntu@ip-10-0-9-45:~$ curl 13.222.131.35
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PRESIDIO Academy Batch-2025</title>
+  </head>
+  <body style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:system-ui;">
+    <h1>PRESIDIO Academy Batch-2025 Hands-on Assignment</h1>
+    <em>If you see visited this page with the DNS name, it means your machine is able to resolve the DNS name locally.</em>
+  </body>
+</html>
+ubuntu@ip-10-0-9-45:~$ sudo su
+root@ip-10-0-9-45:/home/ubuntu# vim /etc/hosts
+root@ip-10-0-9-45:/home/ubuntu# curl chow3.com
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PRESIDIO Academy Batch-2025</title>
+  </head>
+  <body style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:system-ui;">
+    <h1>PRESIDIO Academy Batch-2025 Hands-on Assignment</h1>
+    <em>If you see visited this page with the DNS name, it means your machine is able to resolve the DNS name locally.</em>
+  </body>
+</html>
+root@ip-10-0-9-45:/home/ubuntu# 
+
+
+
+3)
+
+ubuntu@ip-10-0-9-45:~$ cd /
+ubuntu@ip-10-0-9-45:/$ sudo su
+root@ip-10-0-9-45:/# tar -czf /home/ubuntu/chow3_share.tar.gz /var/log/
+tar: Removing leading `/' from member names
+root@ip-10-0-9-45:/# ls
+bin                boot  etc   lib                lib64       media  opt   root  sbin                snap  sys  usr
+bin.usr-is-merged  dev   home  lib.usr-is-merged  lost+found  mnt    proc  run   sbin.usr-is-merged  srv   tmp  var
+root@ip-10-0-9-45:/# cd home/ubuntu/
+root@ip-10-0-9-45:/home/ubuntu# ls
+chow3_share.tar.gz  hello.sh  node_exporter-1.9.1.linux-amd64  node_exporter.tar.gz
+root@ip-10-0-9-45:/home/ubuntu# 
+
+
+4)
+
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@34.201.29.23 
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1012-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Sep  2 11:08:06 UTC 2025
+
+  System load:  0.0               Processes:             141
+  Usage of /:   35.2% of 6.71GB   Users logged in:       3
+  Memory usage: 31%               IPv4 address for enX0: 10.0.9.45
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+2 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Wed Sep  3 12:17:26 2025 from 171.79.54.239
+ubuntu@ip-10-0-9-45:~$ ufw status
+ERROR: You need to be root to run this script
+ubuntu@ip-10-0-9-45:~$ sudo su
+root@ip-10-0-9-45:/home/ubuntu# ufw status
+Status: inactive
+root@ip-10-0-9-45:/home/ubuntu# ufw allow 27243/tcp
+Rules updated
+Rules updated (v6)
+root@ip-10-0-9-45:/home/ubuntu# ufw status
+Status: inactive
+root@ip-10-0-9-45:/home/ubuntu# ufw deny 22/tcp
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+root@ip-10-0-9-45:/home/ubuntu# ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+root@ip-10-0-9-45:/home/ubuntu# ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     DENY        Anywhere                  
+27243/tcp                  ALLOW       Anywhere                  
+22/tcp (v6)                DENY        Anywhere (v6)             
+27243/tcp (v6)             ALLOW       Anywhere (v6)             
+
+root@ip-10-0-9-45:/home/ubuntu# 
+
+
+5)
+
+ubuntu@ip-10-0-9-45:~$ sudo su
+root@ip-10-0-9-45:/home/ubuntu# sudo apt update
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:5 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1118 kB]
+Get:6 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [191 kB]
+Get:7 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [21.5 kB]
+Get:8 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [52.3 kB]
+Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1705 kB]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [382 kB]
+Get:11 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Components [208 B]                                                                 
+Get:12 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [208 B]                                                                 
+Get:13 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1389 kB]                                                           
+Get:14 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [175 kB]                                                          
+Get:15 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [376 kB]                                                      
+Get:16 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]                                                     
+Get:17 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]                                                     
+Get:18 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [7068 B]                                                        
+Get:19 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [19.2 kB]                                                   
+Get:20 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [216 B]                                                   
+Get:21 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]                                                   
+Fetched 5817 kB in 29s (204 kB/s)                                                                                                                           
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+2 packages can be upgraded. Run 'apt list --upgradable' to see them.
+root@ip-10-0-9-45:/home/ubuntu# apt upgrade
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Calculating upgrade... Done
+The following packages will be upgraded:
+  fwupd libfwupd2
+2 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 4728 kB of archives.
+After this operation, 4096 B of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 libfwupd2 amd64 1.9.31-0ubuntu1~24.04.1 [136 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 fwupd amd64 1.9.31-0ubuntu1~24.04.1 [4592 kB]
+Fetched 4728 kB in 2s (3025 kB/s)
+(Reading database ... 103354 files and directories currently installed.)
+Preparing to unpack .../libfwupd2_1.9.31-0ubuntu1~24.04.1_amd64.deb ...
+Unpacking libfwupd2:amd64 (1.9.31-0ubuntu1~24.04.1) over (1.9.30-0ubuntu1~24.04.1) ...
+Preparing to unpack .../fwupd_1.9.31-0ubuntu1~24.04.1_amd64.deb ...
+Unpacking fwupd (1.9.31-0ubuntu1~24.04.1) over (1.9.30-0ubuntu1~24.04.1) ...
+Setting up libfwupd2:amd64 (1.9.31-0ubuntu1~24.04.1) ...
+Setting up fwupd (1.9.31-0ubuntu1~24.04.1) ...
+fwupd-offline-update.service is a disabled or a static unit not running, not starting it.
+fwupd-refresh.service is a disabled or a static unit not running, not starting it.
+fwupd.service is a disabled or a static unit not running, not starting it.
+Processing triggers for man-db (2.12.0-4build2) ...
+Processing triggers for dbus (1.14.10-4ubuntu4.1) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.5) ...
+Scanning processes...                                                                                                                                        
+Scanning linux images...                                                                                                                                     
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@ip-10-0-9-45:/home/ubuntu# show cmatrix
+Command 'show' not found, but can be installed with:
+apt install mailutils-mh  # version 1:3.16-1build1, or
+apt install mmh           # version 0.4-6
+apt install nmh           # version 1.8-1
+root@ip-10-0-9-45:/home/ubuntu# apt show cmatrix
+Package: cmatrix
+Version: 2.0-6
+Priority: optional
+Section: universe/misc
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Guilherme de Paula Xavier Segundo <guilherme.lnx@gmail.com>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 75.8 kB
+Depends: libc6 (>= 2.34), libncurses6 (>= 6), libtinfo6 (>= 6)
+Recommends: kbd
+Suggests: cmatrix-xfont
+Homepage: https://github.com/abishekvashok/cmatrix
+Download-Size: 33.7 kB
+APT-Sources: http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 Packages
+Description: simulates the display from "The Matrix"
+ Screen saver for the terminal based in the movie "The Matrix". It works in
+ terminals of all dimensions and have the following features:
+  * Support terminal resize.
+  * Screen saver mode: any key closes it.
+  * Selectable color.
+  * Change text scroll rate.
+
+root@ip-10-0-9-45:/home/ubuntu# apt install cmatrix
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Suggested packages:
+  cmatrix-xfont
+The following NEW packages will be installed:
+  cmatrix
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 33.7 kB of archives.
+After this operation, 75.8 kB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 cmatrix amd64 2.0-6 [33.7 kB]
+Fetched 33.7 kB in 0s (119 kB/s)
+Selecting previously unselected package cmatrix.
+(Reading database ... 103354 files and directories currently installed.)
+Preparing to unpack .../cmatrix_2.0-6_amd64.deb ...
+Unpacking cmatrix (2.0-6) ...
+Setting up cmatrix (2.0-6) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Scanning processes...                                                                                                                                        
+Scanning linux images...                                                                                                                                     
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@ip-10-0-9-45:/home/ubuntu# cmatrix
+root@ip-10-0-9-45:/home/ubuntu# 
+
+

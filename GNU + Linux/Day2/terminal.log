@@ -610,5 +610,46 @@ qa@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64$ sudo ls
 LICENSE  NOTICE  node_exporter
 qa@ip-10-0-9-45:/home/ubuntu/node_exporter-1.9.1.linux-amd64$ 
 
+presidio@Presidios-MacBook-Pro GNU + Linux % ssh -i Chowdri_S.pem ubuntu@18.207.110.55
+The authenticity of host '18.207.110.55 (18.207.110.55)' can't be established.
+ED25519 key fingerprint is SHA256:prTcGQmZ5uAvLmzJzdf9LMtWorq9svDVy0bWb0jbIhI.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:7: 18.215.117.161
+Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+Please type 'yes', 'no' or the fingerprint: yes
+Warning: Permanently added '18.207.110.55' (ED25519) to the list of known hosts.
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1012-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Sep  2 11:08:06 UTC 2025
+
+  System load:  0.0               Processes:             141
+  Usage of /:   35.2% of 6.71GB   Users logged in:       3
+  Memory usage: 31%               IPv4 address for enX0: 10.0.9.45
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+2 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Tue Sep  2 13:57:40 2025 from 18.206.107.28
+ubuntu@ip-10-0-9-45:~$ ls
+hello.sh  node_exporter-1.9.1.linux-amd64  node_exporter.tar.gz
+ubuntu@ip-10-0-9-45:~$ exit
+logout
+Connection to 18.207.110.55 closed.
 
 18.207.110.55
