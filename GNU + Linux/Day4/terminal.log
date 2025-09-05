@@ -1,0 +1,189 @@
+1)
+
+ubuntu@ip-10-0-31-157:~$ ls
+ubuntu@ip-10-0-31-157:~$ touch task1.sh
+ubuntu@ip-10-0-31-157:~$ vim task1.sh
+ubuntu@ip-10-0-31-157:~$ touch file.txt
+ubuntu@ip-10-0-31-157:~$ vim file.txt 
+ubuntu@ip-10-0-31-157:~$ cd /etc/logs
+-bash: cd: /etc/logs: No such file or directory
+ubuntu@ip-10-0-31-157:~$ cd /var/log
+ubuntu@ip-10-0-31-157:/var/log$ ls
+README            apport.log  btmp                   cloud-init.log  dpkg.log  landscape  syslog               wtmp
+alternatives.log  apt         chrony                 dist-upgrade    journal   lastlog    sysstat
+amazon            auth.log    cloud-init-output.log  dmesg           kern.log  private    unattended-upgrades
+ubuntu@ip-10-0-31-157:/var/log$ touch file_backup.log
+touch: cannot touch 'file_backup.log': Permission denied
+ubuntu@ip-10-0-31-157:/var/log$ sudo touch file_backup.log
+ubuntu@ip-10-0-31-157:/var/log$ sudo vim file_backup.log
+ubuntu@ip-10-0-31-157:/var/log$ cd /
+ubuntu@ip-10-0-31-157:/$ ls
+bin                boot  etc   lib                lib64       media  opt   root  sbin                snap  sys  usr
+bin.usr-is-merged  dev   home  lib.usr-is-merged  lost+found  mnt    proc  run   sbin.usr-is-merged  srv   tmp  var
+ubuntu@ip-10-0-31-157:/$ cd /home/ubuntu
+ubuntu@ip-10-0-31-157:~$ ls
+file.txt  task1.sh
+ubuntu@ip-10-0-31-157:~$ sudo ./task1.sh file.txt
+sudo: ./task1.sh: command not found
+ubuntu@ip-10-0-31-157:~$ chmod +x task1.sh 
+ubuntu@ip-10-0-31-157:~$ sudo ./task1.sh file.txt
+Backup of file.txt completed successfully.
+ubuntu@ip-10-0-31-157:~$ cat /var/log/file_backup.log | head -n 5
+2025-09-04 10:02:25 : Backed up file.txt to file.txt.bak-20250904-100225
+ubuntu@ip-10-0-31-157:~$ 
+
+
+2)
+
+ubuntu@ip-10-0-31-157:~$ vim bash.sh 
+ubuntu@ip-10-0-31-157:~$ sudo ./bash.sh 
+Successfuly deleted
+ubuntu@ip-10-0-31-157:~$ 
+
+3)
+
+ubuntu@ip-10-0-31-157:~$ vim bash.sh 
+ubuntu@ip-10-0-31-157:~$ sudo ./bash.sh 
+load calculated
+
+4)
+
+ubuntu@ip-10-0-31-157:~$ vim bash.sh 
+ubuntu@ip-10-0-31-157:~$ sudo ./bash.sh 
+developer accounts created.
+ubuntu@ip-10-0-31-157:~$ 
+ubuntu@ip-10-0-31-157:~$ cat /proc/passwd
+cat: /proc/passwd: No such file or directory
+ubuntu@ip-10-0-31-157:~$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:998:998:systemd Network Management:/:/usr/sbin/nologin
+systemd-timesync:x:996:996:systemd Time Synchronization:/:/usr/sbin/nologin
+dhcpcd:x:100:65534:DHCP Client Daemon,,,:/usr/lib/dhcpcd:/bin/false
+messagebus:x:101:101::/nonexistent:/usr/sbin/nologin
+syslog:x:102:102::/nonexistent:/usr/sbin/nologin
+systemd-resolve:x:991:991:systemd Resolver:/:/usr/sbin/nologin
+uuidd:x:103:103::/run/uuidd:/usr/sbin/nologin
+tss:x:104:104:TPM software stack,,,:/var/lib/tpm:/bin/false
+sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
+pollinate:x:106:1::/var/cache/pollinate:/bin/false
+tcpdump:x:107:108::/nonexistent:/usr/sbin/nologin
+landscape:x:108:109::/var/lib/landscape:/usr/sbin/nologin
+fwupd-refresh:x:990:990:Firmware update daemon:/var/lib/fwupd:/usr/sbin/nologin
+polkitd:x:989:989:User for polkitd:/:/usr/sbin/nologin
+ec2-instance-connect:x:109:65534::/nonexistent:/usr/sbin/nologin
+_chrony:x:110:112:Chrony daemon,,,:/var/lib/chrony:/usr/sbin/nologin
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+dev1:x:1001:1001::/home/dev1:/bin/sh
+dev2:x:1002:1001::/home/dev2:/bin/sh
+dev3:x:1003:1001::/home/dev3:/bin/sh
+dev4:x:1004:1001::/home/dev4:/bin/sh
+dev5:x:1005:1001::/home/dev5:/bin/sh
+dev6:x:1006:1001::/home/dev6:/bin/sh
+dev7:x:1007:1001::/home/dev7:/bin/sh
+dev8:x:1008:1001::/home/dev8:/bin/sh
+dev9:x:1009:1001::/home/dev9:/bin/sh
+dev10:x:1010:1001::/home/dev10:/bin/sh
+dev11:x:1011:1001::/home/dev11:/bin/sh
+dev12:x:1012:1001::/home/dev12:/bin/sh
+dev13:x:1013:1001::/home/dev13:/bin/sh
+dev14:x:1014:1001::/home/dev14:/bin/sh
+dev15:x:1015:1001::/home/dev15:/bin/sh
+dev16:x:1016:1001::/home/dev16:/bin/sh
+dev17:x:1017:1001::/home/dev17:/bin/sh
+dev18:x:1018:1001::/home/dev18:/bin/sh
+dev19:x:1019:1001::/home/dev19:/bin/sh
+dev20:x:1020:1001::/home/dev20:/bin/sh
+ubuntu@ip-10-0-31-157:~$ 
+
+5)
+
+ubuntu@ip-10-0-31-157:~$ vim bash.sh 
+ubuntu@ip-10-0-31-157:~$ cd /sv
+-bash: cd: /sv: No such file or directory
+ubuntu@ip-10-0-31-157:~$ cd /srv
+ubuntu@ip-10-0-31-157:/srv$ ls
+ubuntu@ip-10-0-31-157:/srv$ mkdir data
+mkdir: cannot create directory ‘data’: Permission denied
+ubuntu@ip-10-0-31-157:/srv$ sudo mkdir data
+ubuntu@ip-10-0-31-157:/srv$ touch dummy.txt
+touch: cannot touch 'dummy.txt': Permission denied
+ubuntu@ip-10-0-31-157:/srv$ cd /
+ubuntu@ip-10-0-31-157:/$ sudo mkdir backups
+ubuntu@ip-10-0-31-157:/$ cd /srv/data
+ubuntu@ip-10-0-31-157:/srv/data$ sudo touch dummy.txt
+ubuntu@ip-10-0-31-157:/srv/data$ cd /home/ubuntu
+ubuntu@ip-10-0-31-157:~$ sudo ./bash.sh 
+Backup completed
+ubuntu@ip-10-0-31-157:~$ cd /backups
+ubuntu@ip-10-0-31-157:/backups$ ls
+data-2025-09-04.tar.gz
+ubuntu@ip-10-0-31-157:~$ sudo crontab -e
+no crontab for root - using an empty one
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/nano        <---- easiest
+  2. /usr/bin/vim.basic
+  3. /usr/bin/vim.tiny
+  4. /bin/ed
+
+Choose 1-4 [1]: 2   
+crontab: installing new crontab
+ubuntu@ip-10-0-31-157:~$ sudo crontab -l
+* 2 * * * /home/ubuntu/bash.sh
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+
+ubuntu@ip-10-0-31-157:~$ 
+
+6)
+
+ubuntu@ip-10-0-31-157:~$ sudo apt-get install -y nginx
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+                                                                                        
+ubuntu@ip-10-0-31-157:~$ sudo su
+root@ip-10-0-31-157:/home/ubuntu# systemctl start nginx
+root@ip-10-0-31-157:/home/ubuntu# systemctl enable nginx
+Synchronizing state of nginx.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install enable nginx
+root@ip-10-0-31-157:/home/ubuntu# systemctl | grep nginx
+  nginx.service                                                                loaded active     running         A high performance web server and a reverse proxy server
+root@ip-10-0-31-157:/home/ubuntu# ls
+bash.sh  file.txt  file.txt.bak-20250904-100225
+root@ip-10-0-31-157:/home/ubuntu# vim bash.sh 
+root@ip-10-0-31-157:/home/ubuntu# ./bash.sh 
+root@ip-10-0-31-157:/home/ubuntu# ./bash.sh 
+root@ip-10-0-31-157:/home/ubuntu# 
+
+7)
+
+ubuntu@ip-10-0-31-157:~$ ls
+bash.sh  file.txt  file.txt.bak-20250904-100225
+ubuntu@ip-10-0-31-157:~$ touch sec_info.log
+ubuntu@ip-10-0-31-157:~$ vim file.txt
+ubuntu@ip-10-0-31-157:~$ vim bash.sh 
+ubuntu@ip-10-0-31-157:~$ sudo ./bash.sh 
+ubuntu@ip-10-0-31-157:~$ cat sec_info.log 
+aws_secret_key = 123456789
+ubuntu@ip-10-0-31-157:~$ 
