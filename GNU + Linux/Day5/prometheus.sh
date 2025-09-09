@@ -3,17 +3,13 @@
 
 set -e
 
-# ========================
 # 1. Variables
-# ========================
 PROM_VERSION="2.54.1"
 GRAFANA_VERSION="11.1.0"
 WEB_VM_IP="10.0.25.111"
 DB_VM_IP="10.0.25.111"
 
-# ========================
 # 2. Install Prometheus
-# ========================
 echo "[INFO] Installing Prometheus..."
 cd /opt
 wget -q https://github.com/prometheus/prometheus/releases/download/v${PROM_VERSION}/prometheus-${PROM_VERSION}.linux-amd64.tar.gz
@@ -32,9 +28,7 @@ sudo mkdir -p /etc/prometheus /var/lib/prometheus
 sudo cp -r /opt/prometheus/consoles /etc/prometheus
 sudo cp -r /opt/prometheus/console_libraries /etc/prometheus
 
-# ========================
 # 3. Prometheus Config
-# ========================
 echo "[INFO] Configuring Prometheus..."
 cat <<EOF | sudo tee /etc/prometheus/prometheus.yml
 global:
@@ -55,7 +49,7 @@ scrape_configs:
 
   - job_name: "mysql"
     static_configs:
-      - targets: ["${DB_VM_IP}:9104"]   # only if mysql exporter is installed
+      - targets: ["${DB_VM_IP}:9104"]
 EOF
 
 # Create systemd service
@@ -82,9 +76,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable prometheus
 sudo systemctl start prometheus
 
-# ========================
 # 4. Install Grafana
-# ========================
 echo "[INFO] Installing Grafana..."
 sudo apt-get update -y
 sudo apt-get install -y adduser libfontconfig1 musl
@@ -113,16 +105,12 @@ sudo systemctl daemon-reload
 sudo systemctl enable grafana
 sudo systemctl start grafana
 
-# ========================
 # 5. Firewall
-# ========================
 echo "[INFO] Configuring firewall..."
 sudo ufw allow 9090    # Prometheus
 sudo ufw allow 3000    # Grafana
 
-# ========================
 # 6. Finish
-# ========================
 echo "[SUCCESS] Prometheus running on :9090"
 echo "[SUCCESS] Grafana running on :3000"
 echo ">> Open Grafana in browser http://<MONITORING_VM_IP>:3000"

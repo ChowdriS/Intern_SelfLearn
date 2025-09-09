@@ -1,0 +1,5 @@
+  PID TTY           TIME CMD
+33710 ttys000    0:00.19 -zsh
+33999 ttys000    0:27.20 /usr/local/microsoft/powershell/7/pwsh
+13114 ttys002    0:00.26 /bin/zsh -il
+15316 ttys004    0:00.39 /bin/zsh -il

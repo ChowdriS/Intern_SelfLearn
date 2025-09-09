@@ -1,0 +1,641 @@
+2) Getting Help & Exploring Commands
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> Get-Help Get-Command      
+
+NAME
+    Get-Command
+    
+SYNOPSIS
+    Gets all commands.
+    
+    
+SYNTAX
+    Get-Command [-All <System.Management.Automation.SwitchParameter>] [[-ArgumentList] <System.Object[]>] [-FullyQualifiedModule 
+    <Microsoft.PowerShell.Commands.ModuleSpecification[]>] [-ListImported <System.Management.Automation.SwitchParameter>] [-Module <System.String[]>] 
+    [-Noun <System.String[]>] [-ParameterName <System.String[]>] [-ParameterType <System.Management.Automation.PSTypeName[]>] [-ShowCommandInfo 
+    <System.Management.Automation.SwitchParameter>] [-Syntax <System.Management.Automation.SwitchParameter>] [-TotalCount <System.Int32>] [-Verb 
+    <System.String[]>] [<CommonParameters>]
+    
+    Get-Command [-All <System.Management.Automation.SwitchParameter>] [[-ArgumentList] <System.Object[]>] [-CommandType 
+    <System.Management.Automation.CommandTypes>] [-FullyQualifiedModule <Microsoft.PowerShell.Commands.ModuleSpecification[]>] [-FuzzyMinimumDistance 
+    <UInt32>] [-ListImported <System.Management.Automation.SwitchParameter>] [-Module <System.String[]>] [[-Name] <System.String[]>] [-ParameterName 
+    <System.String[]>] [-ParameterType <System.Management.Automation.PSTypeName[]>] [-ShowCommandInfo <System.Management.Automation.SwitchParameter>] 
+    [-Syntax <System.Management.Automation.SwitchParameter>] [-TotalCount <System.Int32>] [-UseAbbreviationExpansion 
+    <System.Management.Automation.SwitchParameter>] [-UseFuzzyMatching <System.Management.Automation.SwitchParameter>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The `Get-Command` cmdlet gets all commands that are installed on the computer, including cmdlets, aliases, functions, filters, scripts, and 
+    applications. `Get-Command` gets the commands from PowerShell modules and commands available on your system. To get only commands that have been 
+    imported into the current session, use the **ListImported** parameter.
+    
+    Without parameters, `Get-Command` gets all the cmdlets, functions, and aliases installed on the computer. `Get-Command *` gets all types of 
+    commands, including all the non-PowerShell files in the PATH environment variable (`$Env:PATH`), which it lists in the Application command type.
+    
+    `Get-Command` that uses the exact name of the command, without wildcard characters, automatically imports the module that contains the command so 
+    that you can use the command immediately. To enable, disable, and configure automatic importing of modules, use the 
+    `$PSModuleAutoLoadingPreference` preference variable. For more information, see [about_Preference_Variables](About/about_Preference_Variables.md).
+    
+    `Get-Command` gets its data directly from the command code, unlike `Get-Help`, which gets its information from help topics.
+    
+    Starting in Windows PowerShell 5.0, results of the `Get-Command` cmdlet display a **Version** column by default. A new **Version** property has 
+    been added to the **CommandInfo** class.
+    
+
+RELATED LINKS
+    Online Version https://learn.microsoft.com/powershell/module/microsoft.powershell.core/get-command?view=powershell-7.5&WT.mc_id=ps-gethelp
+    Export-PSSession ../Microsoft.PowerShell.Utility/Export-PSSession.md
+    Get-Help Get-Help.md
+    Get-Member ../Microsoft.PowerShell.Utility/Get-Member.md
+    Get-PSDrive ../Microsoft.PowerShell.Management/Get-PSDrive.md
+    Import-PSSession ../Microsoft.PowerShell.Utility/Import-PSSession.md
+    about_Command_Precedence About/about_Command_Precedence.md
+
+REMARKS
+    To see the examples, type: "Get-Help Get-Command -Examples"
+    For more information, type: "Get-Help Get-Command -Detailed"
+    For technical information, type: "Get-Help Get-Command -Full"
+    For online help, type: "Get-Help Get-Command -Online"
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> Get-Help Get-Command -Examples
+
+NAME
+    Get-Command
+    
+SYNOPSIS
+    Gets all commands.
+    
+    
+    --------- Example 1: Get cmdlets, functions, and aliases ---------
+    
+    This command gets the PowerShell cmdlets, functions, and aliases that are installed on the computer.
+    
+    ```powershell
+    Get-Command
+    ```
+    
+     --------- Example 2: Get commands in the current session ---------
+    
+    This command uses the **ListImported** parameter to get only the commands in the current session.
+    
+    ```powershell
+    Get-Command -ListImported
+    ```
+    
+     --------- Example 3: Get cmdlets and display them in order ---------
+    
+    This command gets all the cmdlets, sorts them alphabetically by the noun in the cmdlet name, and
+    then displays them in noun-based groups. This display can help you find the cmdlets for a task.
+    
+    ```powershell
+    Get-Command -Type Cmdlet | Sort-Object -Property Noun | Format-Table -GroupBy Noun
+    ```
+    
+     --------- Example 4: Get commands in a module ---------
+    
+    This command uses the **Module** parameter to get the commands in the Microsoft.PowerShell.Security
+    and Microsoft.PowerShell.Utility modules.
+    
+    ```powershell
+    Get-Command -Module Microsoft.PowerShell.Security, Microsoft.PowerShell.Utility
+    ```
+    
+     --------- Example 5: Get information about a cmdlet ---------
+    
+    This command gets information about the `Get-AppLockerPolicy` cmdlet. It also imports the
+    **AppLocker** module, which adds all the commands in the **AppLocker** module to the current
+    session.
+    
+    ```powershell
+    Get-Command Get-AppLockerPolicy
+    ```
+    
+    When a module is imported automatically, the effect is the same as using the Import-Module cmdlet.
+    The module can add commands, types and formatting files, and run scripts in the session. To enable,
+    disable, and configuration automatic importing of modules, use the `$PSModuleAutoLoadingPreference`
+    preference variable. For more information, see
+    [about_Preference_Variables](../Microsoft.PowerShell.Core/About/about_Preference_Variables.md).
+    
+     --------- Example 6: Get the syntax of a cmdlet ---------
+    
+    This command uses the **ArgumentList** and **Syntax** parameters to get the syntax of the
+    `Get-ChildItem` cmdlet when it's used in the Cert: drive. The Cert: drive is a PowerShell drive that
+    the Certificate Provider adds to the session.
+    
+    ```powershell
+    Get-Command  -Name Get-ChildItem -Args Cert: -Syntax
+    ```
+    
+    When you compare the syntax displayed in the output with the syntax that's displayed when you omit
+    the **Args** (**ArgumentList**) parameter, you'll see that the **Certificate provider** adds a
+    dynamic parameter, **CodeSigningCert**, to the `Get-ChildItem` cmdlet.
+    
+    For more information about the Certificate provider, see
+    [about_Certificate_Provider](../Microsoft.PowerShell.Security/About/about_Certificate_Provider.md).
+    
+     --------- Example 7: Get dynamic parameters ---------
+    
+    The command in the example uses the `Get-DynamicParameters` function to get the dynamic parameters
+    that the Certificate provider adds to the `Get-ChildItem` cmdlet when it's used in the Cert: drive.
+    
+    ```powershell
+    function Get-DynamicParameters
+    {
+        param ($Cmdlet, $PSDrive)
+        (Get-Command -Name $Cmdlet -ArgumentList $PSDrive).ParameterSets |
+          ForEach-Object {$_.Parameters} |
+            Where-Object { $_.IsDynamic } |
+              Select-Object -Property Name -Unique
+    }
+    Get-DynamicParameters -Cmdlet Get-ChildItem -PSDrive Cert:
+    ```
+    
+    ```Output
+    Name
+    ----
+    CodeSigningCert
+    ```
+    
+    The `Get-DynamicParameters` function in this example gets the dynamic parameters of a cmdlet. This
+    is an alternative to the method used in the previous example. Dynamic parameter can be added to a
+    cmdlet by another cmdlet or a provider.
+    
+     --------- Example 8: Get all commands of all types ---------
+    
+    This command gets all commands of all types on the local computer, including executable files in the
+    paths of the **PATH** environment variable (`$Env:PATH`).
+    
+    ```powershell
+    Get-Command *
+    ```
+    
+    It returns an **ApplicationInfo** object (System.Management.Automation.ApplicationInfo) for each
+    file, not a **FileInfo** object (System.IO.FileInfo).
+    
+     --------- Example 9: Get cmdlets by using a parameter name and type ---------
+    
+    This command gets cmdlets that have a parameter whose name includes Auth and whose type is
+    **AuthenticationMechanism**.
+    
+    ```powershell
+    Get-Command -ParameterName *Auth* -ParameterType AuthenticationMechanism
+    ```
+    
+    You can use a command like this one to find cmdlets that let you specify the method that's used to
+    authenticate the user.
+    
+    The **ParameterType** parameter distinguishes parameters that take an **AuthenticationMechanism**
+    value from those that take an **AuthenticationLevel** parameter, even when they have similar names.
+    
+     --------- Example 10: Get an alias ---------
+    
+    This example shows how to use the `Get-Command` cmdlet with an alias.
+    
+    ```powershell
+    Get-Command -Name dir
+    ```
+    
+    ```Output
+    CommandType     Name                                               ModuleName
+    -----------     ----                                               ----------
+    Alias           dir -> Get-ChildItem
+    ```
+    
+    Although it's typically used on cmdlets and functions, `Get-Command` also gets scripts, functions,
+    aliases, and executable files.
+    
+    The output of the command shows the special view of the **Name** property value for aliases. The
+    view shows the alias and the full command name.
+    
+     --------- Example 11: Get Syntax from an alias ---------
+    
+    This example shows how to get the syntax along with the standard name of an alias.
+    
+    The output of the command shows the labeled alias with the standard name, followed by the syntax.
+    
+    ```powershell
+    Get-Command -Name dir -Syntax
+    ```
+    
+    ```Output
+    dir (alias) -> Get-ChildItem
+    
+    dir [[-Path] <string[]>] [[-Filter] <string>] [-Include <string[]>] [-Exclude <string[]>] [-Recurse]
+    [-Depth <uint>] [-Force] [-Name] [-Attributes <FlagsExpression[FileAttributes]>] [-FollowSymlink]
+    [-Directory] [-File] [-Hidden] [-ReadOnly] [-System] [<CommonParameters>]
+    
+    dir [[-Filter] <string>] -LiteralPath <string[]> [-Include <string[]>] [-Exclude <string[]>] [-Recurse]
+    [-Depth <uint>] [-Force] [-Name] [-Attributes <FlagsExpression[FileAttributes]>] [-FollowSymlink]
+    [-Directory] [-File] [-Hidden] [-ReadOnly] [-System] [<CommonParameters>]
+    ```
+    
+     --------- Example 12: Get all instances of the Notepad command ---------
+    
+    This example uses the **All** parameter of the `Get-Command` cmdlet to show all instances of the
+    `Notepad` command on the local computer.
+    
+    ```powershell
+    Get-Command Notepad -All | Format-Table CommandType, Name, Definition
+    ```
+    
+    ```Output
+    CommandType     Name           Definition
+    -----------     ----           ----------
+    Application     notepad.exe    C:\WINDOWS\system32\notepad.exe
+    Application     NOTEPAD.EXE    C:\WINDOWS\NOTEPAD.EXE
+    ```
+    
+    The **All** parameter is useful when there is more than one command with the same name in the
+    session.
+    
+    Beginning in Windows PowerShell 3.0, by default, when the session includes multiple commands with
+    the same name, `Get-Command` gets only the command that runs when you type the command name. With
+    the **All** parameter, `Get-Command` gets all commands with the specified name and returns them in
+    execution precedence order. To run a command other than the first one in the list, type the fully
+    qualified path to the command.
+    
+    For more information about command precedence, see
+    [about_Command_Precedence](About/about_Command_Precedence.md).
+    
+     --------- Example 13: Get the name of a module that contains a cmdlet ---------
+    
+    This command gets the name of the module in which the `Get-Date` cmdlet originated.
+    The command uses the **ModuleName** property of all commands.
+    
+    ```powershell
+    (Get-Command Get-Date).ModuleName
+    ```
+    
+    ```Output
+    Microsoft.PowerShell.Utility
+    ```
+    
+    This command format works on commands in PowerShell modules, even if they're not imported into the
+    session.
+    
+     --------- Example 14: Get cmdlets and functions that have an output type ---------
+    
+    ```powershell
+    Get-Command -Type Cmdlet | Where-Object OutputType | Format-List -Property Name, OutputType
+    ```
+    
+    This command gets the cmdlets and functions that have an output type and the type of objects that
+    they return.
+    
+    The first part of the command gets all cmdlets. A pipeline operator (`|`) sends the cmdlets to the
+    `Where-Object` cmdlet, which selects only the ones in which the **OutputType** property is
+    populated. Another pipeline operator sends the selected cmdlet objects to the `Format-List` cmdlet,
+    which displays the name and output type of each cmdlet in a list.
+    
+    The **OutputType** property of a **CommandInfo** object has a non-null value only when the cmdlet
+    code defines the **OutputType** attribute for the cmdlet.
+    
+     --------- Example 15: Get cmdlets that take a specific object type as input ---------
+    
+    ```powershell
+    Get-Command -ParameterType (((Get-NetAdapter)[0]).pstypenames)
+    ```
+    
+    ```Output
+    CommandType     Name                                               ModuleName
+    -----------     ----                                               ----------
+    Function        Disable-NetAdapter                                 NetAdapter
+    Function        Enable-NetAdapter                                  NetAdapter
+    Function        Rename-NetAdapter                                  NetAdapter
+    Function        Restart-NetAdapter                                 NetAdapter
+    Function        Set-NetAdapter                                     NetAdapter
+    ```
+    
+    This command finds cmdlets that take net adapter objects as input. You can use this command format
+    to find the cmdlets that accept the type of objects that any command returns.
+    
+    The command uses the **pstypenames** intrinsic property of all objects, which gets the types that
+    describe the object. To get the **pstypenames** property of a net adapter, and not the
+    **pstypenames** property of a collection of net adapters, the command uses array notation to get the
+    first net adapter that the cmdlet returns.
+    
+     --------- Example 16: Get commands using a fuzzy match ---------
+    
+    In this example, the name of the command deliberately has a typo as 'get-commnd'. Using the
+    `-UseFuzzyMatching` switch, the cmdlet determined that the best match was `Get-Command` followed by
+    other native commands on the system that were a similar match.
+    
+    ```powershell
+    Get-Command get-commnd -UseFuzzyMatching
+    ```
+    
+    ```Output
+    CommandType     Name             Version    Source
+    -----------     ----             -------    ------
+    Cmdlet          Get-Command      6.2.0.0    Microsoft.PowerShell.Core
+    Application     getconf          0.0.0.0    /usr/bin/getconf
+    Application     command          0.0.0.0    /usr/bin/command
+    ```
+    
+ 
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> 
+
+
+
+
+3) Navigating the File System
+
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> ls
+Powershell_Training.docx
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> mkdir newFolder
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-ChildItem
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 16:49           64 newFolder
+-rw-r--r--   presidio staff      09/09/2025 13:10        18784 Powershell_Training.docx
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Set-Location ./newFolder/
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> newItem newfile.txt                                   
+newItem: The term 'newItem' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> New-Item newfile.txt                                  
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+-rw-r--r--   presidio staff      09/09/2025 16:51            0 newfile.txt
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> New-Item            
+New-Item          New-ItemProperty  
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> New-Item -Path . -Name "SecondFolder" -ItemType Directory
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 16:54           64 SecondFolder
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> Set-Location ..          
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Set-Location ./newFolder/
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> Get-ChildItem
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 16:54           64 SecondFolder
+-rw-r--r--   presidio staff      09/09/2025 16:51            0 newfile.txt
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> Move-Item -Path ./newfile.txt -Destination ./SecondFolder/
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder> Set-Location ./SecondFolder/
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder/SecondFolder> Get-ChildItem
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder/SecondFolder
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+-rw-r--r--   presidio staff      09/09/2025 16:51            0 newfile.txt
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder/SecondFolder> Remove-Item ./newfile.txt
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder/SecondFolder> Get-ChildItem
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder/SecondFolder> 
+
+
+4) Pipelines & Objects
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Process  
+
+ NPM(K)    PM(M)      WS(M)     CPU(s)      Id  SI ProcessName
+ ------    -----      -----     ------      --  -- -----------
+      0     0.00       0.00       0.00       0 …09 
+      0     0.00       0.00       0.00   11693 …93 accessoryupdaterd
+      0     0.00       4.41       5.14     453   1 accountsd
+      0     0.00       0.00       0.00     957 957 AccountSubscriber
+      0     0.00       0.01       0.07    2182 …82 AccountSubscriber
+      0     0.00       0.00       0.00     583 583 adid
+
+      -----
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Process | Sort-Object -Property Name | Select-Object -First 2
+
+ NPM(K)    PM(M)      WS(M)     CPU(s)      Id  SI ProcessName
+ ------    -----      -----     ------      --  -- -----------
+      0     0.00       0.00       0.00       0 …09 
+      0     0.00       0.00       0.00   11693 …93 accessoryupdaterd
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Process | Sort-Object -Property Name | Select-Object -First 2
+
+ NPM(K)    PM(M)      WS(M)     CPU(s)      Id  SI ProcessName
+ ------    -----      -----     ------      --  -- -----------
+      0     0.00       0.00       0.00       0 …09 
+      0     0.00       0.00       0.00   11693 …93 accessoryupdaterd
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Process | Sort-Object -Property CPU | Select-Object -First 2 
+
+ NPM(K)    PM(M)      WS(M)     CPU(s)      Id  SI ProcessName
+ ------    -----      -----     ------      --  -- -----------
+      0     0.00       0.00       0.00       0 …09 
+      0     0.00       0.00       0.00     405   1 mdbulkimport
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Process | Sort-Object -Property CPU -Descending | Select-Object -First 2
+
+ NPM(K)    PM(M)      WS(M)     CPU(s)      Id  SI ProcessName
+ ------    -----      -----     ------      --  -- -----------
+      0     0.00     883.26  16,854.89    1565   1 Microsoft Teams WebView Helper (Renderer)
+      0     0.00     491.63   6,040.32     672   1 Microsoft Edge
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Process | Sort-Object -Property CPU -Descending | Select-Object -First 2 | Export-Csv -Path ./exported_csv.csv
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-ChildItem                                                                                                     
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 16:56           96 newFolder
+-rw-r--r--   presidio staff      09/09/2025 17:03         2797 exported_csv.csv
+-rw-r--r--   presidio staff      09/09/2025 13:10        18784 Powershell_Training.docx
+-rw-r--r--   presidio staff      09/09/2025 17:02         5852 terminal.log
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Content ./exported_csv.csv
+"Name","SI","Handles","VM","WS","PM","NPM","Path","CommandLine","Parent","Company","CPU","FileVersion","ProductVersion","Description","Product","__NounName","SafeHandle","Handle","BasePriority","ExitCode","HasExited","StartTime","ExitTime","Id","MachineName","MaxWorkingSet","MinWorkingSet","Modules","NonpagedSystemMemorySize64","NonpagedSystemMemorySize","PagedMemorySize64","PagedMemorySize","PagedSystemMemorySize64","PagedSystemMemorySize","PeakPagedMemorySize64","PeakPagedMemorySize","PeakWorkingSet64","PeakWorkingSet","PeakVirtualMemorySize64","PeakVirtualMemorySize","PriorityBoostEnabled","PriorityClass","PrivateMemorySize64","PrivateMemorySize","ProcessorAffinity","SessionId","StartInfo","Threads","HandleCount","VirtualMemorySize64","VirtualMemorySize","EnableRaisingEvents","StandardInput","StandardOutput","StandardError","WorkingSet64","WorkingSet","SynchronizingObject","MainModule","MainWindowHandle","MainWindowTitle","Responding","ProcessName","PrivilegedProcessorTime","TotalProcessorTime","UserProcessorTime","Site","Container"
+"Microsoft Teams WebView Helper (Renderer)","1","0","1532908105728","926466048","0","0","/Applications/Microsoft Teams.app/Contents/Helpers/Microsoft Teams WebView.app/Contents/Frameworks/Microsoft Edge Framework.framework/Versions/138.0.3351.83/Helpers/Microsoft Teams WebView Helper (Renderer).app/Contents/MacOS/Microsoft Teams WebView Helper (Renderer)","","System.Diagnostics.Process (Microsoft Teams WebView)",,"16855.0043736",,,,,"Process","Microsoft.Win32.SafeHandles.SafeProcessHandle","2496","0",,"False","31/08/2025 4:35:33 PM",,"1565",".",,,"System.Diagnostics.ProcessModuleCollection","0","0","0","0","0","0","0","0","0","0","0","0","False","Normal","0","0",,"1",,"System.Diagnostics.ProcessThreadCollection","0","1532908105728","-395218944","False",,,,"926466048","926466048",,"System.Diagnostics.ProcessModule (Microsoft Teams WebView Helper (Renderer))","0","","True","Microsoft Teams WebView Helper (Renderer)","00:14:28.2166670","04:40:55.0043736","04:26:26.7877066",,
+"Microsoft Edge","1","0","104791547904","515469312","0","0","/private/var/folders/0z/qhz3y6k50rl_2clbcg6h7kwm0000gn/X/com.microsoft.edgemac.code_sign_clone/code_sign_clone.dzAovj/Microsoft Edge.app.bundle/Contents/MacOS/Microsoft Edge","",,,"6042.7389222",,,,,"Process","Microsoft.Win32.SafeHandles.SafeProcessHandle","3128","0",,"False","30/08/2025 3:37:44 PM",,"672",".",,,"System.Diagnostics.ProcessModuleCollection","0","0","0","0","0","0","0","0","0","0","0","0","False","Normal","0","0",,"1",,"System.Diagnostics.ProcessThreadCollection","0","104791547904","1712332800","False",,,,"515469312","515469312",,"System.Diagnostics.ProcessModule (Microsoft Edge)","0","","True","Microsoft Edge","00:20:02.4816589","01:40:42.7389222","01:20:40.2572633",,
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-Process | Sort-Object -Property CPU -Descending | Select-Object -First 2 Name,CPU | Export-Csv -Path ./export.csv
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-ChildItem                                                                                                        
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 16:56           96 newFolder
+-rw-r--r--   presidio staff      09/09/2025 17:06          105 export.csv
+-rw-r--r--   presidio staff      09/09/2025 17:05            0 exported_csv.csv
+-rw-r--r--   presidio staff      09/09/2025 13:10        18784 Powershell_Training.docx
+-rw-r--r--   presidio staff      09/09/2025 17:02         5852 terminal.log
+
+5) Variables & Data Types
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Get-ChildItem
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 16:56           96 newFolder
+-rw-r--r--   presidio staff      09/09/2025 17:06          105 export.csv
+-rw-r--r--   presidio staff      09/09/2025 17:05            0 exported_csv.csv
+-rw-r--r--   presidio staff      09/09/2025 13:10        18784 Powershell_Training.docx
+-rw-r--r--   presidio staff      09/09/2025 17:07        10518 terminal.log
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> $paths = Get-ChildItem
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> $paths
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 16:56           96 newFolder
+-rw-r--r--   presidio staff      09/09/2025 17:06          105 export.csv
+-rw-r--r--   presidio staff      09/09/2025 17:05            0 exported_csv.csv
+-rw-r--r--   presidio staff      09/09/2025 13:10        18784 Powershell_Training.docx
+-rw-r--r--   presidio staff      09/09/2025 17:07        10518 terminal.log
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> $paths[0] | Get-Member                                               
+
+   TypeName: System.IO.DirectoryInfo
+
+Name                      MemberType     Definition
+----                      ----------     ----------
+Target                    AliasProperty  Target = LinkTarget
+LinkType                  CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                      CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink       CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget            CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+Create                    Method         void Create()
+CreateAsSymbolicLink      Method         void CreateAsSymbolicLink(string pathToTarget)
+CreateSubdirectory        Method         System.IO.DirectoryInfo CreateSubdirectory(string path)
+Delete                    Method         void Delete(), void Delete(bool recursive)
+EnumerateDirectories      Method         System.Collections.Generic.IEnumerable[System.IO.DirectoryInfo] EnumerateDirectories(), System.Collections.G…
+EnumerateFiles            Method         System.Collections.Generic.IEnumerable[System.IO.FileInfo] EnumerateFiles(), System.Collections.Generic.IEnu…
+EnumerateFileSystemInfos  Method         System.Collections.Generic.IEnumerable[System.IO.FileSystemInfo] EnumerateFileSystemInfos(), System.Collecti…
+Equals                    Method         bool Equals(System.Object obj)
+GetDirectories            Method         System.IO.DirectoryInfo[] GetDirectories(), System.IO.DirectoryInfo[] GetDirectories(string searchPattern), …
+GetFiles                  Method         System.IO.FileInfo[] GetFiles(), System.IO.FileInfo[] GetFiles(string searchPattern), System.IO.FileInfo[] G…
+GetFileSystemInfos        Method         System.IO.FileSystemInfo[] GetFileSystemInfos(), System.IO.FileSystemInfo[] GetFileSystemInfos(string search…
+GetHashCode               Method         int GetHashCode()
+GetLifetimeService        Method         System.Object GetLifetimeService()
+GetObjectData             Method         void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.Streami…
+GetType                   Method         type GetType()
+InitializeLifetimeService Method         System.Object InitializeLifetimeService()
+MoveTo                    Method         void MoveTo(string destDirName)
+Refresh                   Method         void Refresh()
+ResolveLinkTarget         Method         System.IO.FileSystemInfo ResolveLinkTarget(bool returnFinalTarget)
+ToString                  Method         string ToString()
+PSChildName               NoteProperty   string PSChildName=newFolder
+PSDrive                   NoteProperty   PSDriveInfo PSDrive=/
+PSIsContainer             NoteProperty   bool PSIsContainer=True
+PSParentPath              NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::/Users/presidio/Desktop/Intern_SelfLearn/Powershel…
+PSPath                    NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::/Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1…
+PSProvider                NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+UnixStat                  NoteProperty   Platform+Unix+CommonStat UnixStat=System.Management.Automation.Platform+Unix+CommonStat
+Attributes                Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime              Property       datetime CreationTime {get;set;}
+CreationTimeUtc           Property       datetime CreationTimeUtc {get;set;}
+Exists                    Property       bool Exists {get;}
+Extension                 Property       string Extension {get;}
+FullName                  Property       string FullName {get;}
+LastAccessTime            Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc         Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime             Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc          Property       datetime LastWriteTimeUtc {get;set;}
+LinkTarget                Property       string LinkTarget {get;}
+Name                      Property       string Name {get;}
+Parent                    Property       System.IO.DirectoryInfo Parent {get;}
+Root                      Property       System.IO.DirectoryInfo Root {get;}
+UnixFileMode              Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName                  ScriptProperty System.Object BaseName {get=$this.Name;}
+Group                     ScriptProperty System.Object Group {get= if ($this.UnixStat) { $this.UnixStat.GetGroupName() } ;}
+Size                      ScriptProperty System.Object Size {get=$this.UnixStat.Size;}
+UnixMode                  ScriptProperty System.Object UnixMode {get=if ($this.UnixStat) { $this.UnixStat.GetModeString() };}
+User                      ScriptProperty System.Object User {get= if ($this.UnixStat) { $this.UnixStat.GetUserName() } ;}
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> $paths[0].Name        
+newFolder
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> foreach($path in $paths){Write-Output "FilePath : ($path.Name)"};
+FilePath : (/Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/newFolder.Name)
+FilePath : (/Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/export.csv.Name)
+FilePath : (/Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/exported_csv.csv.Name)
+FilePath : (/Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Powershell_Training.docx.Name)
+FilePath : (/Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/terminal.log.Name)
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> 
+
+
+6 ) Assignment: Store file paths in a variable and loop through them.
+
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> New-Item -Path . -Name "Logs" -ItemType Directory        
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 17:18           64 Logs
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Set-Location ./Logs/        
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> New-Item services.csv                            
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+-rw-r--r--   presidio staff      09/09/2025 17:19            0 services.csv
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> Set-Location ..     
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1> Set-Location ./Logs/
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> Get-Command Get-Service       
+Get-Command: The term 'Get-Service' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> Get-Command -CommandType Cmdlet
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Cmdlet          Add-Content                                        7.0.0.0    Microsoft.PowerShell.Management
+Cmdlet          Add-History                                        7.5.0.500  Microsoft.PowerShell.Core
+Cmdlet          Add-Member                                         7.0.0.0    Microsoft.PowerShell.Utility
+Cmdlet          Add-Type                                           7.0.0.0    Microsoft.PowerShell.Utility
+Cmdlet          Clear-Content                                      7.0.0.0    Microsoft.PowerShell.Management
+Cmdlet          Clear-History                                      7.5.0.500  Microsoft.PowerShell.Core
+Cmdlet          Clear-Item                                         7.0.0.0    Microsoft.PowerShell.Management
+Cmdlet          Clear-ItemProperty                                 7.0.0.0    Microsoft.PowerShell.Management
+Cmdlet          Clear-Variable                                     7.0.0.0    Microsoft.PowerShell.Utility
+Cmdlet          Compare-Object                                     7.0.0.0    Microsoft.PowerShell.Utility
+Cmdlet          Compress-PSResource                                1.1.1      Microsoft.PowerShell.PSResourceGet
+Cmdlet          Convert-Path                                       7.0.0.0    Microsoft.PowerShell.Management
+Cmdlet          ConvertFrom-CliXml                                 7.0.0.0    Microsoft.PowerShell.Utility
+Cmdlet          ConvertFrom-Csv                                    7.0.0.0    Microsoft.PowerShell.Utility
+
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> ps                             
+  PID TTY           TIME CMD
+33710 ttys000    0:00.19 -zsh
+33999 ttys000    0:20.40 /usr/local/microsoft/powershell/7/pwsh
+13114 ttys002    0:00.26 /bin/zsh -il
+15316 ttys004    0:00.39 /bin/zsh -il
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> ps | Out-File ./services.csv
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> Get-Content ./services.csv     
+  PID TTY           TIME CMD
+33710 ttys000    0:00.19 -zsh
+33999 ttys000    0:21.83 /usr/local/microsoft/powershell/7/pwsh
+13114 ttys002    0:00.26 /bin/zsh -il
+15316 ttys004    0:00.39 /bin/zsh -il
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> 
+
+------------------------------------------------------------------------------------------
+
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs> ./logScript.ps1
+
+    Directory: /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day1/Logs
+
+UnixMode         User Group         LastWriteTime         Size Name
+--------         ---- -----         -------------         ---- ----
+drwxr-xr-x   presidio staff      09/09/2025 17:38           64 Log1
+Log file created with Services information.
