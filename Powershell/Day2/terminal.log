@@ -1,0 +1,57 @@
+PS C:\Windows\system32> $installerUrl = "https://aws-application-migration-service-us-east-1.s3.us-east-1.amazonaws.com/latest/windows/AwsReplicationWindowsInstaller.exe"; $installerPath = "$env:TEMP\AWSReplicationWindowsInstaller.exe"
+PS C:\Windows\system32> Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
+PS C:\Windows\system32> Start-Process -FilePath $installerPath -ArgumentList "/quiet /region us-east-1" -Wait
+PS C:\Windows\system32> Get-Service -Name *AWS*
+PS C:\Windows\system32> Get-Service -Name *AWSReplication* | Select-Object Name, Status
+PS C:\Windows\system32> & $installerPath /region us-east-1
+The installation of the AWS Replication Agent has started.
+AWS Region Name: us-east-1
+usage: AwsReplicationInstaller.exe [-h] [--aws-access-key-id AWS_ACCESS_KEY_ID]
+                                   [--aws-secret-access-key AWS_SECRET_ACCESS_KEY]
+                                   [--aws-session-token AWS_SESSION_TOKEN] [--region REGION] [--no-prompt]
+                                   [--no-replication] [--force-volumes] [--devices DEVICES] [--endpoint ENDPOINT]
+                                   [--s3-endpoint S3_ENDPOINT] [--tags KEY=VALUE [KEY=VALUE ...]]
+                                   [--proxy-address PROXY_ADDRESS] [--user-provided-id USER_PROVIDED_ID]
+AwsReplicationInstaller.exe: error: unrecognized arguments: /region us-east-1
+PS C:\Windows\system32> & $installerPath --region us-east-1
+The installation of the AWS Replication Agent has started.
+AWS Access Key ID: ********************
+AWS Secret Access Key: ****************************************
+AWS Session Token: ***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+Verifying that the source server has enough free disk space to install the AWS Replication Agent (a minimum of 2 GB of free disk space is required).
+
+Failed to validate AWS credentials
+Installation failed.
+Learn more about installation issues in our documentation at https://docs.aws.amazon.com/mgn/latest/ug/Troubleshooting-Agent-Issues.html#Error-Installation-Failed
+Press Enter to close...
+PS C:\Windows\system32> & $installerPath --region us-east-1
+The installation of the AWS Replication Agent has started.
+AWS Access Key ID: ********************
+AWS Secret Access Key: ****************************************
+AWS Session Token: ****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+Verifying that the source server has enough free disk space to install the AWS Replication Agent (a minimum of 2 GB of free disk space is required).
+Identifying volumes for replication.
+Choose the disks you want to replicate. Your disks are: c:
+To replicate some of the disks, type the path of the disks, separated with a comma (for example, C:,D:). To replicate all disks, press Enter:
+Disk to replicate identified: \\?\PhysicalDrive0: [c:0] of size 30 GiB
+All volumes for replication were successfully identified.
+Downloading the AWS Replication Agent onto the source server...
+Finished.
+Installing the AWS Replication Agent onto the source server...
+Finished.
+Syncing the source server with the Application Migration Service Console...
+Finished.
+The following is the source server ID: s-3c6bc159366201eb3.
+You now have 1 active source server out of a total quota of 150.
+Learn more about increasing source servers limit at https://docs.aws.amazon.com/mgn/latest/ug/MGN-service-limits.html
+The AWS Replication Agent was successfully installed.
+Press Enter to close...
+PS C:\Windows\system32> Get-Service -Name *AWS*
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  AwsReplicationD... AwsReplicationDriverLogger
+Running  AwsReplicationL... AwsReplicationLogger
+Stopped  AwsReplicationP... AwsReplicationPostConvertService
+Running  AwsReplicationS... AwsReplicationService
+Running  AwsReplicationV... AwsReplicationVolumeUpdaterService
