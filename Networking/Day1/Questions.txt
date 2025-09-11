@@ -1,0 +1,44 @@
+Day 1 Tasks
+ 
+1. Problem Statement
+You are given the IP block 172.16.0.0/20. Create 3 subnets from this block so that each subnet has at least 200 usable IP addresses.
+For any 3 subnets you create, provide:
+Subnet mask
+Network address
+Broadcast address
+Usable IP range
+Number of usable hosts
+ 
+2. Problem Statement
+You are given the IP block 172.16.0.0/20. Subnet this block to satisfy the following requirements:
+Subnet A: needs at least 500 usable IP addresses
+Subnet B: needs at least 200 usable IP addresses
+Subnet C: needs at least 50 usable IP addresses
+Remember that “at least” does not mean you can waste space by oversizing all subnets. 
+Choose the smallest subnet mask that still satisfies each requirement. For each subnet, provide:
+Subnet mask
+Network address
+Broadcast address
+Usable IP range
+Number of usable hosts
+ 
+3. Problem Statement
+Your company has a /24 network (192.168.50.0/24) assigned to the QA environment. Over the years, many test servers were added and 
+now you’re running out of IPs. The QA team reports that they need 40 more servers but the subnet is already full.
+How do you solve this IP exhaustion problem without disrupting existing servers?
+Would you consider subnetting, super-netting, or migration to a new CIDR? Explain your approach.
+ 
+4. Problem Statement
+You’re designing a 3-tier web application with the following requirements:
+Web tier: already has 15 servers running in 192.168.100.0/24.
+App tier: already has 25 servers running in 192.168.101.0/24.
+DB tier: currently has 5 servers in 192.168.102.0/24, but you’ve been told you’ll need to add 20 more DB servers.
+You cannot change the existing allocations for Web and App. How would you adjust or create new subnets to fit the DB tier growth, 
+while keeping the design clean and future-proof?
+ 
+5. Problem Statement
+The server at `ec2-18-208-201-86.compute-1.amazonaws.com` is hosting a web application on an unknown port.
+Scan the server to determine which port the web application is listening on. Limit your search to the common service ports range (1–1024) 
+to make the process efficient.
+After identifying the correct port, verify connectivity by sending a request (for example, using a command-line tool or a browser).
+Capture the network traffic during this request and analyze it in a packet inspection tool to study the details of the HTTP communication.

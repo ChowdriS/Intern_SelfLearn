@@ -1,8 +1,5 @@
 PS C:\Windows\system32> $installerUrl = "https://aws-application-migration-service-us-east-1.s3.us-east-1.amazonaws.com/latest/windows/AwsReplicationWindowsInstaller.exe"; $installerPath = "$env:TEMP\AWSReplicationWindowsInstaller.exe"
 PS C:\Windows\system32> Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
-PS C:\Windows\system32> Start-Process -FilePath $installerPath -ArgumentList "/quiet /region us-east-1" -Wait
-PS C:\Windows\system32> Get-Service -Name *AWS*
-PS C:\Windows\system32> Get-Service -Name *AWSReplication* | Select-Object Name, Status
 PS C:\Windows\system32> & $installerPath /region us-east-1
 The installation of the AWS Replication Agent has started.
 AWS Region Name: us-east-1

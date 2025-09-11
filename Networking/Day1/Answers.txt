@@ -1,0 +1,157 @@
+1)
+
+172.16.0.0/20
+
+/24 -> 256 IPs (2^8)
+
+172.16.0.0/24
+
+Subnet mask - 172.16.0.0/24
+Network address - 172.16.0.0
+Broadcast address - 172.16.0.255
+Usable IP range - 172.16.0.1 - 172.16.0.254
+Number of usable hosts - (2^8)-2 = 254
+
+172.16.1.0/24
+
+Subnet mask - 172.16.1.0/24
+Network address - 172.16.1.0
+Broadcast address - 172.16.1.255
+Usable IP range - 172.16.1.1 - 172.16.1.254
+Number of usable hosts - (2^8)-2 = 254
+
+172.16.2.0/24
+
+Subnet mask - 172.16.2.0/24
+Network address - 172.16.2.0
+Broadcast address - 172.16.2.255
+Usable IP range - 172.16.2.1 - 172.16.2.254
+Number of usable hosts - (2^8)-2 = 254
+
+
+2)
+
+172.16.0.0/20
+-------
+subnet 1 -> need 500 IPs
+
+2^9 -> 512 IPs => 32-9 => /23
+
+172.16.0.0/23
+
+Subnet mask - 172.16.0.0/23
+Network address - 172.16.0.1
+Broadcast address - 172.16.1.255
+Usable IP range - 172.16.0.1 - 172.16.1.254
+Number of usable hosts - (2^9)-2 = 510
+
+subnet 2 -> 200 IPs
+
+2^8 -> 256 IPs
+
+172.16.2.0/24
+
+Subnet mask - 172.16.2.0/24
+Network address - 172.16.2.0
+Broadcast address - 172.16.2.255
+Usable IP range - 172.16.2.1 - 172.16.2.254
+Number of usable hosts - (2^8)-2 = 254
+
+subnet 3 -> 50 IPs
+
+2^6 -> 64
+
+172.16.3.0/26
+
+Subnet mask - 172.16.3.0/26
+Network address - 172.16.3.0
+Broadcast address - 172.16.3.63
+Usable IP range - 172.16.3.1 - 172.16.3.62
+Number of usable hosts - (2^6)-2 = 62
+
+3)
+
+super netting because we dont want to disturb the existing servers,
+
+can combine 192.168.50.0/24 with 192.168.50.0/23 which mean we have extra 256 ips starting from 192.168.51.0 to 192.168.51.255
+
+4)
+
+may be we can make the db tier to /27 -> 2^5 = 32 , 30 usable ips
+
+5)
+
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % nmap -p 1-1024 ec2-18-208-201-86.compute-1.amazonaws.com
+Starting Nmap 7.98 ( https://nmap.org ) at 2025-09-11 18:55 +0530
+Nmap scan report for ec2-18-208-201-86.compute-1.amazonaws.com (18.208.201.86)
+Host is up (0.32s latency).
+Not shown: 1021 filtered tcp ports (no-response)
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+445/tcp open  microsoft-ds
+
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % curl http://ec2-18-208-201-86.compute-1.amazonaws.com:80
+Hello world!
+
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % sudo tcpdump -i en0 host ec2-18-208-201-86.compute-1.amazonaws.com and port 80 -A -nn
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on en0, link-type EN10MB (Ethernet), snapshot length 524288 bytes
+19:23:41.626658 IP 172.26.121.247.65330 > 18.208.201.86.80: Flags [S], seq 549803839, win 65535, options [mss 1460,nop,wscale 6,nop,nop,TS val 3228481102 ecr 0,sackOK,eol], length 0
+E..@..@.@.8...y....V.2.P .W?........F..............
+.n.N........
+19:23:42.040473 IP 18.208.201.86.80 > 172.26.121.247.65330: Flags [S.], seq 3024036033, ack 549803840, win 62643, options [mss 1300,sackOK,TS val 724206537 ecr 3228481102,nop,wscale 7], length 0
+E..<..@.o.      ....V..y..P.2.? . .W@.....i.........
++*...n.N....
+19:23:42.040599 IP 172.26.121.247.65330 > 18.208.201.86.80: Flags [.], ack 1, win 2052, options [nop,nop,TS val 3228481516 ecr 724206537], length 0
+E..4..@.@.8...y....V.2.P .W@.? ............
+.n..+*..
+19:23:42.040776 IP 172.26.121.247.65330 > 18.208.201.86.80: Flags [P.], seq 1:105, ack 1, win 2052, options [nop,nop,TS val 3228481516 ecr 724206537], length 104: HTTP: GET / HTTP/1.1
+E.....@.@.8$..y....V.2.P .W@.? .....<Y.....
+.n..+*..GET / HTTP/1.1
+Host: ec2-18-208-201-86.compute-1.amazonaws.com
+User-Agent: curl/8.1.2
+Accept: */*
+
+
+19:23:42.425136 IP 18.208.201.86.80 > 172.26.121.247.65330: Flags [.], ack 105, win 489, options [nop,nop,TS val 724206922 ecr 3228481516], length 0
+E..4.u@.o......V..y..P.2.? . .W............
++*.J.n..
+19:23:42.426001 IP 18.208.201.86.80 > 172.26.121.247.65330: Flags [P.], seq 1:249, ack 105, win 489, options [nop,nop,TS val 724206922 ecr 3228481516], length 248: HTTP: HTTP/1.1 200 OK
+E..,.v@.o......V..y..P.2.? . .W............
++*.J.n..HTTP/1.1 200 OK
+Server: nginx/1.28.0
+Date: Thu, 11 Sep 2025 13:53:42 GMT
+Content-Type: text/html
+Content-Length: 13
+Last-Modified: Tue, 09 Sep 2025 19:27:02 GMT
+Connection: keep-alive
+ETag: "68c07f86-d"
+Accept-Ranges: bytes
+
+Hello world!
+
+19:23:42.426102 IP 172.26.121.247.65330 > 18.208.201.86.80: Flags [.], ack 249, win 2048, options [nop,nop,TS val 3228481901 ecr 724206922], length 0
+E..4..@.@.8...y....V.2.P .W..?!......I.....
+.n.m+*.J
+19:23:42.426490 IP 172.26.121.247.65330 > 18.208.201.86.80: Flags [F.], seq 105, ack 249, win 2048, options [nop,nop,TS val 3228481902 ecr 724206922], length 0
+E..4..@.@.8...y....V.2.P .W..?!......G.....
+.n.n+*.J
+19:23:42.826045 IP 18.208.201.86.80 > 172.26.121.247.65330: Flags [F.], seq 249, ack 106, win 489, options [nop,nop,TS val 724207321 ecr 3228481902], length 0
+E..4.w@.o......V..y..P.2.?!. .W............
++*...n.n
+19:23:42.826115 IP 172.26.121.247.65330 > 18.208.201.86.80: Flags [.], ack 250, win 2048, options [nop,nop,TS val 3228482302 ecr 724207321], length 0
+E..4..@.@.8...y....V.2.P .W..?!......'.....
+.n..+*..
+
+
+
+-- saving in file and viewing with wireshark
+
+presidio@Presidios-MacBook-Pro Intern_SelfLearn %  sudo tcpdump -i en0 host ec2-18-208-201-86.compute-1.amazonaws.com and port 80 -w captured_packets.pcap  
+Password:
+tcpdump: listening on en0, link-type EN10MB (Ethernet), snapshot length 524288 bytes
+^C43 packets captured
+2941 packets received by filter
+0 packets dropped by kernel
+
