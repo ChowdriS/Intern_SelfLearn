@@ -1,0 +1,29 @@
+1. Problem Statement
+Given the SMB server IP 98.81.69.119 and the shared path "shared", mount it using cli commands 
+and find the task file related the socket programming
+ 
+2. Problem Statement
+ Task file in SMB server
+ 
+3. Problem Statement
+You are provided with a bastion host that has a public IP address and a .pem key for SSH, along with a 
+private application server that can only be accessed through the bastion. A MySQL RDS instance is also 
+running inside the private subnet. You are expected to first connect to the bastion using the provided .pem file
+ and then attempt to securely SSH into the private application server from there. Once inside the private instance, 
+ verify connectivity to the given RDS endpoint the MySQL client. 
+Note: As part of the task, you are expected to troubleshoot and resolve any issues you encounter while establishing 
+SSH connectivity to the private instance or while reaching the MySQL RDS instance from it.
+ 
+4. Problem Statement
+Develop two simple applications running on different ports, for example one on port 5001 and another on port 5002, 
+each returning a distinct response. Configure an Application Load Balancer (ALB) on port 8080 with path-based 
+routing so that requests to /api are directed to the first application and requests to /app are directed to the second. 
+Since the ALB may become a bottleneck, add a Network Load Balancer (NLB) using HAProxy in front of it, operating at Layer 4.
+ The expected flow is:
+ 
+Flow: Client → NLB (L4) → ALB (L7) → Web servers
+ 
+Configure the NLB in TCP mode and test the behavior by sending requests through it. Use tools such as curl -v and 
+tcpdump to observe and capture the traffic flow. Compare the behavior with direct access to the ALB. 
+Analyze why inconsistencies appear when the NLB is in TCP mode and HTTP mode
+ Finally, update the configuration to HTTP Mode and explain your findings
