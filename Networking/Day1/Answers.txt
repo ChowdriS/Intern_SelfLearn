@@ -40,8 +40,9 @@ subnet 1 -> need 500 IPs
 172.16.0.0/23
 
 Subnet mask - 172.16.0.0/23
-Network address - 172.16.0.1
+Network address - 172.16.0.0
 Broadcast address - 172.16.1.255
+0000 0010/ 1111 1111
 Usable IP range - 172.16.0.1 - 172.16.1.254
 Number of usable hosts - (2^9)-2 = 510
 
@@ -65,6 +66,8 @@ subnet 3 -> 50 IPs
 
 Subnet mask - 172.16.3.0/26
 Network address - 172.16.3.0
+
+
 Broadcast address - 172.16.3.63
 Usable IP range - 172.16.3.1 - 172.16.3.62
 Number of usable hosts - (2^6)-2 = 62
@@ -73,7 +76,7 @@ Number of usable hosts - (2^6)-2 = 62
 
 super netting because we dont want to disturb the existing servers,
 
-can combine 192.168.50.0/24 with 192.168.50.0/23 which mean we have extra 256 ips starting from 192.168.51.0 to 192.168.51.255
+can combine 192.168.50.0/24 with 192.168.50.0/23 => by which we have extra 256 ips starting from 192.168.51.0 to 192.168.51.255
 
 4)
 

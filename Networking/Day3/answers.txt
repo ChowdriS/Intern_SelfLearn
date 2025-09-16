@@ -1,0 +1,290 @@
+ubuntu@ip-10-0-1-67:~$ ./bash.sh 
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Reading package lists... Done                          
+Building dependency tree... Done
+Reading state information... Done
+All packages are up to date.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+apache2 is already the newest version (2.4.52-1ubuntu4.16).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+🔹 Configuring Apache on port 5001...
+<h1>Hello from Apache on port 5001</h1>
+Synchronizing state of apache2.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable apache2
+ubuntu@ip-10-0-1-67:~$ curl http://localshot:5001
+curl: (6) Could not resolve host: localshot
+ubuntu@ip-10-0-1-67:~$ curl http://localhost:5001
+<h1>Hello from Apache on port 5001</h1>
+ubuntu@ip-10-0-1-67:~$ echo "<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CDN vs Direct Hosting</title>
+</head>
+<body>
+  <h1>Hello from My Website</h1>
+  <p>This is a demo page to test performance with and without a CDN.</p>
+  <img src="https://via.placeholder.com/400" alt="Demo image">
+</body>
+</html>
+" > /var/www/html/index.html 
+-bash: !DOCTYPE: event not found
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+-bash: syntax error near unexpected token `newline'
+> 
+> ^C
+ubuntu@ip-10-0-1-67:~$ vim /var/www/html/index.html 
+ubuntu@ip-10-0-1-67:~$ sudo vim /var/www/html/index.html 
+ubuntu@ip-10-0-1-67:/var/www/html$ curl http://localhost:5001
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CDN vs Direct Hosting</title>
+</head>
+<body>
+  <h1>Hello from My Website</h1>
+  <p>This is a demo page to test performance with and without a CDN.</p>
+  <img src="https://th.bing.com/th/id/OIP.B39-1EvwOFXOffOfIKZT0AHaEK?w=344&h=180&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3" alt="Demo image">
+</body>
+</html>
+
+ubuntu@ip-10-0-1-67:/var/www/html$ curl -o /dev/null -s -w "EC2: DNS: %{time_namelookup}s | Connect: %{time_connect}s | Total: %{time_total}s\n" http://13.223.95.212:5001/
+EC2: DNS: 0.000022s | Connect: 0.000356s | Total: 0.001067s
+ubuntu@ip-10-0-1-67:/var/www/html$ curl -o /dev/null -s -w "CDN: DNS: %{time_namelookup}s | Connect: %{time_connect}s | Total: %{time_total}s\n" https://exquisite-sfogliatell
+a.netlify.app/
+CDN: DNS: 0.000806s | Connect: 0.002438s | Total: 0.094572s
+ubuntu@ip-10-0-1-67:/var/www/html$ 
+
+
+
+
+Client 
+
+
+presidio@Presidios-MacBook-Pro / % brew install wireguard-tools
+==> Auto-updating Homebrew...
+Adjust how often this is run with `$HOMEBREW_AUTO_UPDATE_SECS` or disable with
+`$HOMEBREW_NO_AUTO_UPDATE=1`. Hide these hints with `$HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+==> Auto-updated Homebrew!
+Updated 2 taps (homebrew/core and homebrew/cask).
+==> New Formulae
+claude-cmd: Claude Code Commands Manager
+claude-hooks: Hook system for Claude Code
+codebook-lsp: Code-aware spell checker language server
+context7-mcp: Up-to-date code documentation for LLMs and AI code editors
+docker-compose-langserver: Language service for Docker Compose documents
+igrep: Interactive grep
+kubernetes-cli@1.33: Kubernetes command-line interface
+libselinux: SELinux library and simple utilities
+libsepol: SELinux binary policy manipulation library
+mcp-server-kubernetes: MCP Server for kubernetes management commands
+opencode: AI coding agent, built for the terminal
+shimmy: Small local inference server with OpenAI-compatible GGUF endpoints
+terratag: CLI to automate tagging for AWS, Azure & GCP resources in Terraform
+tkrzw: Set of implementations of DBM
+tombi: TOML formatter, linter and language server
+tweakcc: Customize your Claude Code themes, thinking verbs, and more
+volcano-cli: CLI for Volcano, Cloud Native Batch System
+==> New Casks
+epson-print-layout: Software to layout and print images with Epson printers
+font-alan-sans
+font-suse-mono
+livebook@nightly: Code notebooks for Elixir developers
+overview: Create live window previews for any application
+unifi-identity-endpoint: License free Wi-Fi, VPN, and Access Application for Organizations
+
+You have 5 outdated formulae and 1 outdated cask installed.
+
+==> Fetching downloads for: wireguard-tools
+==> Downloading https://ghcr.io/v2/homebrew/core/wireguard-tools/manifests/1.0.20250521
+####################################################################################################################################################################### 100.0%
+==> Fetching dependencies for wireguard-tools: ncurses, bash and wireguard-go
+==> Downloading https://ghcr.io/v2/homebrew/core/ncurses/manifests/6.5
+####################################################################################################################################################################### 100.0%
+==> Fetching ncurses
+==> Downloading https://ghcr.io/v2/homebrew/core/ncurses/blobs/sha256:eb22b3753261f99aa36f5d9e1511a0bca5ea70cd645f7068af2ac5514aafd6a7
+####################################################################################################################################################################### 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/bash/manifests/5.3.3-1
+####################################################################################################################################################################### 100.0%
+==> Fetching bash
+==> Downloading https://ghcr.io/v2/homebrew/core/bash/blobs/sha256:94ef4a156e8cf4be1ae0a056aa988324d89cea55c2ec8f29ec9646a9df258441
+####################################################################################################################################################################### 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/wireguard-go/manifests/0.0.20250522
+####################################################################################################################################################################### 100.0%
+==> Fetching wireguard-go
+==> Downloading https://ghcr.io/v2/homebrew/core/wireguard-go/blobs/sha256:db6d403f493b281677d95e79448776275d37b728b966fe23f80f1079ecf35d61
+####################################################################################################################################################################### 100.0%
+==> Fetching wireguard-tools
+==> Downloading https://ghcr.io/v2/homebrew/core/wireguard-tools/blobs/sha256:4c929b929c9ad42228c7c63c091f96e2746150614c36c80003084831b836c996
+####################################################################################################################################################################### 100.0%
+==> Installing dependencies for wireguard-tools: ncurses, bash and wireguard-go
+==> Installing wireguard-tools dependency: ncurses
+==> Downloading https://ghcr.io/v2/homebrew/core/ncurses/manifests/6.5
+Already downloaded: /Users/presidio/Library/Caches/Homebrew/downloads/b2f8ce4e08b15832435170efd265346225ee388d5baab3d5c50e3a77c5673b5a--ncurses-6.5.bottle_manifest.json
+==> Pouring ncurses--6.5.sonoma.bottle.tar.gz
+🍺  /usr/local/Cellar/ncurses/6.5: 4,052 files, 9.3MB
+==> Installing wireguard-tools dependency: bash
+==> Downloading https://ghcr.io/v2/homebrew/core/bash/manifests/5.3.3-1
+Already downloaded: /Users/presidio/Library/Caches/Homebrew/downloads/35fa2665b49fbff287dd4a526932adfac0c87f82b4e34e261e86051ccc598a32--bash-5.3.3-1.bottle_manifest.json
+==> Pouring bash--5.3.3.sonoma.bottle.1.tar.gz
+🍺  /usr/local/Cellar/bash/5.3.3: 172 files, 11.1MB
+==> Installing wireguard-tools dependency: wireguard-go
+==> Downloading https://ghcr.io/v2/homebrew/core/wireguard-go/manifests/0.0.20250522
+Already downloaded: /Users/presidio/Library/Caches/Homebrew/downloads/adef700da70bc4cc0bb66009949062cbc557f527aa59e622e086e9fe4d04e943--wireguard-go-0.0.20250522.bottle_manifest.json
+==> Pouring wireguard-go--0.0.20250522.sonoma.bottle.tar.gz
+🍺  /usr/local/Cellar/wireguard-go/0.0.20250522: 6 files, 3.2MB
+==> Installing wireguard-tools
+==> Pouring wireguard-tools--1.0.20250521.sonoma.bottle.tar.gz
+🍺  /usr/local/Cellar/wireguard-tools/1.0.20250521: 11 files, 156.7KB
+==> Running `brew cleanup wireguard-tools`...
+Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
+Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+==> No outdated dependents to upgrade!
+presidio@Presidios-MacBook-Pro / % ls
+Applications    System          Volumes         cores           etc             opt             sbin            usr
+Library         Users           bin             dev             home            private         tmp             var
+presidio@Presidios-MacBook-Pro / % cd ~                                                                                                 
+wg genkey | tee client_private.key | wg pubkey > client_public.key
+
+presidio@Presidios-MacBook-Pro ~ % ls
+AWSCLIV2.pkg                    Downloads                       Pictures                        awscliv2.zip
+Applications                    Library                         Postman Agent                   client_private.key
+Desktop                         Movies                          Public                          client_public.key
+Documents                       Music                           aws                             edb_pgagent_pg17.app.zip
+presidio@Presidios-MacBook-Pro ~ % cat client_private.key 
+yIBc7UJjclLoiWx33GHnJR2MW4UYjEgOFjP4QGPuH1g=
+presidio@Presidios-MacBook-Pro ~ % cat client_public.key 
+GkKXtViOhg3A8W4vM3NR5fIr+3OTA+JHSTP7bNxGXFE=
+presidio@Presidios-MacBook-Pro ~ % vim client.onf
+presidio@Presidios-MacBook-Pro ~ % ls
+AWSCLIV2.pkg                    Downloads                       Pictures                        awscliv2.zip
+Applications                    Library                         Postman Agent                   client_private.key
+Desktop                         Movies                          Public                          client_public.key
+Documents                       Music                           aws                             edb_pgagent_pg17.app.zip
+presidio@Presidios-MacBook-Pro ~ % vim client.conf
+presidio@Presidios-MacBook-Pro ~ % vim client.conf
+presidio@Presidios-MacBook-Pro ~ % vim client.conf
+presidio@Presidios-MacBook-Pro ~ % vim client.conf
+presidio@Presidios-MacBook-Pro ~ % sudo wg-quick down wg0
+sudo wg-quick up wg0
+
+Password:
+wg-quick: `/usr/local/etc/wireguard/wg0.conf' does not exist
+wg-quick: `/usr/local/etc/wireguard/wg0.conf' does not exist
+presidio@Presidios-MacBook-Pro ~ % sudo mkdir -p /usr/local/etc/wireguard
+presidio@Presidios-MacBook-Pro ~ % sudo mv ~/client.conf /usr/local/etc/wireguard/wg0.conf
+presidio@Presidios-MacBook-Pro ~ % sudo wg-quick up wg0
+
+[#] wireguard-go utun
+[+] Interface for wg0 is utun4
+[#] wg setconf utun4 /dev/fd/63
+[#] ifconfig utun4 inet 10.8.0.2/24 10.8.0.2 alias
+[#] ifconfig utun4 up
+[#] route -q -n add -inet 0.0.0.0/1 -interface utun4
+[#] route -q -n add -inet 128.0.0.0/1 -interface utun4
+[#] route -q -n add -inet 13.223.95.212 -gateway 10.229.111.252
+[+] Backgrounding route monitor
+presidio@Presidios-MacBook-Pro ~ % wg
+Unable to list interfaces: Permission denied
+presidio@Presidios-MacBook-Pro ~ % sudo wg
+interface: utun4
+  public key: GkKXtViOhg3A8W4vM3NR5fIr+3OTA+JHSTP7bNxGXFE=
+  private key: (hidden)
+  listening port: 65405
+
+peer: Lz3DnwaIEDBpxaGElMy1U3as2/TecVivV1Bj5VpHTkQ=
+  endpoint: 13.223.95.212:51820
+  allowed ips: 0.0.0.0/0
+  transfer: 0 B received, 1.16 KiB sent
+presidio@Presidios-MacBook-Pro ~ % ping 10.8.0.1
+PING 10.8.0.1 (10.8.0.1): 56 data bytes
+Request timeout for icmp_seq 0
+Request timeout for icmp_seq 1
+Request timeout for icmp_seq 2
+Request timeout for icmp_seq 3
+Request timeout for icmp_seq 4
+Request timeout for icmp_seq 5
+^C
+--- 10.8.0.1 ping statistics ---
+7 packets transmitted, 0 packets received, 100.0% packet loss
+presidio@Presidios-MacBook-Pro ~ % sudo wg-quick down wg0
+Password:
+[+] Interface for wg0 is utun4
+[#] rm -f /var/run/wireguard/utun4.sock
+[#] rm -f /var/run/wireguard/wg0.name
+
+
+
+Server
+
+ubuntu@ip-10-0-1-67:/var/www/html$ cd ~
+umask 077
+wg genkey | tee privatekey | wg pubkey > publickey
+ubuntu@ip-10-0-1-67:~$ ls
+app1  app2  bash.sh  bastion-info.txt  chowdri_s.pem  copy-key.sh  intern-key.pem  privatekey  publickey
+ubuntu@ip-10-0-1-67:~$ cat privatekey 
+wLQ3KhLwOhES95FdWp5yxziKHSSLSRGbTSSnTboc4Vk=
+ubuntu@ip-10-0-1-67:~$ cat p
+cat: p: No such file or directory
+ubuntu@ip-10-0-1-67:~$ cat publickey 
+Lz3DnwaIEDBpxaGElMy1U3as2/TecVivV1Bj5VpHTkQ=
+ubuntu@ip-10-0-1-67:~$ vim /etc/wireguard/wg0.conf
+ubuntu@ip-10-0-1-67:~$ sudo vim /etc/wireguard/wg0.conf
+ubuntu@ip-10-0-1-67:~$ sudo vim /etc/wireguard/wg0.conf
+ubuntu@ip-10-0-1-67:~$ echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+net.ipv4.ip_forward=1
+net.ipv4.ip_forward = 1
+ubuntu@ip-10-0-1-67:~$ sudo wg-quick up wg0
+[#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+[#] ip -4 address add 10.8.0.1/24 dev wg0
+[#] ip link set mtu 8921 up dev wg0
+ubuntu@ip-10-0-1-67:~$ sudo systemctl enable wg-quick@wg0
+Created symlink /etc/systemd/system/multi-user.target.wants/wg-quick@wg0.service → /lib/systemd/system/wg-quick@.service.
+ubuntu@ip-10-0-1-67:~$ ip addr show wg0
+3: wg0: <POINTOPOINT,NOARP,UP,LOWER_UP> mtu 8921 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/none 
+    inet 10.8.0.1/24 scope global wg0
+       valid_lft forever preferred_lft forever
+ubuntu@ip-10-0-1-67:~$ sudo wg
+interface: wg0
+  public key: Lz3DnwaIEDBpxaGElMy1U3as2/TecVivV1Bj5VpHTkQ=
+  private key: (hidden)
+  listening port: 51820
+
+peer: GkKXtViOhg3A8W4vM3NR5fIr+3OTA+JHSTP7bNxGXFE=
+  allowed ips: 10.8.0.2/32
+ubuntu@ip-10-0-1-67:~$ sudo wg-quick down wg0
+[#] ip link delete dev wg0
+ubuntu@ip-10-0-1-67:~$ sudo wg-quick up  wg0
+[#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+[#] ip -4 address add 10.8.0.1/24 dev wg0
+[#] ip link set mtu 8921 up dev wg0
+
+
+presidio@Presidios-MacBook-Pro Networking % ssh -i chowdri_s.pem -R 8080:localhost:5003 ubuntu@13.223.95.212 
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 6.8.0-1036-aws x86_64)
+Last login: Tue Sep 16 05:36:21 2025 from 223.185.200.119
+ubuntu@ip-10-0-1-67:~$ curl http://localhost:8080
+Hello from port 5003ubuntu@ip-10-0-1-67:~$ exit
+logout
+Connection to 13.223.95.212 closed.
+
+
