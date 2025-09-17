@@ -1,0 +1,15 @@
+1)
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day3> ./task1.ps1
+The file does NOT exist at /Users/presidio/Desktop/testfile.txt
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day3> 
+
+2)
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day3> ./task2.ps1
+Service 'com.apple.coreservicesd' is NOT running
+Service 'com.apple.blued' is NOT running
+Service 'com.apple.Dock' is RUNNING
+
+3)
+PS /Users/presidio/Desktop/Intern_SelfLearn/Powershell/Day3> ./task3.ps1
+Service 'com.apple.Dock' has been restarted.
+

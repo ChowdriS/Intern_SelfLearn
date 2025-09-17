@@ -34,6 +34,20 @@ presidio@Presidios-MacBook-Pro Day2 %
 
 task 3:
 
+client:
+
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % curl http://localhost:7000/test
+^C
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % curl -X POST http://localhost:7000/test -d "Detective at work"
+^C
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % curl -X POST http://localhost:7000/test -d "Detective at work"                       
+^C
+presidio@Presidios-MacBook-Pro Intern_SelfLearn % curl -X POST http://localhost:7000/bigdata -d "$(python3 -c "print('X'*5000)")"
+^C
+
+
+server:
+
 presidio@Presidios-MacBook-Pro Day2 % py task3.py 
 Listening on 127.0.0.1:7000
 

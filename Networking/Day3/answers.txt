@@ -20,33 +20,6 @@ ubuntu@ip-10-0-1-67:~$ curl http://localshot:5001
 curl: (6) Could not resolve host: localshot
 ubuntu@ip-10-0-1-67:~$ curl http://localhost:5001
 <h1>Hello from Apache on port 5001</h1>
-ubuntu@ip-10-0-1-67:~$ echo "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>CDN vs Direct Hosting</title>
-</head>
-<body>
-  <h1>Hello from My Website</h1>
-  <p>This is a demo page to test performance with and without a CDN.</p>
-  <img src="https://via.placeholder.com/400" alt="Demo image">
-</body>
-</html>
-" > /var/www/html/index.html 
--bash: !DOCTYPE: event not found
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
--bash: syntax error near unexpected token `newline'
-> 
-> ^C
 ubuntu@ip-10-0-1-67:~$ vim /var/www/html/index.html 
 ubuntu@ip-10-0-1-67:~$ sudo vim /var/www/html/index.html 
 ubuntu@ip-10-0-1-67:/var/www/html$ curl http://localhost:5001
