@@ -1,0 +1,99 @@
+1)
+
+Lets create three groups like 
+Finance, development, Marketing
+
+Finance group can have permisions like
+
+For s3,
+
+Actions:
+"s3:GetObject",
+"s3:ListBucket",
+"s3:GetBucketLocation"
+
+To read the sensitive bucket object, we can also specify those only 
+buckets that are allowde to access in Resources part
+
+For Athena,
+
+we may give full access for them to execute the queries to get insights.
+If they are going to again store the results to another bucket then, also give permisions like
+
+putobject with restriction only to that bucket in the resources
+
+
+Developement group can have,
+In Ec2,
+    "ec2:RunInstances",
+    "ec2:StartInstances",
+    "ec2:StopInstances",
+    "ec2:RebootInstances",
+    "ec2:Describe*"
+
+    on specific resources with tag as development
+
+In RDS,
+    "rds:CreateDBInstance",
+    "rds:DeleteDBInstance",
+    "rds:StartDBInstance",
+    "rds:StopDBInstance",
+    "rds:DescribeDBInstances"
+
+    same like only on specific resources
+
+In S3,
+    "s3:GetObject",
+    "s3:PutObject",
+    "s3:ListBucket"
+
+    they can get access limited resources
+
+Marketing group can have,
+In S3,
+    "s3:GetObject",
+    "s3:ListBucket"
+
+    Only read only access (may on all resources to get insight)
+
+IN QuickSight,
+    "quicksight:ListDashboards",
+    "quicksight:DescribeDashboard",
+    "quicksight:GetDashboardEmbedUrl",
+    "quicksight:ListAnalyses",
+    "quicksight:DescribeAnalysis"
+
+    this allow them to have insights.
+
+2)
+
+For accessing resources from another account, we can use the assumerole in trust policy
+
+In account B,
+    we can assumerole for that a particular role in account A, so that in account B , 
+    it can access resources with given restriction
+
+    then allow only the required resources in the account b for that role created in account B
+
+In account A,
+    add a policy to the role, to act as other role in account B, using assumerole
+
+In this way, we can access one account's resources from other account.
+
+
+3)
+
+We can add a identity provider to the db and add the identity provider in the iam identity center,
+so now all users of that db can login with their existing credentials
+
+We can add the groups in the idp and connect it to the iam idc and can add the permisions to the groups with diff access,
+for dep based access, we can add these groups to a specific account like (cs_acc) with limitation such that they 
+only can access the dep based resources, or we can also restrict the use of resourses with tagging like (dep = cs)
+
+    Central DB user -> IdP group (Faculty/Student) -> AWS Identity Center group
+    -> Permission Set -> Access only their department’s AWS resources. 
+
+We can add the mfa in idp level such that they login with mfa (with TOTP, push)
+
+If we add the groups to a separate acc per department, we can restrict the login as diff deparment
+
