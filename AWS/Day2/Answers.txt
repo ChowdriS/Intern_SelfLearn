@@ -1,0 +1,45 @@
+Create a vpc with a cidr of 10.0.0.0/16
+    with three subnet
+        public, private, isolated
+
+Connect the all route 0.0.0.0/0 in public subnet to the igw through route table,
+Connect the private subnet to the created nat gateway in public subnet through which we can access the internet
+Create a ec2 (bastion host) which is used to connect as a host for the private subnet VMs with sg with outbound to all traffic
+Configure the natgatway in private subnet routetable
+Make sure the nacl are okay with the ports you use, by default it is allowing all
+
+Connect the basition host and through which conect the priavte vm in private subnet,
+(make sure you allow ssh only through the bastion host sg), now your are able to use the internet from private net through nat gateway
+which allow us to serve a nginx server in it.
+
+To ensure isolated subnet is secure, dont connect any route to igw
+
+Create another vpcb, and have a public subnet in which you have a ec2 running a server ,
+To order to access the other vpc resources, we use the vpc peering connections
+Connect vpca and vpcb through vpc peering connection, (make sure both cidr are different)
+Also make chnages to the route table of particulae subnets, inorder to access the vpc through vpc peering connection
+In this way we can access the resources easily
+
+If a ec2 server in isolated subnet to access the s3 securely,
+we can use the s3 endpoint, through which the routes will be handled
+We also may need to modify its role with respective access to s3 and ssm such that the vm can use the aws cli
+
+Bastion Host:
+    It is like a jump box, where we can ssh to the priavte subnet vm by ssh to this bastion host.
+    To achieve this, we need to allow sg of this vm in the inbound rule of priavte vm
+
+NAT instance:
+    It is older way to give priavte vm the access to connect to internet.
+    It is also a instance with diabled option of inbound/outbound traffic check
+    then in private vm route add this vm through which you access the internet
+
+NAT gateway:
+    It is the modern way to give the private vm to internet connection.
+    It is a aws component, we create that connect the route in such way other routes except local are going through nat gateway
+    It is more easier
+
+When to use:
+
+Bastion Host - When you need to connect to that vm more securely
+Nat instance - Older way or used in legacy systems, usally when to need to NAT RULES and packet filtering etc.
+Nat Gateway  - When we give the priavate vm the access to internet to update any package or setup anything
