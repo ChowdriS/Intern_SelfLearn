@@ -1,0 +1,44 @@
+[ec2-user@ip-10-1-6-177 ~]$ aws sts get-caller-identity
+{
+    "UserId": "AROA4NVGMN522XYXAEWGS:i-04c5144a885dcc210",
+    "Account": "853973692277",
+    "Arn": "arn:aws:sts::853973692277:assumed-role/chow3-s3-log/i-04c5144a885dcc210"
+}
+[ec2-user@ip-10-1-6-177 ~]$ aws s3 ls
+
+An error occurred (AccessDenied) when calling the ListBuckets operation: User: arn:aws:sts::853973692277:assumed-role/chow3-s3-log/i-04c5144a885dcc210 is not authorized to perform: s3:ListAllMyBuckets because no identity-based policy allows the s3:ListAllMyBuckets action
+[ec2-user@ip-10-1-6-177 ~]$ aws s3 ls s3://chow3-s3/
+
+An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
+[ec2-user@ip-10-1-6-177 ~]$ aws s3 ls s3://chow3-s3-022/
+                           PRE answers/
+2025-09-22 07:30:45       2376 Questions.txt
+[ec2-user@ip-10-1-6-177 ~]$ aws s3 ls s3://chow3-s3-022/ --recursive
+2025-09-22 07:30:45       2376 Questions.txt
+2025-09-22 07:31:07          0 answers/
+2025-09-22 07:31:22       5386 answers/Answers.txt
+[ec2-user@ip-10-1-6-177 ~]$ aws s3 ls s3://chow3-s3-022/ --recursive >> s3object.log
+[ec2-user@ip-10-1-6-177 ~]$ ls
+s3object.log
+[ec2-user@ip-10-1-6-177 ~]$ cat s3object.log 
+2025-09-22 07:30:45       2376 Questions.txt
+2025-09-22 07:31:07          0 answers/
+2025-09-22 07:31:22       5386 answers/Answers.txt
+[ec2-user@ip-10-1-6-177 ~]$ aws logs create-log-group --log-group-name Chow3-s3-objects-log
+[ec2-user@ip-10-1-6-177 ~]$ aws logs create-log-stream --log-group-name Chow3-s3-objects-log --log-stream-name Chow3-test-stream
+[ec2-user@ip-10-1-6-177 ~]$ while read line; do
+  aws logs put-log-events \
+    --log-group-name Chow3-s3-objects-log \
+    --log-stream-name Chow3-test-stream \
+    --log-events timestamp=$(date +%s%3N),message="$line"
+done < s3object.log
+{
+    "nextSequenceToken": "49666798214609244074488034167990378650913885485453541410"
+}
+{
+    "nextSequenceToken": "49666798214609244074488034168305908289833303837490806818"
+}
+{
+    "nextSequenceToken": "49666924413322082318560215034139865046745249504057885250"
+}
+[ec2-user@ip-10-1-6-177 ~]$ 
