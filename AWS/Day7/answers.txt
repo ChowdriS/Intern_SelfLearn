@@ -1,0 +1,87 @@
+[ec2-user@ip-10-0-4-34 ~]$ nslookup a.record.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   a.record.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup latency.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   latency.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup weight.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   weight.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup weight.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   weight.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup weight.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   weight.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup weight.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   weight.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup weight.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   weight.chowdri-test.com
+Address: 54.160.148.16
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup latency.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   latency.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup fail.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   fail.chowdri-test.com
+Address: 3.235.86.235
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup fail.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   fail.chowdri-test.com
+Address: 54.160.148.16
+
+[ec2-user@ip-10-0-4-34 ~]$ nslookup region.chowdri-test.com
+Server:         10.0.0.2
+Address:        10.0.0.2#53
+
+Non-authoritative answer:
+Name:   region.chowdri-test.com
+Address: 3.235.86.235
