@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Orchestrator stack for scalable web app, nesting Networking, Compute, Security stacks
+
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t3.micro
+
+Resources:
+  NetworkingStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://chow3-templates.s3.us-east-1.amazonaws.com/networking.yaml
+
+  SecurityStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://chow3-templates.s3.us-east-1.amazonaws.com/security.yaml
+      Parameters:
+        VpcId: !GetAtt NetworkingStack.Outputs.VpcId
+
+  ComputeStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://chow3-templates.s3.us-east-1.amazonaws.com/compute.yaml
+      Parameters:
+        VpcId: !GetAtt NetworkingStack.Outputs.VpcId
+        PublicSubnet1: !GetAtt NetworkingStack.Outputs.PublicSubnet1
+        PublicSubnet2: !GetAtt NetworkingStack.Outputs.PublicSubnet2
+        PrivateSubnet1: !GetAtt NetworkingStack.Outputs.PrivateSubnet1
+        PrivateSubnet2: !GetAtt NetworkingStack.Outputs.PrivateSubnet2
+        InstanceType: !Ref InstanceType
+        ALBSecurityGroup: !GetAtt SecurityStack.Outputs.ALBSecurityGroup
+        EC2SecurityGroup: !GetAtt SecurityStack.Outputs.EC2SecurityGroup
+
+Outputs:
+  ALBEndpoint:
+    Description: URL of Application Load Balancer
+    Value: !GetAtt ComputeStack.Outputs.ALBEndpoint
