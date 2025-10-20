@@ -1,0 +1,8 @@
+Day 1 Task
+Create an Azure VM with custom data script to install nginx web server
+Create an Azure Bastion to SSH into the machine
+Only NGINX Web Service should be accessible from internet
+Extra [ After SSH into the VM, try to locate the file path of custom data script and log file of your custom data script execution]
+
+ 0    0   0  0  0 0 0 0
+ 128  64 32  16 8 4 2 1
