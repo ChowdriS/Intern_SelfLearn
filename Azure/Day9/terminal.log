@@ -1,0 +1,263 @@
+chowdri@CH7XG364QC-chowdri Day9 % az stack group create \
+  --name demo-stack \
+  --resource-group Chow3-Stack-Using-Bicep \
+  --template-file main.bicep \
+  --description "Deployment of hub and spoke network" \
+  --deny-settings-mode None \
+  --action-on-unmanage deleteResources
+
+/Users/chowdri/Documents/Intern_SelfLearn/Azure/Day9/modules/vm.bicep(99,22) : Warning use-secure-value-for-secure-inputs: Property 'adminPassword' expects a secure value, but the value provided may not be secure. [https://aka.ms/bicep/linter-diagnostics#use-secure-value-for-secure-inputs]
+
+{
+  "actionOnUnmanage": {
+    "managementGroups": "detach",
+    "resourceGroups": "detach",
+    "resources": "delete"
+  },
+  "bypassStackOutOfSyncError": null,
+  "correlationId": "4a467bb5-6369-4c2d-a9de-9c38523da26c",
+  "debugSetting": null,
+  "deletedResources": [],
+  "denySettings": {
+    "applyToChildScopes": false,
+    "excludedActions": [],
+    "excludedPrincipals": [],
+    "mode": "none"
+  },
+  "deploymentId": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Resources/deployments/demo-stack-25102408a15xn",
+  "deploymentScope": null,
+  "description": "Deployment of hub and spoke network",
+  "detachedResources": [],
+  "duration": "PT1M49.690343S",
+  "error": null,
+  "failedResources": [],
+  "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Resources/deploymentStacks/demo-stack",
+  "location": null,
+  "name": "demo-stack",
+  "outputs": {
+    "hubPublicIp": {
+      "type": "String",
+      "value": "10.1.0.4"
+    }
+  },
+  "parameters": {},
+  "parametersLink": null,
+  "provisioningState": "succeeded",
+  "resourceGroup": "Chow3-Stack-Using-Bicep",
+  "resources": [
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Compute/virtualMachines/chow3-vm-1",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Compute/virtualMachines/chow3-vm-2",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Compute/virtualMachines/chow3-vm-3",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/networkInterfaces/chow3-vm-1-nic",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/networkInterfaces/chow3-vm-2-nic",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/networkInterfaces/chow3-vm-3-nic",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/networkSecurityGroups/chow3-vm-1-nsg",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/networkSecurityGroups/chow3-vm-2-nsg",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/networkSecurityGroups/chow3-vm-3-nsg",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/publicIPAddresses/chow3-vm-1-pip",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/routeTables/chow3-rt-2",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/routeTables/chow3-rt-3",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/virtualNetworks/chow3-hub-vnet1",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/virtualNetworks/chow3-hub-vnet1/virtualNetworkPeerings/peer-to-chow3-spoke-vnet2",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/virtualNetworks/chow3-hub-vnet1/virtualNetworkPeerings/peer-to-chow3-spoke-vnet3",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/virtualNetworks/chow3-spoke-vnet2",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/virtualNetworks/chow3-spoke-vnet2/virtualNetworkPeerings/peer-to-chow3-hub-vnet1",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/virtualNetworks/chow3-spoke-vnet3",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    },
+    {
+      "denyStatus": "none",
+      "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chow3-Stack-Using-Bicep/providers/Microsoft.Network/virtualNetworks/chow3-spoke-vnet3/virtualNetworkPeerings/peer-to-chow3-hub-vnet1",
+      "resourceGroup": "Chow3-Stack-Using-Bicep",
+      "status": "managed"
+    }
+  ],
+  "systemData": {
+    "createdAt": "2025-10-24T08:34:14.670092+00:00",
+    "createdBy": "chowdris@presidio.com",
+    "createdByType": "User",
+    "lastModifiedAt": "2025-10-24T08:34:14.670092+00:00",
+    "lastModifiedBy": "chowdris@presidio.com",
+    "lastModifiedByType": "User"
+  },
+  "tags": {},
+  "template": null,
+  "templateLink": null,
+  "type": "Microsoft.Resources/deploymentStacks"
+}
+chowdri@CH7XG364QC-chowdri Day9 % ssh azureuser@172.191.116.108
+The authenticity of host '172.191.116.108 (172.191.116.108)' can't be established.
+ED25519 key fingerprint is SHA256:+Lwu5zY50omDFzJNihrWiVo3LcLfY5h19jW9lgqTxPU.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '172.191.116.108' (ED25519) to the list of known hosts.
+azureuser@172.191.116.108's password: 
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.15.0-1089-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Fri Oct 24 08:41:57 UTC 2025
+
+  System load:  0.08              Processes:             115
+  Usage of /:   6.1% of 28.89GB   Users logged in:       0
+  Memory usage: 7%                IPv4 address for eth0: 10.1.0.4
+  Swap usage:   0%
+
+Expanded Security Maintenance for Infrastructure is not enabled.
+
+42 updates can be applied immediately.
+31 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+49 additional security updates can be applied with ESM Infra.
+Learn more about enabling ESM Infra service for Ubuntu 20.04 at
+https://ubuntu.com/20-04
+
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+azureuser@chow3-vm-1:~$ curl localhost
+<h1>Hello World from chow3-vm-1</h1>
+azureuser@chow3-vm-1:~$ ssh azureuser@10.3.0.4
+The authenticity of host '10.3.0.4 (10.3.0.4)' can't be established.
+ECDSA key fingerprint is SHA256:1NrriPM0sNGF2iRqg1FWhzAMzt+pdrS6JXA1g3SDZpk.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.3.0.4' (ECDSA) to the list of known hosts.
+azureuser@10.3.0.4's password: 
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.15.0-1089-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Fri Oct 24 08:42:17 UTC 2025
+
+  System load:  0.13              Processes:             115
+  Usage of /:   6.1% of 28.89GB   Users logged in:       0
+  Memory usage: 8%                IPv4 address for eth0: 10.3.0.4
+  Swap usage:   0%
+
+Expanded Security Maintenance for Infrastructure is not enabled.
+
+42 updates can be applied immediately.
+31 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+49 additional security updates can be applied with ESM Infra.
+Learn more about enabling ESM Infra service for Ubuntu 20.04 at
+https://ubuntu.com/20-04
+
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+azureuser@chow3-vm-3:~$ curl 10.2.0.4
+<h1>Hello World from chow3-vm-2</h1>
+azureuser@chow3-vm-3:~$ 

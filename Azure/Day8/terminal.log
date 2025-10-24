@@ -258,4 +258,269 @@ chowdri@CH7XG364QC-chowdri blob % az deployment group create --resource-group Ch
   "tags": null,
   "type": "Microsoft.Resources/deployments"
 }
-chowdri@CH7XG364QC-chowdri blob % 
+
+
+
+chowdri@CH7XG364QC-chowdri bicep % az deployment group create --resource-group Chowdri-rg --template-file template.bicep --parameters @parameters.json    
+/Users/chowdri/Documents/Intern_SelfLearn/Azure/Day8/blob/bicep/template.bicep(22,7) : Warning no-unused-params: Parameter "keyTypeForTableAndQueueEncryption" is declared but never used. [https://aka.ms/bicep/linter-diagnostics#no-unused-params]
+
+{
+  "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Resources/deployments/template",
+  "location": null,
+  "name": "template",
+  "properties": {
+    "correlationId": "5a465343-4eb9-4683-922c-5f12498dbf72",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep",
+            "resourceGroup": "Chowdri-rg",
+            "resourceName": "chow3sa3usingbicep",
+            "resourceType": "Microsoft.Storage/storageAccounts"
+          }
+        ],
+        "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep/blobServices/default",
+        "resourceGroup": "Chowdri-rg",
+        "resourceName": "chow3sa3usingbicep/default",
+        "resourceType": "Microsoft.Storage/storageAccounts/blobServices"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep",
+            "resourceGroup": "Chowdri-rg",
+            "resourceName": "chow3sa3usingbicep",
+            "resourceType": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep/blobServices/default",
+            "resourceGroup": "Chowdri-rg",
+            "resourceName": "chow3sa3usingbicep/default",
+            "resourceType": "Microsoft.Storage/storageAccounts/blobServices"
+          }
+        ],
+        "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep/fileServices/default",
+        "resourceGroup": "Chowdri-rg",
+        "resourceName": "chow3sa3usingbicep/default",
+        "resourceType": "Microsoft.Storage/storageAccounts/fileServices"
+      }
+    ],
+    "diagnostics": null,
+    "duration": "PT24.7469901S",
+    "error": null,
+    "extensions": null,
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep",
+        "identifiers": null,
+        "resourceGroup": "Chowdri-rg",
+        "resourceType": null
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep/blobServices/default",
+        "identifiers": null,
+        "resourceGroup": "Chowdri-rg",
+        "resourceType": null
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chow3sa3usingbicep/fileServices/default",
+        "identifiers": null,
+        "resourceGroup": "Chowdri-rg",
+        "resourceType": null
+      }
+    ],
+    "outputs": null,
+    "parameters": {
+      "accessTier": {
+        "type": "String",
+        "value": "Hot"
+      },
+      "accountType": {
+        "type": "String",
+        "value": "Standard_RAGRS"
+      },
+      "allowBlobPublicAccess": {
+        "type": "Bool",
+        "value": true
+      },
+      "allowCrossTenantReplication": {
+        "type": "Bool",
+        "value": false
+      },
+      "allowSharedKeyAccess": {
+        "type": "Bool",
+        "value": true
+      },
+      "blobSoftDeleteRetentionDays": {
+        "type": "Int",
+        "value": 7
+      },
+      "containerSoftDeleteRetentionDays": {
+        "type": "Int",
+        "value": 7
+      },
+      "defaultOAuth": {
+        "type": "Bool",
+        "value": false
+      },
+      "dnsEndpointType": {
+        "type": "String",
+        "value": "Standard"
+      },
+      "encryptionEnabled": {
+        "type": "Bool",
+        "value": true
+      },
+      "infrastructureEncryptionEnabled": {
+        "type": "Bool",
+        "value": false
+      },
+      "isBlobSoftDeleteEnabled": {
+        "type": "Bool",
+        "value": true
+      },
+      "isContainerSoftDeleteEnabled": {
+        "type": "Bool",
+        "value": true
+      },
+      "isShareSoftDeleteEnabled": {
+        "type": "Bool",
+        "value": true
+      },
+      "keySource": {
+        "type": "String",
+        "value": "Microsoft.Storage"
+      },
+      "keyTypeForTableAndQueueEncryption": {
+        "type": "String",
+        "value": "Account"
+      },
+      "kind": {
+        "type": "String",
+        "value": "StorageV2"
+      },
+      "largeFileSharesState": {
+        "type": "String",
+        "value": "Enabled"
+      },
+      "location": {
+        "type": "String",
+        "value": "eastus"
+      },
+      "minimumTlsVersion": {
+        "type": "String",
+        "value": "TLS1_2"
+      },
+      "networkAclsBypass": {
+        "type": "String",
+        "value": "AzureServices"
+      },
+      "networkAclsDefaultAction": {
+        "type": "String",
+        "value": "Allow"
+      },
+      "networkAclsIpRules": {
+        "type": "Array",
+        "value": []
+      },
+      "networkAclsIpv6Rules": {
+        "type": "Array",
+        "value": []
+      },
+      "publicNetworkAccess": {
+        "type": "String",
+        "value": "Enabled"
+      },
+      "publishIpv6Endpoint": {
+        "type": "Bool",
+        "value": false
+      },
+      "shareSoftDeleteRetentionDays": {
+        "type": "Int",
+        "value": 7
+      },
+      "storageAccountName": {
+        "type": "String",
+        "value": "chow3sa3usingbicep"
+      },
+      "supportsHttpsTrafficOnly": {
+        "type": "Bool",
+        "value": true
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Storage",
+        "providerAuthorizationConsentState": null,
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "storageAccounts",
+            "zoneMappings": null
+          },
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "storageAccounts/blobServices",
+            "zoneMappings": null
+          },
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "storageAccounts/fileServices",
+            "zoneMappings": null
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "templateHash": "16976969041364074648",
+    "templateLink": null,
+    "timestamp": "2025-10-23T04:51:59.636261+00:00",
+    "validatedResources": null,
+    "validationLevel": null
+  },
+  "resourceGroup": "Chowdri-rg",
+  "tags": null,
+  "type": "Microsoft.Resources/deployments"
+}
+chowdri@CH7XG364QC-chowdri bicep % 

@@ -1,0 +1,8 @@
+#!/bin/bash
+apt update -y
+apt install nginx -y
+echo "<h1>Hello World from $(hostname)</h1>" > /var/www/html/index.html
+systemctl enable nginx
+systemctl restart nginx
+sysctl -w net.ipv4.ip_forward=1
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
