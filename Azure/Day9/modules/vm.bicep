@@ -79,7 +79,6 @@ resource nic 'Microsoft.Network/networkInterfaces@2022-07-01' = {
   }
 }
 
-
 // Virtual Machine
 resource vm 'Microsoft.Compute/virtualMachines@2022-11-01' = {
   name: vmName

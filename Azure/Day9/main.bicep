@@ -2,7 +2,6 @@ param location string = resourceGroup().location
 param prefix string = 'chow3'
 param adminUsername string = 'azureuser'
 
-// VNets and CIDRs
 var vnetNames = [
   '${prefix}-hub-vnet1'
   '${prefix}-spoke-vnet2'
@@ -21,7 +20,6 @@ var subnetPrefixes = [
   '10.3.0.0/24'
 ]
 
-// Create Hub VNet and VM first (index 0)
 module hubVnet 'modules/vnet.bicep' = {
   name: 'hubVnet'
   params: {
@@ -29,7 +27,7 @@ module hubVnet 'modules/vnet.bicep' = {
     location: location
     addressPrefix: addressPrefixes[0]
     subnetPrefix: subnetPrefixes[0]
-    routeTableId: ''  // No route table for hub subnet
+    routeTableId: ''  
   }
 }
 
@@ -50,7 +48,6 @@ module hubVm 'modules/vm.bicep' = {
   ]
 }
 
-// Create Route Tables for Spokes (indices 1 and 2)
 module routeTables 'modules/route_table.bicep' = [for i in range(1, 2): {
   name: 'routetable-${i+1}'
   params: {
@@ -61,7 +58,6 @@ module routeTables 'modules/route_table.bicep' = [for i in range(1, 2): {
   }
 }]
 
-// Create Spoke VNets with Route Table Association, wait on route tables
 module spokeVnets 'modules/vnet.bicep' = [for i in range(1, 2): {
   name: 'spokeVnet-${i+1}'
   params: {
@@ -76,7 +72,6 @@ module spokeVnets 'modules/vnet.bicep' = [for i in range(1, 2): {
   ]
 }]
 
-// Create Spoke VMs after respective VNets
 module spokeVms 'modules/vm.bicep' = [for i in range(1, 2): {
   name: 'spokeVm-${i+1}'
   params: {
@@ -94,7 +89,6 @@ module spokeVms 'modules/vm.bicep' = [for i in range(1, 2): {
   ]
 }]
 
-// Create VNet Peerings - Hub to Spokes
 module peeringHubSpoke2 'modules/peer.bicep' = {
   name: 'peering-hub-spoke2'
   params: {

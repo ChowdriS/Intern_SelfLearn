@@ -6,6 +6,7 @@
 **/*.pem
 **/*.key
 **/*.crt
+**/.terraform/providers/
 
 # User-specific files
 *.user
