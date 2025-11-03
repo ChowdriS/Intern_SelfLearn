@@ -1,0 +1,1 @@
+instance_class = "db.t3.micro"

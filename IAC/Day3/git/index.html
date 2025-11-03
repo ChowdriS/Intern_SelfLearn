@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Time from DB</title>
+</head>
+<body>
+  <h1>Current Time from Database: <span id="time">Loading...</span></h1>
+  <button onclick="fetchTime()">Refresh Time</button>
+
+  <script>
+    function fetchTime() {
+      fetch('/get-time')
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            document.getElementById('time').innerText = data.time;
+          } else {
+            document.getElementById('time').innerText = 'Error fetching time';
+          }
+        })
+        .catch(() => {
+          document.getElementById('time').innerText = 'Network Error';
+        });
+    }
+
+    // Fetch time on page load
+    window.onload = fetchTime;
+  </script>
+</body>
+</html>
