@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: myapp
+      MYSQL_USER_FILE: /run/secrets/db_user
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    volumes:
+      - db_data:/var/lib/mysql
+    secrets:
+      - db_user
+      - db_password
+    networks:
+      - app_net
+
+  web:
+    image: webapp
+    container_name: apache_web
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - webapp:/var/www/html
+    secrets:
+      - db_user
+      - db_password
+    networks:
+      - app_net
+    ports:
+      - "80:80"
+
+volumes:
+  db_data:
+    external: true
+  webapp:
+    external: true
+
+
+secrets:
+  db_user:
+    file: ./db_user.txt
+  db_password:
+    file: ./db_password.txt
+
+networks:
+  app_net:

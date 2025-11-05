@@ -1,0 +1,27 @@
+chowdri@CH7XG364QC-chowdri Intern_SelfLearn % docker volume create my_shared_volume
+Cannot connect to the Docker daemon at unix:///Users/chowdri/.docker/run/docker.sock. Is the docker daemon running?
+chowdri@CH7XG364QC-chowdri Intern_SelfLearn % docker volume create my_shared_volume
+my_shared_volume
+chowdri@CH7XG364QC-chowdri Intern_SelfLearn % docker volume ls
+DRIVER    VOLUME NAME
+local     my_shared_volume
+chowdri@CH7XG364QC-chowdri Intern_SelfLearn % docker run -it my_shared_volume:/home/ubuntu:rw ubuntu 
+docker: invalid reference format
+
+Run 'docker run --help' for more information
+chowdri@CH7XG364QC-chowdri Intern_SelfLearn % docker run -v -it my_shared_volume:/home/ubuntu:rw ubuntu 
+docker: invalid reference format
+
+Run 'docker run --help' for more information
+chowdri@CH7XG364QC-chowdri Intern_SelfLearn % docker run -it -v my_shared_volume:/home/ubuntu:rw ubuntu 
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+b8a35db46e38: Pull complete 
+Digest: sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
+Status: Downloaded newer image for ubuntu:latest
+root@35e5aec9c9e6:/# ls
+bin  boot  dev  etc  home  lib  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@35e5aec9c9e6:/# cd /home/ubuntu
+root@35e5aec9c9e6:/home/ubuntu# ls
+root@35e5aec9c9e6:/home/ubuntu# touch file.txt       
+root@35e5aec9c9e6:/home/ubuntu# echo "hello world" > file.txt 

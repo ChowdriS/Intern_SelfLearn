@@ -1,0 +1,11 @@
+chowdri@CH7XG364QC-chowdri Intern_SelfLearn % docker run -it -v my_shared_volume:/home/ubuntu:ro --name con1 ubuntu
+root@f5d31a704792:/# ls
+bin  boot  dev  etc  home  lib  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@f5d31a704792:/# cd /home/ubunut
+bash: cd: /home/ubunut: No such file or directory
+root@f5d31a704792:/# cd /home/ubuntu
+root@f5d31a704792:/home/ubuntu# ls
+file.txt
+root@f5d31a704792:/home/ubuntu# cat file.txt 
+hello world
+root@f5d31a704792:/home/ubuntu# 
