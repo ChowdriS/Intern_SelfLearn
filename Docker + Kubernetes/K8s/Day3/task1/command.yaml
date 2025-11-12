@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: command-pod
+spec:
+  restartPolicy: Always             
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sh", "-c"]          
+    args: ["echo 'Hello World!'; sleep 5; echo 'Goodbye!'"]

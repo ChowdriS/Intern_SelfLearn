@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customnginx-deployment
+  labels:
+    app: customnginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: customnginx
+  template:
+    metadata:
+      labels:
+        app: customnginx
+    spec:
+      containers:
+      - name: custom-nginx
+        image: chowdrisakthivel/customimage:latest
+        ports:
+        - containerPort: 80

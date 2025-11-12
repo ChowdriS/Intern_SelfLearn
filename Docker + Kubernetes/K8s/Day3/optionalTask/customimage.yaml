@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: private-image
+spec:
+  selector:
+    matchLabels:
+      app: private-image
+  template:
+    metadata:
+      labels:
+        app: private-image
+    spec:
+      containers:
+      - name: customimage
+        image: chowdrisakthivel/customimage
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: docker-cred

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: command-pod
+spec:
+  restartPolicy: Always             
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sh", "-c"]          
+    args: ["echo $USERNAME;  echo $PASSWORD"]
+    env:
+      - name: USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: csrt       
+            key: user        
+      - name: PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: csrt
+            key: password

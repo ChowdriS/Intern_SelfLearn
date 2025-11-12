@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  database_host: mysql.default.svc.cluster.local
+  database_port: "3306"
+  log_level: info
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"database_host":"mysql.default.svc.cluster.local","database_port":"3306","log_level":"info"},"kind":"ConfigMap","metadata":{"annotations":{},"labels":{"argocd.argoproj.io/instance":"trainee-chowdri-debugging-d3-02"},"name":"d3-02-app-config","namespace":"trainee-chowdri"}}
+  creationTimestamp: "2025-11-12T05:40:49Z"
+  labels:
+    argocd.argoproj.io/instance: trainee-chowdri-debugging-d3-02
+  name: d3-02-app-config
+  namespace: trainee-chowdri
+  resourceVersion: "5628258"
+  uid: 9b491347-b5c8-492a-bd1b-242ee5243b6d

@@ -1,0 +1,25 @@
+apiVersion : v1
+kind : Pod
+metadata :
+  name : chow-configmap
+spec :
+  restartPolicy : Never
+  containers :
+    - name : busybox
+      image : busybox
+      command : [ "sh", "-c", "cat /etc/config/app.txt; echo $ENV" ]
+      volumeMounts :
+        - name : config-volume
+          mountPath : /etc/config
+          readOnly : true
+      env:
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: ch-config
+              key: env
+  volumes :
+    - name : config-volume
+      configMap :
+        name : ch-config
+        

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"argocd.argoproj.io/instance":"trainee-chowdri-debugging-d2-04"},"name":"d2-04-app-service","namespace":"trainee-chowdri"},"spec":{"ports":[{"port":80,"protocol":"TCP","targetPort":8080}],"selector":{"app":"webapp"},"type":"ClusterIP"}}
+  creationTimestamp: "2025-11-11T06:30:27Z"
+  labels:
+    argocd.argoproj.io/instance: trainee-chowdri-debugging-d2-04
+  name: d2-04-app-service
+  namespace: trainee-chowdri
+  resourceVersion: "5050970"
+  uid: d4b76b35-51f5-49d3-b1c1-91ca960820e0
+spec:
+  clusterIP: 172.20.197.115
+  clusterIPs:
+  - 172.20.197.115
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: webapp
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
