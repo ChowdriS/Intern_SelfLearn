@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-with-init
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-with-init
+  template:
+    metadata:
+      labels:
+        app: app-with-init
+    spec:
+      volumes:
+        - name: shared-data
+          emptyDir: {}       
+
+      initContainers:
+        - name: s3-downloader
+          image: amazon/aws-cli
+          command:
+            - sh
+            - -c
+            - |
+              echo "Downloading file from private S3..."
+              aws s3 cp s3://sai-s3-kube-bucket/index.html /data/index.html
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+          envFrom:
+            - secretRef:
+                name: aws-cred
+
+      containers:
+        - name: main-app
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: shared-data
+              mountPath: /usr/share/nginx/html/
+  
