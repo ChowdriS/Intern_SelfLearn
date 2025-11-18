@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: "1"
+    deployment.kubernetes.io/max-replicas: "2"
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2025-11-12T05:11:29Z"
+  generation: 1
+  labels:
+    app: ctf-d1-sensitive-app
+    challenge: insiders-backdoor
+    pod-template-hash: 685f5d97f6
+  name: ctf-d1-sensitive-app-deploy-685f5d97f6
+  namespace: trainee-chowdri
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Deployment
+    name: ctf-d1-sensitive-app-deploy
+    uid: c3c0787c-ac28-49c3-9040-3c4b23dd0b76
+  resourceVersion: "5895750"
+  uid: d93aed79-bb14-43c2-9f45-8df99fdb2999
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ctf-d1-sensitive-app
+      pod-template-hash: 685f5d97f6
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ctf-d1-sensitive-app
+        challenge: insiders-backdoor
+        pod-template-hash: 685f5d97f6
+    spec:
+      containers:
+      - image: nginx:alpine
+        imagePullPolicy: IfNotPresent
+        name: web-app
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d
+          name: config-volume
+        - mountPath: /etc/flag
+          name: flag-volume
+          subPath: flag
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - |
+          kubectl get configmap ctf-flag-d6x7y3z -n ctf-admin -o jsonpath='{.data.flag}' > /flag-data/flag
+        command:
+        - sh
+        - -c
+        image: bitnami/kubectl:latest
+        imagePullPolicy: Always
+        name: fetch-flag
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /flag-data
+          name: flag-volume
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: ctf-flag-reader
+      serviceAccountName: ctf-flag-reader
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: ctf-d1-sensitive-app-nginx-config
+        name: config-volume
+      - emptyDir: {}
+        name: flag-volume
+status:
+  availableReplicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1

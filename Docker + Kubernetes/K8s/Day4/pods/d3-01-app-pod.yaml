@@ -1,0 +1,126 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"creationTimestamp":"2025-11-12T16:08:57Z","labels":{"app":"myapp","argocd.argoproj.io/instance":"trainee-chowdri-debugging-d3-01","task":"debugging-d3-01"},"name":"d3-01-app-pod","namespace":"trainee-chowdri","resourceVersion":"6310068","uid":"b6deae66-13da-4d72-ad6e-fe3ec5432587"},"spec":{"containers":[{"args":["-c","echo 'Starting application...' \u0026\u0026 sleep 3600"],"command":["/bin/sh"],"image":"busybox:latest","imagePullPolicy":"Always","name":"busybox","resources":{"limits":{"cpu":"200m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"64Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/run/secrets/kubernetes.io/serviceaccount","name":"kube-api-access-g9527","readOnly":true}]}],"dnsPolicy":"ClusterFirst","enableServiceLinks":true,"nodeName":"ip-10-0-27-63.ec2.internal","preemptionPolicy":"PreemptLowerPriority","priority":0,"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"serviceAccount":"default","serviceAccountName":"default","terminationGracePeriodSeconds":30,"tolerations":[{"effect":"NoExecute","key":"node.kubernetes.io/not-ready","operator":"Exists","tolerationSeconds":300},{"effect":"NoExecute","key":"node.kubernetes.io/unreachable","operator":"Exists","tolerationSeconds":300}],"volumes":[{"name":"kube-api-access-g9527","projected":{"defaultMode":420,"sources":[{"serviceAccountToken":{"expirationSeconds":3607,"path":"token"}},{"configMap":{"items":[{"key":"ca.crt","path":"ca.crt"}],"name":"kube-root-ca.crt"}},{"downwardAPI":{"items":[{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"},"path":"namespace"}]}}]}}]},"status":{"conditions":[{"lastProbeTime":null,"lastTransitionTime":"2025-11-12T16:09:49Z","status":"True","type":"PodReadyToStartContainers"},{"lastProbeTime":null,"lastTransitionTime":"2025-11-12T16:09:45Z","status":"True","type":"Initialized"},{"lastProbeTime":null,"lastTransitionTime":"2025-11-13T05:34:37Z","message":"containers with unready status: [busybox]","reason":"ContainersNotReady","status":"False","type":"Ready"},{"lastProbeTime":null,"lastTransitionTime":"2025-11-13T05:34:37Z","message":"containers with unready status: [busybox]","reason":"ContainersNotReady","status":"False","type":"ContainersReady"},{"lastProbeTime":null,"lastTransitionTime":"2025-11-12T16:09:45Z","status":"True","type":"PodScheduled"}],"containerStatuses":[{"containerID":"containerd://6e28d452e3b90af1a04502f1b3b415302cfa981fe6a46d92724f32c6750d21e3","image":"docker.io/library/busybox:latest","imageID":"docker.io/library/busybox@sha256:e3652a00a2fabd16ce889f0aa32c38eec347b997e73bd09e69c962ec7f8732ee","lastState":{"terminated":{"containerID":"containerd://6e28d452e3b90af1a04502f1b3b415302cfa981fe6a46d92724f32c6750d21e3","exitCode":127,"finishedAt":"2025-11-13T06:25:41Z","reason":"Error","startedAt":"2025-11-13T06:25:41Z"}},"name":"busybox","ready":false,"restartCount":172,"started":false,"state":{"waiting":{"message":"back-off 5m0s restarting failed container=busybox pod=d3-01-app-pod_trainee-chowdri(b6deae66-13da-4d72-ad6e-fe3ec5432587)","reason":"CrashLoopBackOff"}}}],"hostIP":"10.0.27.63","hostIPs":[{"ip":"10.0.27.63"}],"phase":"Running","podIP":"10.0.29.80","podIPs":[{"ip":"10.0.29.80"}],"qosClass":"Burstable","startTime":"2025-11-12T16:09:45Z"}}
+  creationTimestamp: "2025-11-13T06:29:00Z"
+  labels:
+    app: myapp
+    argocd.argoproj.io/instance: trainee-chowdri-debugging-d3-01
+    task: debugging-d3-01
+  name: d3-01-app-pod
+  namespace: trainee-chowdri
+  resourceVersion: "7218093"
+  uid: 31277f45-6bfa-4319-bb42-73440a93e30c
+spec:
+  containers:
+  - args:
+    - -c
+    - echo 'Starting application...' && sleep 3600
+    command:
+    - /bin/sh
+    image: busybox:latest
+    imagePullPolicy: Always
+    name: busybox
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-g9527
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: ip-10-0-27-63.ec2.internal
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-g9527
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-13T06:29:01Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-13T06:29:00Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T09:29:29Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T09:29:29Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-13T06:29:00Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://b725881475c87fc39109487f867905b5672f09d3e5497b6d0ae71eef2cd36986
+    image: docker.io/library/busybox:latest
+    imageID: docker.io/library/busybox@sha256:e3652a00a2fabd16ce889f0aa32c38eec347b997e73bd09e69c962ec7f8732ee
+    lastState:
+      terminated:
+        containerID: containerd://8c462e3db32ba89c1ba65fa871bf580b26a6c48f7fbad231a23d80db6dafad8c
+        exitCode: 0
+        finishedAt: "2025-11-14T09:29:27Z"
+        reason: Completed
+        startedAt: "2025-11-14T08:29:27Z"
+    name: busybox
+    ready: true
+    restartCount: 27
+    started: true
+    state:
+      running:
+        startedAt: "2025-11-14T09:29:28Z"
+  hostIP: 10.0.27.63
+  hostIPs:
+  - ip: 10.0.27.63
+  phase: Running
+  podIP: 10.0.29.94
+  podIPs:
+  - ip: 10.0.29.94
+  qosClass: Burstable
+  startTime: "2025-11-13T06:29:00Z"

@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d1-02-broken-manifest:apps/Deployment:trainee-chowdri/ctf-d1-broken-manifest-deploy
+    deployment.kubernetes.io/revision: "4"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d1-02-broken-manifest:apps/Deployment:trainee-chowdri/ctf-d1-broken-manifest-deploy"},"labels":{"app":"ctf-d1-broken-manifest","challenge":"broken-manifest"},"name":"ctf-d1-broken-manifest-deploy","namespace":"trainee-chowdri"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ctf-d1-broken-manifest"}},"template":{"metadata":{"labels":{"app":"ctf-d1-broken-manifest","challenge":"broken-manifest"}},"spec":{"containers":[{"image":"nginx:aphax","name":"web-app","ports":[{"containerPort":80}],"resources":{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/etc/flag","name":"flag-volume","subPath":"flag"},{"mountPath":"/etc/nginx/conf.d","name":"config-volume"}]}],"initContainers":[{"args":["kubectl get configmap ctf-flag-b3n8q1r -n ctf-admin -o jsonpath='{.data.flag}' \u003e /flag-data/flag\n"],"command":["sh","-c"],"image":"bitnami/kubectl:latest","name":"fetch-flag","volumeMounts":[{"mountPath":"/flag-data","name":"flag-volume"}]}],"serviceAccountName":"ctf-flag-reader","volumes":[{"emptyDir":{},"name":"flag-volume"},{"configMap":{"name":"ctf-d1-broken-manifest-nginx-config"},"name":"config-volume"}]}}}}
+  creationTimestamp: "2025-11-12T05:11:17Z"
+  generation: 4
+  labels:
+    app: ctf-d1-broken-manifest
+    challenge: broken-manifest
+  name: ctf-d1-broken-manifest-deploy
+  namespace: trainee-chowdri
+  resourceVersion: "7128915"
+  uid: d683ebbc-7c6d-4f5e-a371-2c24ff5dcc6d
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ctf-d1-broken-manifest
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ctf-d1-broken-manifest
+        challenge: broken-manifest
+    spec:
+      containers:
+      - image: nginx:aphax
+        imagePullPolicy: IfNotPresent
+        name: web-app
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/flag
+          name: flag-volume
+          subPath: flag
+        - mountPath: /etc/nginx/conf.d
+          name: config-volume
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - |
+          kubectl get configmap ctf-flag-b3n8q1r -n ctf-admin -o jsonpath='{.data.flag}' > /flag-data/flag
+        command:
+        - sh
+        - -c
+        image: bitnami/kubectl:latest
+        imagePullPolicy: Always
+        name: fetch-flag
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /flag-data
+          name: flag-volume
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: ctf-flag-reader
+      serviceAccountName: ctf-flag-reader
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: flag-volume
+      - configMap:
+          defaultMode: 420
+          name: ctf-d1-broken-manifest-nginx-config
+        name: config-volume
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-11-12T14:47:18Z"
+    lastUpdateTime: "2025-11-12T14:47:18Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-11-14T07:02:09Z"
+    lastUpdateTime: "2025-11-14T07:02:09Z"
+    message: ReplicaSet "ctf-d1-broken-manifest-deploy-7c74f9489f" has timed out progressing.
+    reason: ProgressDeadlineExceeded
+    status: "False"
+    type: Progressing
+  observedGeneration: 4
+  readyReplicas: 1
+  replicas: 2
+  unavailableReplicas: 1
+  updatedReplicas: 1

@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-11-12T11:39:00Z"
+  generateName: ctf-d1-orphan-replicaset-
+  labels:
+    app: ctf-d1-orphan
+    challenge: cluster-chaos
+  name: ctf-d1-orphan-replicaset-thhsk
+  namespace: trainee-chowdri
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: ctf-d1-orphan-replicaset
+    uid: 1475bcab-c206-4c22-a9ca-9bedc5632bfc
+  resourceVersion: "5801294"
+  uid: c8d51b03-a919-43dd-9a87-8c6716454d41
+spec:
+  containers:
+  - image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    name: orphan-app
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-jxd4z
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: ip-10-0-44-147.ec2.internal
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-jxd4z
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:39:03Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:39:00Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:39:03Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:39:03Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:39:00Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://cbf324cce14f0c0640dab26e5d1577437247e540790391cd0aa5cc617893b25e
+    image: docker.io/library/nginx:alpine
+    imageID: docker.io/library/nginx@sha256:b3c656d55d7ad751196f21b7fd2e8d4da9cb430e32f646adcf92441b72f82b14
+    lastState: {}
+    name: orphan-app
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-11-12T11:39:02Z"
+  hostIP: 10.0.44.147
+  hostIPs:
+  - ip: 10.0.44.147
+  phase: Running
+  podIP: 10.0.33.62
+  podIPs:
+  - ip: 10.0.33.62
+  qosClass: Burstable
+  startTime: "2025-11-12T11:39:00Z"

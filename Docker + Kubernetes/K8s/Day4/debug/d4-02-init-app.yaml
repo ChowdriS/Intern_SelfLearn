@@ -1,0 +1,158 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-debugging-d4-02:/Pod:trainee-chowdri/d4-02-init-app
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-debugging-d4-02:/Pod:trainee-chowdri/d4-02-init-app"},"labels":{"app":"init-app","task":"debugging-d4-02"},"name":"d4-02-init-app","namespace":"trainee-chowdri"},"spec":{"containers":[{"image":"nginx:latest","name":"main-app","ports":[{"containerPort":80}],"resources":{"limits":{"cpu":"200m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"64Mi"}}}],"initContainers":[{"args":["echo \"Initializing...\" \u0026\u0026 sleeeep 5 \u0026\u0026 echo \"Initialization complete\""],"command":["sh","-c"],"image":"busybox:latest","name":"init-service"}]}}
+  creationTimestamp: "2025-11-14T06:55:43Z"
+  labels:
+    app: init-app
+    task: debugging-d4-02
+  name: d4-02-init-app
+  namespace: trainee-chowdri
+  resourceVersion: "7197023"
+  uid: 9aeccbbf-78dd-4de6-9ace-95cf168f7aea
+spec:
+  containers:
+  - image: nginx:latest
+    imagePullPolicy: Always
+    name: main-app
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vwt2z
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  initContainers:
+  - args:
+    - echo "Initializing..." && sleep 5 && echo "Initialization complete"
+    command:
+    - sh
+    - -c
+    image: busybox:latest
+    imagePullPolicy: Always
+    name: init-service
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vwt2z
+      readOnly: true
+  nodeName: ip-10-0-19-16.ec2.internal
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-vwt2z
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:55:44Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:55:43Z"
+    message: 'containers with incomplete status: [init-service]'
+    reason: ContainersNotInitialized
+    status: "False"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:55:43Z"
+    message: 'containers with unready status: [main-app]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:55:43Z"
+    message: 'containers with unready status: [main-app]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:55:43Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - image: nginx:latest
+    imageID: ""
+    lastState: {}
+    name: main-app
+    ready: false
+    restartCount: 0
+    started: false
+    state:
+      waiting:
+        reason: PodInitializing
+  hostIP: 10.0.19.16
+  hostIPs:
+  - ip: 10.0.19.16
+  initContainerStatuses:
+  - containerID: containerd://66ac9a8f3260184dc52b067f8b8c116e5134653f31d8297c85d0d55966419628
+    image: docker.io/library/busybox:latest
+    imageID: docker.io/library/busybox@sha256:e3652a00a2fabd16ce889f0aa32c38eec347b997e73bd09e69c962ec7f8732ee
+    lastState:
+      terminated:
+        containerID: containerd://66ac9a8f3260184dc52b067f8b8c116e5134653f31d8297c85d0d55966419628
+        exitCode: 127
+        finishedAt: "2025-11-14T08:54:09Z"
+        reason: Error
+        startedAt: "2025-11-14T08:54:09Z"
+    name: init-service
+    ready: false
+    restartCount: 28
+    started: false
+    state:
+      waiting:
+        message: back-off 5m0s restarting failed container=init-service pod=d4-02-init-app_trainee-chowdri(9aeccbbf-78dd-4de6-9ace-95cf168f7aea)
+        reason: CrashLoopBackOff
+  phase: Pending
+  podIP: 10.0.16.31
+  podIPs:
+  - ip: 10.0.16.31
+  qosClass: Burstable
+  startTime: "2025-11-14T06:55:43Z"

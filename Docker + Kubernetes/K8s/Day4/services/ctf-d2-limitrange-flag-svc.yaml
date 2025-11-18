@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d2-04-limitrange-trap:/Service:trainee-chowdri/ctf-d2-limitrange-flag-svc
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d2-04-limitrange-trap:/Service:trainee-chowdri/ctf-d2-limitrange-flag-svc"},"labels":{"app":"ctf-d2-limitrange-flag","challenge":"d2-limitrange-trap"},"name":"ctf-d2-limitrange-flag-svc","namespace":"trainee-chowdri"},"spec":{"ports":[{"port":80,"targetPort":80}],"selector":{"app":"ctf-d2-limitrange-flag"},"type":"ClusterIP"}}
+  creationTimestamp: "2025-11-14T07:36:13Z"
+  labels:
+    app: ctf-d2-limitrange-flag
+    challenge: d2-limitrange-trap
+  name: ctf-d2-limitrange-flag-svc
+  namespace: trainee-chowdri
+  resourceVersion: "7150940"
+  uid: 57a84fb5-bc7e-48e0-ba5b-092b9ea24f0b
+spec:
+  clusterIP: 172.20.100.111
+  clusterIPs:
+  - 172.20.100.111
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ctf-d2-limitrange-flag
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taint-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: taint-test
+  template:
+    metadata:
+      labels:
+        app: taint-test
+    spec:
+      tolerations:
+      - key: "special"
+        operator: "Equal"
+        value: "pods"
+        effect: "NoSchedule"
+
+      containers:
+      - name: nginx
+        image: nginx:latest
+        resources:
+          requests:
+            cpu: 1
+            memory: 64Mi
+          limits:
+            cpu: 2
+            memory: 128Mi
+

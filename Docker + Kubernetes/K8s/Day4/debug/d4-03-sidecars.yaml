@@ -1,0 +1,322 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: d4-03-sidecar-app
+  namespace: trainee-chowdri
+  uid: 91fd0526-f19f-40d6-b47a-f1816f55b079
+  resourceVersion: '10484876'
+  creationTimestamp: '2025-11-14T06:55:43Z'
+  labels:
+    app: sidecar-app
+    k8slens-edit-resource-version: v1
+    task: debugging-d4-03
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-debugging-d4-03:/Pod:trainee-chowdri/d4-03-sidecar-app
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-debugging-d4-03:/Pod:trainee-chowdri/d4-03-sidecar-app"},"labels":{"app":"sidecar-app","task":"debugging-d4-03"},"name":"d4-03-sidecar-app","namespace":"trainee-chowdri"},"spec":{"containers":[{"args":["while
+      true; do echo \"$(date) - Application log entry\" \u003e\u003e
+      /var/log/app/app.log; sleep 5;
+      done"],"command":["sh","-c"],"image":"busybox:latest","name":"main-app","resources":{"limits":{"cpu":"200m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/var/log/app","name":"log-volume"}]},{"args":["tail
+      -f
+      /app/app.log"],"command":["sh","-c"],"image":"busybox:latest","name":"log-sidecar","resources":{"limits":{"cpu":"100m","memory":"64Mi"},"requests":{"cpu":"50m","memory":"32Mi"}},"volumeMounts":[{"mountPath":"/var/log/app","name":"log-volume"}]}],"volumes":[{"emptyDir":{},"name":"log-volume"}]}}
+  managedFields:
+    - manager: argocd-controller
+      operation: Update
+      apiVersion: v1
+      time: '2025-11-14T06:55:43Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:argocd.argoproj.io/tracking-id: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:task: {}
+        f:spec:
+          f:containers:
+            k:{"name":"log-sidecar"}:
+              .: {}
+              f:args: {}
+              f:command: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/var/log/app"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+            k:{"name":"main-app"}:
+              .: {}
+              f:args: {}
+              f:command: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/var/log/app"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:terminationGracePeriodSeconds: {}
+          f:volumes:
+            .: {}
+            k:{"name":"log-volume"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+    - manager: kubelet
+      operation: Update
+      apiVersion: v1
+      time: '2025-11-17T06:30:51Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"PodReadyToStartContainers"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:hostIPs: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.0.38.145"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      subresource: status
+    - manager: node-fetch
+      operation: Update
+      apiVersion: v1
+      time: '2025-11-17T06:31:46Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            f:k8slens-edit-resource-version: {}
+  selfLink: /api/v1/namespaces/trainee-chowdri/pods/d4-03-sidecar-app
+status:
+  phase: Running
+  conditions:
+    - type: PodReadyToStartContainers
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2025-11-14T06:55:45Z'
+    - type: Initialized
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2025-11-14T06:55:43Z'
+    - type: Ready
+      status: 'False'
+      lastProbeTime: null
+      lastTransitionTime: '2025-11-17T02:50:37Z'
+      reason: ContainersNotReady
+      message: 'containers with unready status: [log-sidecar]'
+    - type: ContainersReady
+      status: 'False'
+      lastProbeTime: null
+      lastTransitionTime: '2025-11-17T02:50:37Z'
+      reason: ContainersNotReady
+      message: 'containers with unready status: [log-sidecar]'
+    - type: PodScheduled
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2025-11-14T06:55:43Z'
+  hostIP: 10.0.35.123
+  hostIPs:
+    - ip: 10.0.35.123
+  podIP: 10.0.38.145
+  podIPs:
+    - ip: 10.0.38.145
+  startTime: '2025-11-14T06:55:43Z'
+  containerStatuses:
+    - name: log-sidecar
+      state:
+        waiting:
+          reason: CrashLoopBackOff
+          message: >-
+            back-off 5m0s restarting failed container=log-sidecar
+            pod=d4-03-sidecar-app_trainee-chowdri(91fd0526-f19f-40d6-b47a-f1816f55b079)
+      lastState:
+        terminated:
+          exitCode: 1
+          reason: Error
+          startedAt: '2025-11-17T06:30:40Z'
+          finishedAt: '2025-11-17T06:30:40Z'
+          containerID: >-
+            containerd://130dab2c28769dfc654cbc586fe1a63f804c66bc9d4848bc7e873317dde5b616
+      ready: false
+      restartCount: 844
+      image: docker.io/library/busybox:latest
+      imageID: >-
+        docker.io/library/busybox@sha256:e3652a00a2fabd16ce889f0aa32c38eec347b997e73bd09e69c962ec7f8732ee
+      containerID: >-
+        containerd://130dab2c28769dfc654cbc586fe1a63f804c66bc9d4848bc7e873317dde5b616
+      started: false
+    - name: main-app
+      state:
+        running:
+          startedAt: '2025-11-14T06:55:44Z'
+      lastState: {}
+      ready: true
+      restartCount: 0
+      image: docker.io/library/busybox:latest
+      imageID: >-
+        docker.io/library/busybox@sha256:e3652a00a2fabd16ce889f0aa32c38eec347b997e73bd09e69c962ec7f8732ee
+      containerID: >-
+        containerd://646f5e3828087806b94e3633186ae7120d777ae72a08fa34856bfd55c10bbf6f
+      started: true
+  qosClass: Burstable
+spec:
+  volumes:
+    - name: log-volume
+      emptyDir: {}
+    - name: kube-api-access-9w8mh
+      projected:
+        sources:
+          - serviceAccountToken:
+              expirationSeconds: 3607
+              path: token
+          - configMap:
+              name: kube-root-ca.crt
+              items:
+                - key: ca.crt
+                  path: ca.crt
+          - downwardAPI:
+              items:
+                - path: namespace
+                  fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+        defaultMode: 420
+  containers:
+    - name: main-app
+      image: busybox:latest
+      command:
+        - sh
+        - '-c'
+      args:
+        - >-
+          while true; do echo "$(date) - Application log entry" >>
+          /var/log/app/app.log; sleep 5; done
+      resources:
+        limits:
+          cpu: 50m
+          memory: 64Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+      volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/app
+        - name: kube-api-access-9w8mh
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      imagePullPolicy: Always
+    - name: log-sidecar
+      image: busybox:latest
+      command:
+        - sh
+        - '-c'
+      args:
+        - tail -f /var/logs/app/app.log
+      resources:
+        limits:
+          cpu: 50m
+          memory: 64Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+      volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/app
+        - name: kube-api-access-9w8mh
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      imagePullPolicy: Always
+  restartPolicy: Always
+  terminationGracePeriodSeconds: 30
+  dnsPolicy: ClusterFirst
+  serviceAccountName: default
+  serviceAccount: default
+  nodeName: ip-10-0-35-123.ec2.internal
+  securityContext: {}
+  schedulerName: default-scheduler
+  tolerations:
+    - key: node.kubernetes.io/not-ready
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+    - key: node.kubernetes.io/unreachable
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+  priority: 0
+  enableServiceLinks: true
+  preemptionPolicy: PreemptLowerPriority

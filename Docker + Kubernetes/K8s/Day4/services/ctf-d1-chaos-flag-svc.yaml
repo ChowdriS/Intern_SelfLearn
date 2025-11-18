@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d1-05-cluster-chaos:/Service:trainee-chowdri/ctf-d1-chaos-flag-svc
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d1-05-cluster-chaos:/Service:trainee-chowdri/ctf-d1-chaos-flag-svc"},"labels":{"app":"ctf-d1-chaos-flag","challenge":"cluster-chaos"},"name":"ctf-d1-chaos-flag-svc","namespace":"trainee-chowdri"},"spec":{"ports":[{"port":80,"targetPort":80}],"selector":{"app":"ctf-d1-chaos-flag"},"type":"ClusterIP"}}
+  creationTimestamp: "2025-11-12T05:11:23Z"
+  labels:
+    app: ctf-d1-chaos-flag
+    challenge: cluster-chaos
+  name: ctf-d1-chaos-flag-svc
+  namespace: trainee-chowdri
+  resourceVersion: "7058825"
+  uid: 1879bebe-69b7-4eac-a7da-7f7cafa4596d
+spec:
+  clusterIP: 172.20.64.109
+  clusterIPs:
+  - 172.20.64.109
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ctf-d1-chaos-flag
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

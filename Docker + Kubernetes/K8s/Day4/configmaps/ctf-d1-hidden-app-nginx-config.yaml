@@ -1,0 +1,24 @@
+apiVersion: v1
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+        location / {
+            return 200 "Welcome to CloudCorp - Challenge 4 Complete!\n";
+            add_header Content-Type text/plain;
+        }
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"default.conf":"server {\n    listen 80;\n    server_name _;\n    location / {\n        return 200 \"Welcome to CloudCorp - Challenge 4 Complete!\\n\";\n        add_header Content-Type text/plain;\n    }\n}\n"},"kind":"ConfigMap","metadata":{"annotations":{},"labels":{"argocd.argoproj.io/instance":"trainee-chowdri-ctf-d1-03-expose-hidden-app","challenge":"expose-hidden-app"},"name":"ctf-d1-hidden-app-nginx-config","namespace":"trainee-chowdri"}}
+  creationTimestamp: "2025-11-12T05:11:19Z"
+  labels:
+    argocd.argoproj.io/instance: trainee-chowdri-ctf-d1-03-expose-hidden-app
+    challenge: expose-hidden-app
+  name: ctf-d1-hidden-app-nginx-config
+  namespace: trainee-chowdri
+  resourceVersion: "5603793"
+  uid: 94e9d39a-cc42-4455-9a6b-52d3c78ca98a

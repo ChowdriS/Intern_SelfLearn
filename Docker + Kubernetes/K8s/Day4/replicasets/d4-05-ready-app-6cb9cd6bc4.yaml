@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-debugging-d4-05:apps/Deployment:trainee-chowdri/d4-05-ready-app
+    deployment.kubernetes.io/desired-replicas: "2"
+    deployment.kubernetes.io/max-replicas: "3"
+    deployment.kubernetes.io/revision: "6"
+  creationTimestamp: "2025-11-14T09:13:01Z"
+  generation: 2
+  labels:
+    app: ready-app
+    pod-template-hash: 6cb9cd6bc4
+    task: debugging-d4-05
+  name: d4-05-ready-app-6cb9cd6bc4
+  namespace: trainee-chowdri
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Deployment
+    name: d4-05-ready-app
+    uid: 8bb7c4ba-8aae-468a-9595-607947bc3317
+  resourceVersion: "7208306"
+  uid: 179d84a9-3ba0-4346-9d28-93994b5f182b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ready-app
+      pod-template-hash: 6cb9cd6bc4
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ready-app
+        pod-template-hash: 6cb9cd6bc4
+        task: debugging-d4-05
+    spec:
+      containers:
+      - image: nginx:latest
+        imagePullPolicy: Always
+        name: web-server
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 50m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  conditions:
+  - lastTransitionTime: "2025-11-14T09:13:01Z"
+    message: 'pods "d4-05-ready-app-6cb9cd6bc4-ckggr" is forbidden: exceeded quota:
+      ctf-d2-quota, requested: limits.cpu=50m,limits.memory=128Mi,requests.cpu=50m,requests.memory=64Mi,
+      used: limits.cpu=2830m,limits.memory=2752Mi,requests.cpu=1420m,requests.memory=1376Mi,
+      limited: limits.cpu=1,limits.memory=512Mi,requests.cpu=500m,requests.memory=256Mi'
+    reason: FailedCreate
+    status: "True"
+    type: ReplicaFailure
+  observedGeneration: 2
+  replicas: 0

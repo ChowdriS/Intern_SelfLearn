@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d2-04-limitrange-trap:apps/Deployment:trainee-chowdri/ctf-d2-limitrange-flag-server
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d2-04-limitrange-trap:apps/Deployment:trainee-chowdri/ctf-d2-limitrange-flag-server"},"labels":{"app":"ctf-d2-limitrange-flag","challenge":"d2-limitrange-trap"},"name":"ctf-d2-limitrange-flag-server","namespace":"trainee-chowdri"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ctf-d2-limitrange-flag"}},"template":{"metadata":{"labels":{"app":"ctf-d2-limitrange-flag","challenge":"d2-limitrange-trap"}},"spec":{"containers":[{"image":"nginx:alpine","name":"flag-server","ports":[{"containerPort":80}],"resources":{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/etc/flag","name":"flag-volume","subPath":"flag"},{"mountPath":"/etc/nginx/conf.d","name":"config-volume"}]}],"initContainers":[{"args":["kubectl get configmap ctf-flag-j6z3a4b -n ctf-admin -o jsonpath='{.data.flag}' \u003e /flag-data/flag\n"],"command":["sh","-c"],"image":"bitnami/kubectl:latest","name":"fetch-flag","resources":{"limits":{"cpu":"50m","memory":"64Mi"},"requests":{"cpu":"25m","memory":"32Mi"}},"volumeMounts":[{"mountPath":"/flag-data","name":"flag-volume"}]}],"serviceAccountName":"ctf-flag-reader","volumes":[{"emptyDir":{},"name":"flag-volume"},{"configMap":{"name":"ctf-d2-limitrange-nginx-config"},"name":"config-volume"}]}}}}
+  creationTimestamp: "2025-11-14T07:36:14Z"
+  generation: 1
+  labels:
+    app: ctf-d2-limitrange-flag
+    challenge: d2-limitrange-trap
+  name: ctf-d2-limitrange-flag-server
+  namespace: trainee-chowdri
+  resourceVersion: "7158827"
+  uid: 455eeb3b-d563-447b-9085-87b0a9978866
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ctf-d2-limitrange-flag
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ctf-d2-limitrange-flag
+        challenge: d2-limitrange-trap
+    spec:
+      containers:
+      - image: nginx:alpine
+        imagePullPolicy: IfNotPresent
+        name: flag-server
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/flag
+          name: flag-volume
+          subPath: flag
+        - mountPath: /etc/nginx/conf.d
+          name: config-volume
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - |
+          kubectl get configmap ctf-flag-j6z3a4b -n ctf-admin -o jsonpath='{.data.flag}' > /flag-data/flag
+        command:
+        - sh
+        - -c
+        image: bitnami/kubectl:latest
+        imagePullPolicy: Always
+        name: fetch-flag
+        resources:
+          limits:
+            cpu: 50m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /flag-data
+          name: flag-volume
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: ctf-flag-reader
+      serviceAccountName: ctf-flag-reader
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: flag-volume
+      - configMap:
+          defaultMode: 420
+          name: ctf-d2-limitrange-nginx-config
+        name: config-volume
+status:
+  conditions:
+  - lastTransitionTime: "2025-11-14T07:36:14Z"
+    lastUpdateTime: "2025-11-14T07:36:14Z"
+    message: Deployment does not have minimum availability.
+    reason: MinimumReplicasUnavailable
+    status: "False"
+    type: Available
+  - lastTransitionTime: "2025-11-14T07:36:14Z"
+    lastUpdateTime: "2025-11-14T07:36:14Z"
+    message: 'pods "ctf-d2-limitrange-flag-server-8dd768cb7-dxjr6" is forbidden: [minimum
+      cpu usage per Container is 50m, but request is 25m, minimum memory usage per
+      Container is 64Mi, but request is 32Mi]'
+    reason: FailedCreate
+    status: "True"
+    type: ReplicaFailure
+  - lastTransitionTime: "2025-11-14T07:46:15Z"
+    lastUpdateTime: "2025-11-14T07:46:15Z"
+    message: ReplicaSet "ctf-d2-limitrange-flag-server-8dd768cb7" has timed out progressing.
+    reason: ProgressDeadlineExceeded
+    status: "False"
+    type: Progressing
+  observedGeneration: 1
+  unavailableReplicas: 1

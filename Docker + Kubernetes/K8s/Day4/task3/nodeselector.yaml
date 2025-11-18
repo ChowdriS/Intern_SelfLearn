@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-zone
+spec:
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1a
+  containers:
+  - name: nginx
+    image: nginx:latest
+    resources:
+      requests:
+        cpu: 50Mi
+        memory: 64Mi
+      limits:
+        cpu: 50Mi
+        memory: 128Mi

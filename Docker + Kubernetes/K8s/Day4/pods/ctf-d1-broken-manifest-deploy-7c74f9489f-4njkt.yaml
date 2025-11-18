@@ -1,0 +1,173 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-11-14T06:52:08Z"
+  generateName: ctf-d1-broken-manifest-deploy-7c74f9489f-
+  labels:
+    app: ctf-d1-broken-manifest
+    challenge: broken-manifest
+    pod-template-hash: 7c74f9489f
+  name: ctf-d1-broken-manifest-deploy-7c74f9489f-4njkt
+  namespace: trainee-chowdri
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: ctf-d1-broken-manifest-deploy-7c74f9489f
+    uid: b2bc0a71-3ddd-41a6-8f88-d66010d9cbc7
+  resourceVersion: "7241884"
+  uid: fd269f28-005b-4df6-80d9-d35b4b05500b
+spec:
+  containers:
+  - image: nginx:aphax
+    imagePullPolicy: IfNotPresent
+    name: web-app
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/flag
+      name: flag-volume
+      subPath: flag
+    - mountPath: /etc/nginx/conf.d
+      name: config-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-npkfp
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  initContainers:
+  - args:
+    - |
+      kubectl get configmap ctf-flag-b3n8q1r -n ctf-admin -o jsonpath='{.data.flag}' > /flag-data/flag
+    command:
+    - sh
+    - -c
+    image: bitnami/kubectl:latest
+    imagePullPolicy: Always
+    name: fetch-flag
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /flag-data
+      name: flag-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-npkfp
+      readOnly: true
+  nodeName: ip-10-0-19-16.ec2.internal
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: ctf-flag-reader
+  serviceAccountName: ctf-flag-reader
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - emptyDir: {}
+    name: flag-volume
+  - configMap:
+      defaultMode: 420
+      name: ctf-d1-broken-manifest-nginx-config
+    name: config-volume
+  - name: kube-api-access-npkfp
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:52:10Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:52:10Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:52:08Z"
+    message: 'containers with unready status: [web-app]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:52:08Z"
+    message: 'containers with unready status: [web-app]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-14T06:52:08Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - image: nginx:aphax
+    imageID: ""
+    lastState: {}
+    name: web-app
+    ready: false
+    restartCount: 0
+    started: false
+    state:
+      waiting:
+        message: Back-off pulling image "nginx:aphax"
+        reason: ImagePullBackOff
+  hostIP: 10.0.19.16
+  hostIPs:
+  - ip: 10.0.19.16
+  initContainerStatuses:
+  - containerID: containerd://508b4ddc2070267f7a45651807b70fd2e89a3f29d7f251ad735085e075caa672
+    image: docker.io/bitnami/kubectl:latest
+    imageID: docker.io/bitnami/kubectl@sha256:5df7de31ece99cc40aa34d627a61b1bb4d17d1a3341e2f63a63b46b1136080cd
+    lastState: {}
+    name: fetch-flag
+    ready: true
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://508b4ddc2070267f7a45651807b70fd2e89a3f29d7f251ad735085e075caa672
+        exitCode: 0
+        finishedAt: "2025-11-14T06:52:09Z"
+        reason: Completed
+        startedAt: "2025-11-14T06:52:09Z"
+  phase: Pending
+  podIP: 10.0.16.81
+  podIPs:
+  - ip: 10.0.16.81
+  qosClass: Burstable
+  startTime: "2025-11-14T06:52:08Z"

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl-file-fetch
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: curl-file-fetch
+  template:
+    metadata:
+      labels:
+        app: curl-file-fetch
+    spec:
+      initContainers:
+      - name: fetch-file
+        image: curlimages/curl:8.8.0
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo "Fetching file from remote source...";
+            curl -sSL https://raw.githubusercontent.com/octocat/Hello-World/master/README > /data/fetched-file.txt;
+            echo "File fetched and saved to /data/fetched-file.txt";
+        volumeMounts:
+        - name: shared-data
+          mountPath: /data
+
+      containers:
+      - name: main-app
+        image: busybox:1.36
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo "Reading file contents...";
+            cat /data/fetched-file.txt;
+            echo "---- End of file ----";
+            sleep 3600;
+        volumeMounts:
+        - name: shared-data
+          mountPath: /data
+
+      volumes:
+      - name: shared-data
+        emptyDir: {}

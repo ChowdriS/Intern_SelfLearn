@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-debugging-d3-04:apps/Deployment:trainee-chowdri/d3-04-web-app
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-debugging-d3-04:apps/Deployment:trainee-chowdri/d3-04-web-app"},"labels":{"app":"webapp","task":"debugging-d3-04"},"name":"d3-04-web-app","namespace":"trainee-chowdri"},"spec":{"replicas":2,"selector":{"matchLabels":{"app":"webapp"}},"template":{"metadata":{"labels":{"app":"webapp"}},"spec":{"containers":[{"env":[{"name":"APPLICATION_NAME","valueFrom":{"configMapKeyRef":{"key":"APP_NAME","name":"d3-04-app-config"}}},{"name":"ENVIRONMENT","valueFrom":{"configMapKeyRef":{"key":"APP_ENVIRONMENT","name":"d3-04-app-config"}}},{"name":"MAX_CONN","valueFrom":{"configMapKeyRef":{"key":"MAX_CONNECTIONS","name":"d3-04-app-config"}}},{"name":"JWT_TOKEN","valueFrom":{"secretKeyRef":{"key":"JWT_SECRET","name":"d3-04-app-credentials"}}},{"name":"DB_CONNECTION","valueFrom":{"secretKeyRef":{"key":"DB_URL","name":"d3-04-app-credentials"}}}],"image":"nginx:latest","name":"web","resources":{"limits":{"cpu":"200m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"64Mi"}}}]}}}}
+  creationTimestamp: "2025-11-14T07:02:36Z"
+  generation: 1
+  labels:
+    app: webapp
+    task: debugging-d3-04
+  name: d3-04-web-app
+  namespace: trainee-chowdri
+  resourceVersion: "7136607"
+  uid: 9bc82bb9-214b-4823-bf9d-b808df98d82b
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: webapp
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - env:
+        - name: APPLICATION_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: APP_NAME
+              name: d3-04-app-config
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              key: APP_ENVIRONMENT
+              name: d3-04-app-config
+        - name: MAX_CONN
+          valueFrom:
+            configMapKeyRef:
+              key: MAX_CONNECTIONS
+              name: d3-04-app-config
+        - name: JWT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: JWT_SECRET
+              name: d3-04-app-credentials
+        - name: DB_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              key: DB_URL
+              name: d3-04-app-credentials
+        image: nginx:latest
+        imagePullPolicy: Always
+        name: web
+        resources:
+          limits:
+            cpu: 200m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  conditions:
+  - lastTransitionTime: "2025-11-14T07:02:36Z"
+    lastUpdateTime: "2025-11-14T07:02:36Z"
+    message: Deployment does not have minimum availability.
+    reason: MinimumReplicasUnavailable
+    status: "False"
+    type: Available
+  - lastTransitionTime: "2025-11-14T07:12:37Z"
+    lastUpdateTime: "2025-11-14T07:12:37Z"
+    message: ReplicaSet "d3-04-web-app-6cd59f5674" has timed out progressing.
+    reason: ProgressDeadlineExceeded
+    status: "False"
+    type: Progressing
+  observedGeneration: 1
+  replicas: 2
+  unavailableReplicas: 2
+  updatedReplicas: 2

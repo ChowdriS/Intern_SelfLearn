@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d1-05-cluster-chaos:apps/Deployment:trainee-chowdri/ctf-d1-chaos-flag-server
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d1-05-cluster-chaos:apps/Deployment:trainee-chowdri/ctf-d1-chaos-flag-server"},"labels":{"app":"ctf-d1-chaos-flag","challenge":"cluster-chaos"},"name":"ctf-d1-chaos-flag-server","namespace":"trainee-chowdri"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ctf-d1-chaos-flag"}},"template":{"metadata":{"labels":{"app":"ctf-d1-chaos-flag","challenge":"cluster-chaos"}},"spec":{"containers":[{"image":"nginx:alpine","name":"flag-server","ports":[{"containerPort":80}],"resources":{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/etc/flag","name":"flag-volume","subPath":"flag"},{"mountPath":"/etc/nginx/conf.d","name":"config-volume"}]}],"initContainers":[{"args":["kubectl get configmap ctf-flag-e8j1k4l -n ctf-admin -o jsonpath='{.data.flag}' \u003e /flag-data/flag\n"],"command":["sh","-c"],"image":"bitnami/kubectl:latest","name":"fetch-flag","volumeMounts":[{"mountPath":"/flag-data","name":"flag-volume"}]}],"serviceAccountName":"ctf-flag-reader","volumes":[{"emptyDir":{},"name":"flag-volume"},{"configMap":{"name":"ctf-d1-chaos-nginx-config"},"name":"config-volume"}]}}}}
+  creationTimestamp: "2025-11-12T05:11:23Z"
+  generation: 2
+  labels:
+    app: ctf-d1-chaos-flag
+    challenge: cluster-chaos
+  name: ctf-d1-chaos-flag-server
+  namespace: trainee-chowdri
+  resourceVersion: "7060027"
+  uid: 4a5a05b1-3eab-444f-96af-df564e3b366c
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ctf-d1-chaos-flag
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ctf-d1-chaos-flag
+        challenge: cluster-chaos
+    spec:
+      containers:
+      - image: nginx:alpine
+        imagePullPolicy: IfNotPresent
+        name: flag-server
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/flag
+          name: flag-volume
+          subPath: flag
+        - mountPath: /etc/nginx/conf.d
+          name: config-volume
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - |
+          kubectl get configmap ctf-flag-e8j1k4l -n ctf-admin -o jsonpath='{.data.flag}' > /flag-data/flag
+        command:
+        - sh
+        - -c
+        image: bitnami/kubectl:latest
+        imagePullPolicy: Always
+        name: fetch-flag
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /flag-data
+          name: flag-volume
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: ctf-flag-reader
+      serviceAccountName: ctf-flag-reader
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: flag-volume
+      - configMap:
+          defaultMode: 420
+          name: ctf-d1-chaos-nginx-config
+        name: config-volume
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-11-12T12:33:22Z"
+    lastUpdateTime: "2025-11-12T12:33:24Z"
+    message: ReplicaSet "ctf-d1-chaos-flag-server-67b456cc67" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2025-11-12T14:47:17Z"
+    lastUpdateTime: "2025-11-12T14:47:17Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

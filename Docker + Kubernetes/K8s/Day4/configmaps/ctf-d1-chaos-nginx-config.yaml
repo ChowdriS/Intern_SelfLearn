@@ -1,0 +1,29 @@
+apiVersion: v1
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+        location / {
+            return 200 "Cluster Chaos Challenge Complete!\n\nYou successfully:\n1. Scaled web-app deployment to 3 replicas\n2. Deleted orphan ReplicaSet\n3. Fixed mislabeled pod\n4. Verified logging-prod pod is running\n5. Deployed database StatefulSet\n\nAccess the flag at /flag\n";
+            add_header Content-Type text/plain;
+        }
+        location /flag {
+            alias /etc/flag;
+            default_type text/plain;
+            add_header Content-Type text/plain;
+        }
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d1-05-cluster-chaos:/ConfigMap:trainee-chowdri/ctf-d1-chaos-nginx-config
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"default.conf":"server {\n    listen 80;\n    server_name _;\n    location / {\n        return 200 \"Cluster Chaos Challenge Complete!\\n\\nYou successfully:\\n1. Scaled web-app deployment to 3 replicas\\n2. Deleted orphan ReplicaSet\\n3. Fixed mislabeled pod\\n4. Verified logging-prod pod is running\\n5. Deployed database StatefulSet\\n\\nAccess the flag at /flag\\n\";\n        add_header Content-Type text/plain;\n    }\n    location /flag {\n        alias /etc/flag;\n        default_type text/plain;\n        add_header Content-Type text/plain;\n    }\n}\n"},"kind":"ConfigMap","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d1-05-cluster-chaos:/ConfigMap:trainee-chowdri/ctf-d1-chaos-nginx-config"},"labels":{"challenge":"cluster-chaos"},"name":"ctf-d1-chaos-nginx-config","namespace":"trainee-chowdri"}}
+  creationTimestamp: "2025-11-12T05:11:23Z"
+  labels:
+    challenge: cluster-chaos
+  name: ctf-d1-chaos-nginx-config
+  namespace: trainee-chowdri
+  resourceVersion: "7058791"
+  uid: ae26f1af-87ec-4669-b62b-0cf967b45e23

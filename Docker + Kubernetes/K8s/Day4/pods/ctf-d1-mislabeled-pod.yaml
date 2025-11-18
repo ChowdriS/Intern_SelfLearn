@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d1-05-cluster-chaos:/Pod:trainee-chowdri/ctf-d1-mislabeled-pod
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d1-05-cluster-chaos:/Pod:trainee-chowdri/ctf-d1-mislabeled-pod"},"labels":{"app":"ctf-d1-api","challenge":"cluster-chaos"},"name":"ctf-d1-mislabeled-pod","namespace":"trainee-chowdri"},"spec":{"containers":[{"image":"nginx:alpine","name":"api-app","ports":[{"containerPort":8080}],"resources":{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"64Mi"}}}]}}
+  creationTimestamp: "2025-11-12T05:11:23Z"
+  labels:
+    app: ctf-d1-api
+    challenge: cluster-chaos
+  name: ctf-d1-mislabeled-pod
+  namespace: trainee-chowdri
+  resourceVersion: "7058867"
+  uid: f9489475-27cd-4069-9ebc-c0f34ce220f4
+spec:
+  containers:
+  - image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    name: api-app
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vg6cw
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: ip-10-0-47-199.ec2.internal
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-vg6cw
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T05:11:39Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T05:11:35Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T05:11:54Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T05:11:54Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T05:11:35Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://0399bbfc0b14ffbb8803b555d71fa72f0f585e277ad13ab46e9bbdeb79556bae
+    image: docker.io/library/nginx:alpine
+    imageID: docker.io/library/nginx@sha256:b3c656d55d7ad751196f21b7fd2e8d4da9cb430e32f646adcf92441b72f82b14
+    lastState: {}
+    name: api-app
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-11-12T05:11:53Z"
+  hostIP: 10.0.47.199
+  hostIPs:
+  - ip: 10.0.47.199
+  phase: Running
+  podIP: 10.0.32.16
+  podIPs:
+  - ip: 10.0.32.16
+  qosClass: Burstable
+  startTime: "2025-11-12T05:11:35Z"

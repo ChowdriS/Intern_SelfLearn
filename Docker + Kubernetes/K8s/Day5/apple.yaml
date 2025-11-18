@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apple-deployment
+  labels:
+    app: apple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apple
+  template:
+    metadata:
+      labels:
+        app: apple
+    spec:
+      containers:
+        - name: apple-container
+          image: hashicorp/http-echo
+          args:
+            - "-text=apple"
+            - "-listen=:5678"
+          ports:
+            - containerPort: 5678
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "200m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apple-service
+spec:
+  selector:
+    app: apple
+  ports:
+    - port: 5678
+      targetPort: 5678
+  type: ClusterIP

@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-11-12T11:33:57Z"
+  generateName: ctf-d1-database-statefulset-
+  labels:
+    app: ctf-d1-database
+    apps.kubernetes.io/pod-index: "0"
+    challenge: cluster-chaos
+    controller-revision-hash: ctf-d1-database-statefulset-7f5575ccc
+    statefulset.kubernetes.io/pod-name: ctf-d1-database-statefulset-0
+  name: ctf-d1-database-statefulset-0
+  namespace: trainee-chowdri
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: StatefulSet
+    name: ctf-d1-database-statefulset
+    uid: ccd721a5-3b81-475f-a536-00dcddca4582
+  resourceVersion: "5798762"
+  uid: e7f7e46b-4af5-4db2-b21b-d8af4f006c8a
+spec:
+  containers:
+  - env:
+    - name: POSTGRES_DB
+      value: cloudcorp
+    - name: POSTGRES_USER
+      value: admin
+    - name: POSTGRES_PASSWORD
+      value: password
+    image: postgres:alpine
+    imagePullPolicy: IfNotPresent
+    name: database
+    ports:
+    - containerPort: 5432
+      protocol: TCP
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: database-storage
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-9lqzw
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostname: ctf-d1-database-statefulset-0
+  nodeName: ip-10-0-44-147.ec2.internal
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  subdomain: ctf-d1-database-service
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: database-storage
+    persistentVolumeClaim:
+      claimName: database-storage-ctf-d1-database-statefulset-0
+  - name: kube-api-access-9lqzw
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:35:01Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:34:37Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:35:01Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:35:01Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T11:34:37Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://758b4d27fbd257172afc28222258b24a5419b5a0325f0eed82523520698910d6
+    image: docker.io/library/postgres:alpine
+    imageID: docker.io/library/postgres@sha256:48c8ad3a7284b82be4482a52076d47d879fd6fb084a1cbfccbd551f9331b0e40
+    lastState: {}
+    name: database
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-11-12T11:35:01Z"
+  hostIP: 10.0.44.147
+  hostIPs:
+  - ip: 10.0.44.147
+  phase: Running
+  podIP: 10.0.33.50
+  podIPs:
+  - ip: 10.0.33.50
+  qosClass: Burstable
+  startTime: "2025-11-12T11:34:37Z"

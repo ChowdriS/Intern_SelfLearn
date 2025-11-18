@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d1-05-cluster-chaos:apps/StatefulSet:trainee-chowdri/ctf-d1-database-statefulset
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"StatefulSet","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d1-05-cluster-chaos:apps/StatefulSet:trainee-chowdri/ctf-d1-database-statefulset"},"labels":{"app":"ctf-d1-database","challenge":"cluster-chaos"},"name":"ctf-d1-database-statefulset","namespace":"trainee-chowdri"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ctf-d1-database"}},"serviceName":"ctf-d1-database-service","template":{"metadata":{"labels":{"app":"ctf-d1-database","challenge":"cluster-chaos"}},"spec":{"containers":[{"env":[{"name":"POSTGRES_DB","value":"cloudcorp"},{"name":"POSTGRES_USER","value":"admin"},{"name":"POSTGRES_PASSWORD","value":"password"}],"image":"postgres:alpine","name":"database","ports":[{"containerPort":5432}],"resources":{"limits":{"cpu":"200m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"volumeMounts":[{"mountPath":"/var/lib/postgresql/data","name":"database-storage"}]}]}},"volumeClaimTemplates":[{"metadata":{"name":"database-storage"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}}}}]}}
+  creationTimestamp: "2025-11-12T05:11:23Z"
+  generation: 1
+  labels:
+    app: ctf-d1-database
+    challenge: cluster-chaos
+  name: ctf-d1-database-statefulset
+  namespace: trainee-chowdri
+  resourceVersion: "7059025"
+  uid: ccd721a5-3b81-475f-a536-00dcddca4582
+spec:
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ctf-d1-database
+  serviceName: ctf-d1-database-service
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ctf-d1-database
+        challenge: cluster-chaos
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          value: cloudcorp
+        - name: POSTGRES_USER
+          value: admin
+        - name: POSTGRES_PASSWORD
+          value: password
+        image: postgres:alpine
+        imagePullPolicy: IfNotPresent
+        name: database
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: database-storage
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      name: database-storage
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      volumeMode: Filesystem
+    status:
+      phase: Pending
+status:
+  availableReplicas: 1
+  collisionCount: 0
+  currentReplicas: 1
+  currentRevision: ctf-d1-database-statefulset-7f5575ccc
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updateRevision: ctf-d1-database-statefulset-7f5575ccc
+  updatedReplicas: 1

@@ -1,0 +1,33 @@
+apiVersion: v1
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+        location /healthz {
+            return 200 "App is healthy - config fixed!\n";
+            add_header Content-Type text/plain;
+        }
+        location / {
+            return 200 "Welcome Day 2 CTF-01! ConfigMap challenge. Fix the mount path to access the flag.\n";
+            add_header Content-Type text/plain;
+        }
+        location /flag {
+            alias /etc/flag;
+            default_type text/plain;
+            add_header Content-Type text/plain;
+        }
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: trainee-chowdri-ctf-d2-01-misconfigured-configmap:/ConfigMap:trainee-chowdri/ctf-d2-nginx-config
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"default.conf":"server {\n    listen 80;\n    server_name _;\n    location /healthz {\n        return 200 \"App is healthy - config fixed!\\n\";\n        add_header Content-Type text/plain;\n    }\n    location / {\n        return 200 \"Welcome Day 2 CTF-01! ConfigMap challenge. Fix the mount path to access the flag.\\n\";\n        add_header Content-Type text/plain;\n    }\n    location /flag {\n        alias /etc/flag;\n        default_type text/plain;\n        add_header Content-Type text/plain;\n    }\n}\n"},"kind":"ConfigMap","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"trainee-chowdri-ctf-d2-01-misconfigured-configmap:/ConfigMap:trainee-chowdri/ctf-d2-nginx-config"},"labels":{"challenge":"d2-configmap-injection"},"name":"ctf-d2-nginx-config","namespace":"trainee-chowdri"}}
+  creationTimestamp: "2025-11-14T07:36:09Z"
+  labels:
+    challenge: d2-configmap-injection
+  name: ctf-d2-nginx-config
+  namespace: trainee-chowdri
+  resourceVersion: "7150146"
+  uid: c95ab27c-59b3-4866-ae37-4475064b0a01

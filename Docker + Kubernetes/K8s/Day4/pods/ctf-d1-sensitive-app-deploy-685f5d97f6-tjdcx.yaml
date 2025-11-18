@@ -1,0 +1,169 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-11-12T14:47:15Z"
+  generateName: ctf-d1-sensitive-app-deploy-685f5d97f6-
+  labels:
+    app: ctf-d1-sensitive-app
+    challenge: insiders-backdoor
+    pod-template-hash: 685f5d97f6
+  name: ctf-d1-sensitive-app-deploy-685f5d97f6-tjdcx
+  namespace: trainee-chowdri
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: ctf-d1-sensitive-app-deploy-685f5d97f6
+    uid: d93aed79-bb14-43c2-9f45-8df99fdb2999
+  resourceVersion: "5895748"
+  uid: be30548f-4782-4b74-ada1-ba994b3054df
+spec:
+  containers:
+  - image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    name: web-app
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/nginx/conf.d
+      name: config-volume
+    - mountPath: /etc/flag
+      name: flag-volume
+      subPath: flag
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xqssj
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  initContainers:
+  - args:
+    - |
+      kubectl get configmap ctf-flag-d6x7y3z -n ctf-admin -o jsonpath='{.data.flag}' > /flag-data/flag
+    command:
+    - sh
+    - -c
+    image: bitnami/kubectl:latest
+    imagePullPolicy: Always
+    name: fetch-flag
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /flag-data
+      name: flag-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xqssj
+      readOnly: true
+  nodeName: ip-10-0-35-123.ec2.internal
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: ctf-flag-reader
+  serviceAccountName: ctf-flag-reader
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - configMap:
+      defaultMode: 420
+      name: ctf-d1-sensitive-app-nginx-config
+    name: config-volume
+  - emptyDir: {}
+    name: flag-volume
+  - name: kube-api-access-xqssj
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T14:47:17Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T14:47:18Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T14:47:19Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T14:47:19Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-12T14:47:15Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://15915d98b566f3493c4b09662a04cb2e9cf45cbd3bcc1ab1c0318743e10be8cf
+    image: docker.io/library/nginx:alpine
+    imageID: docker.io/library/nginx@sha256:b3c656d55d7ad751196f21b7fd2e8d4da9cb430e32f646adcf92441b72f82b14
+    lastState: {}
+    name: web-app
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-11-12T14:47:18Z"
+  hostIP: 10.0.35.123
+  hostIPs:
+  - ip: 10.0.35.123
+  initContainerStatuses:
+  - containerID: containerd://51fb8cfd91a0babac3d7b517551663a48be8473c3e0d0ebf1c166d519955d95a
+    image: docker.io/bitnami/kubectl:latest
+    imageID: docker.io/bitnami/kubectl@sha256:5df7de31ece99cc40aa34d627a61b1bb4d17d1a3341e2f63a63b46b1136080cd
+    lastState: {}
+    name: fetch-flag
+    ready: true
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://51fb8cfd91a0babac3d7b517551663a48be8473c3e0d0ebf1c166d519955d95a
+        exitCode: 0
+        finishedAt: "2025-11-12T14:47:17Z"
+        reason: Completed
+        startedAt: "2025-11-12T14:47:17Z"
+  phase: Running
+  podIP: 10.0.39.85
+  podIPs:
+  - ip: 10.0.39.85
+  qosClass: Burstable
+  startTime: "2025-11-12T14:47:15Z"
