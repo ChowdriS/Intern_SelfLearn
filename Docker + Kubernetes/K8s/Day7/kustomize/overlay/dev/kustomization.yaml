@@ -1,0 +1,9 @@
+resources:
+  - ../../base
+
+images:
+  - name: nginx
+    newTag: latest
+
+namePrefix: "dev-"
+nameSuffix: "-001"
