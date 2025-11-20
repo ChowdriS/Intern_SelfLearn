@@ -1,0 +1,4 @@
+export S3_BUCKET=chow3-bucket-022
+export AWS_REGION=us-east-1
+export HOSTNAME=s3.$AWS_REGION.amazonaws.com
+export ISSUER_HOSTPATH=$HOSTNAME/$S3_BUCKET
