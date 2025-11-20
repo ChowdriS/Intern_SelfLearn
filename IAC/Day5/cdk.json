@@ -17,9 +17,9 @@
     ]
   },
   "context": {
-    "@aws-cdk/core:bootstrapQualisfier": "sai",
-    "@aws-cdk/core:bootstrapBucketName": "sai-cdk-bucket",
-    "@aws-cdk/core:bootstrapStackName": "CDKToolkitsai",
+    "@aws-cdk/core:bootstrapQualisfier": "Chow3",
+    "@aws-cdk/core:bootstrapBucketName": "Chow3-cdk-bucket",
+    "@aws-cdk/core:bootstrapStackName": "CDKToolkitChow3",
     "@aws-cdk/core:newStyleStackSynthesis": true,
     "aws:cdk:enable-path-metadata": true,
     "aws:cdk:enable-asset-metadata": true,

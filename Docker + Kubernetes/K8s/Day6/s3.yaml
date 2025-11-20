@@ -24,7 +24,7 @@ spec:
             - -c
             - |
               echo "Downloading file from private S3..."
-              aws s3 cp s3://sai-s3-kube-bucket/index.html /data/index.html
+              aws s3 cp s3://chow3-s3-kube-bucket/index.html /data/index.html
           volumeMounts:
             - name: shared-data
               mountPath: /data

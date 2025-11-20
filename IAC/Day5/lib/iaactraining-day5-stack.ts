@@ -23,12 +23,12 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import { RemovalPolicy } from 'aws-cdk-lib';
 
 
-export class Ec2StackSai extends cdk.Stack {
+export class Ec2StackChow3 extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // ---------- VPC ----------
-    const vpc = new Vpc(this, 'SaiVpc', {
+    const vpc = new Vpc(this, 'Chow3Vpc', {
       ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
       natGateways: 1, // reduce cost, can be 3 for HA
       maxAzs: 3,
@@ -47,7 +47,7 @@ export class Ec2StackSai extends cdk.Stack {
     ec2Sg.addEgressRule(Peer.anyIpv4(), Port.allTraffic());
 
     // ---------- EC2 (Nginx) ----------
-    const instance = new Instance(this, 'SaiWebServer', {
+    const instance = new Instance(this, 'Chow3WebServer', {
       vpc,
       vpcSubnets: { subnetType: SubnetType.PRIVATE_WITH_EGRESS },
       instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
@@ -60,12 +60,12 @@ export class Ec2StackSai extends cdk.Stack {
       'yum install -y nginx',
       'systemctl enable nginx',
       'systemctl start nginx',
-      `echo "<h1>Hello from Sai EC2 via CDK!</h1>" > /usr/share/nginx/html/index.html`
+      `echo "<h1>Hello from Chow3 EC2 via CDK!</h1>" > /usr/share/nginx/html/index.html`
 
     );
 
     // ---------- ALB ----------
-    const alb = new elbv2.ApplicationLoadBalancer(this, 'SaiAlb', {
+    const alb = new elbv2.ApplicationLoadBalancer(this, 'Chow3Alb', {
       vpc,
       internetFacing: true,
       securityGroup: albSg,
@@ -98,7 +98,7 @@ export class Ec2StackSai extends cdk.Stack {
     siteBucket.grantRead(oai);
 
     // ---------- CloudFront Distribution ----------
-    const distribution = new cloudfront.Distribution(this, 'SaiDistribution', {
+    const distribution = new cloudfront.Distribution(this, 'Chow3Distribution', {
       defaultBehavior: {
         origin: new origins.S3Origin(siteBucket, { originAccessIdentity: oai }),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -109,7 +109,7 @@ export class Ec2StackSai extends cdk.Stack {
     // ---------- Deploy sample index.html ----------
     const indexHtml = `
       <html>
-        <head><title>Sai Frontend</title></head>
+        <head><title>Chow3 Frontend</title></head>
         <body>
           <h1>Hello from S3 + CloudFront!</h1>
           <p>Deployed using AWS CDK 🚀</p>
