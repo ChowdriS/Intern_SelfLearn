@@ -1,0 +1,48 @@
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+deployment:
+  enabled: true
+
+service:
+  enabled: true
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: nginx.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+statefulset:
+  enabled: false
+  volumeClaim:
+    storage: 1Gi
+
+serviceAccount:
+  enabled: false
+  name: ""
+
+pvc:
+  enabled: false
+
+hpa:
+  enabled: false
+
+configmap:
+  enabled: false
+  data: {}
+
+secret:
+  enabled: false
+  data: {}

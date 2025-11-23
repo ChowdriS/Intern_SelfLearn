@@ -1,0 +1,31 @@
+{{- if .Values.statefulset.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "generic.fullname" . }}
+spec:
+  serviceName: "{{ include "generic.fullname" . }}"
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "generic.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "generic.fullname" . }}
+    spec:
+      containers:
+      - name: app
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        volumeMounts:
+          - name: data
+            mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: {{ .Values.statefulset.volumeClaim.storage }}
+{{- end }}
