@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    environment {
+        TF_FOLDER = "terraform"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Debug Branch Info') {
+            steps {
+                sh '''
+                    echo "BRANCH_NAME = $BRANCH_NAME"
+                    echo "GIT_BRANCH  = $GIT_BRANCH"
+                '''
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                dir("${TF_FOLDER}") {
+                    sh "terraform init"
+                }
+            }
+        }
+        stage('Terraform Plan') {
+            steps {
+                dir("${TF_FOLDER}") {
+                    sh "terraform plan -out=tfplan.out"
+                }
+            }
+        }
+        stage('Approval') {
+            when {
+                anyOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    expression { env.GIT_BRANCH == 'origin/master' }
+                }
+            }
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message: "Approve Terraform Apply?"
+                }
+            }
+        }
+        stage('Terraform Apply') {
+            when {
+                anyOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    expression { env.GIT_BRANCH == 'origin/master' }
+                }
+            }
+            steps {
+                dir("${TF_FOLDER}") {
+                    sh "terraform apply -auto-approve tfplan.out"
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
