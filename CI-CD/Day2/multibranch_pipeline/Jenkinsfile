@@ -1,0 +1,38 @@
+@Library('call_lib') _
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Branch Check') {
+            steps {
+                echo "Building branch: ${env.BRANCH_NAME}"
+            }
+        }
+        stage('Run Logic') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'main') {
+                        echo "Running FULL flow on main branch..."
+                        call_lib()
+                    } else {
+                        echo "Running SIMPLE build for feature branch..."
+                        sh 'echo Simple build...'
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+/*
+vars/call_lib.groovy
+
+def call() {
+    echo "Running FULL pipeline from Shared Library..."
+    sh 'echo In Library func call...'
+}
+
+*/
