@@ -6,4 +6,4 @@ resource "aws_s3_bucket" "demo" {
   bucket = "chowdri-demo-bucket-123456"
 }
 
-# jenkins pass - bebea54ead444f9b94b57db8d8b236a4
+# jenkins - 04cc65fc6b9c4b3f905ccb8379c8b2b0
