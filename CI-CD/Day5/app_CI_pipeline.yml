@@ -1,0 +1,29 @@
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  APP_ZIP_NAME: 'app.zip'
+
+steps:
+- checkout: self
+  clean: true
+
+- script: |
+    cd app
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+  displayName: "Install dependencies"
+
+- script: |
+    cd app
+    zip -r ../$(APP_ZIP_NAME) . -x "venv/*" "*.pyc"
+  displayName: "Package application"
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(APP_ZIP_NAME)'
+    artifact: 'app-package'

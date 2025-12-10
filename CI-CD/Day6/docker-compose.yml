@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+
+  blue:
+    build: ./blue
+    container_name: blue-app
+
+  green:
+    build: ./green
+    container_name: green-app
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - blue
+      - green

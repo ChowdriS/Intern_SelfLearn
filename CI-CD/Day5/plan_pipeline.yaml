@@ -1,0 +1,123 @@
+trigger:
+- none  
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  AZURE_SERVICE_CONNECTION: 'azure-sc'
+  # INFRA_DIR: 'infra'
+  # APP_PACKAGE_DIR: 'app'
+  # APP_ZIP_NAME: 'flask_app.zip'
+
+steps:
+- checkout: self
+  clean: true
+
+# - task: AzureCLI@2
+#   displayName: 'Azure Login'
+#   inputs:
+#     azureSubscription: $(AZURE_SERVICE_CONNECTION)
+#     addSpnToEnvironment: true
+#     scriptType: bash
+#     scriptLocation: inlineScript
+#     inlineScript: |
+#       # echo "## Logging in with service connection and mapping variables for Terraform"
+#       # AzureCLI task exposes these predefined variables to script:
+#       # $servicePrincipalId, $servicePrincipalKey, $tenantId, $subscriptionId
+#       printenv | grep -i subscription || echo "No subscription vars"
+#       az account show --query id -o tsv
+#       echo $servicePrincipalId
+#       echo $servicePrincipalKey
+#       echo $tenantId
+#       echo $subscriptionId
+#       printenv | grep -E '^(servicePrincipal|tenant|subscription|ARM_|AZURE_)' || echo "No matching vars found"
+#       echo "=== servicePrincipal* specifically ==="
+#       printenv | grep '^servicePrincipal' || echo "No servicePrincipal vars"
+#       echo "=== tenantId specifically ==="
+#       printenv | grep '^tenantId' || echo "No tenantId var"
+#       echo "=== subscriptionId specifically ==="
+#       printenv | grep '^subscriptionId' || echo "No subscriptionId var"
+#       echo "##vso[task.setvariable variable=ARM_CLIENT_ID]$servicePrincipalId"
+#       echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$servicePrincipalKey"
+#       echo "##vso[task.setvariable variable=ARM_TENANT_ID]$tenantId"
+#       echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]$subscriptionId"
+
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: '1.5.0'
+
+- task: AzureCLI@2
+  displayName: 'AzureCLI'
+  inputs:
+    azureSubscription: $(AZURE_SERVICE_CONNECTION)
+    addSpnToEnvironment: true
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      terraform init
+      terraform plan -out=tfplan
+
+
+
+# - task: TerraformTask@5
+#   displayName: Run Terraform Init
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'init'
+#     backendServiceArm: $(AZURE_SERVICE_CONNECTION)
+#     backendAzureRmStorageAccountName: "tfstateaccount123"
+#     backendAzureRmContainerName: "tfstate"
+#     backendAzureRmKey: 'state.tfstate'
+#     runAzLogin: true    
+
+# - task: TerraformTask@5
+#   name: terraformPlan
+#   displayName: Run Terraform Plan
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'plan'
+#     commandOptions: '-out tfplan'
+#     environmentServiceNameAzureRM: $(AZURE_SERVICE_CONNECTION)
+#     runAzLogin: true    
+
+# - script: |
+#     set -e
+#     printenv | grep ^ARM*
+#     terraform init
+#     terraform plan -out=tfplan
+#   displayName: 'Terraform init & plan'
+#   env:
+#     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+#     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+#     ARM_TENANT_ID: $(ARM_TENANT_ID)
+#     ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Terraform plan artifact'
+  inputs:
+    targetPath: 'tfplan'   
+    artifact: 'tfplan-artifact'
+    publishLocation: 'pipeline'
+
+# - script: |
+#     set -e
+#     rm -rf $(APP_PACKAGE_DIR)
+#     mkdir -p $(APP_PACKAGE_DIR)
+#     cp -R * $(APP_PACKAGE_DIR)/
+#     python3 -m venv .venv_build
+#     source .venv_build/bin/activate
+#     pip install --upgrade pip
+#     pip install -r requirements.txt --target $(APP_PACKAGE_DIR)
+#     deactivate
+#     cd $(APP_PACKAGE_DIR)
+#     zip -r ../$(APP_ZIP_NAME) . -x "infra/*" ".git/*" ".venv_build/*"
+#     cd ..
+#   displayName: 'Build Flask app and zip'
+
+# - task: PublishPipelineArtifact@1
+#   displayName: 'Publish App Zip artifact'
+#   inputs:
+#     targetPath: '$(APP_ZIP_NAME)'
+#     artifact: 'app-package'
+#     publishLocation: 'pipeline'

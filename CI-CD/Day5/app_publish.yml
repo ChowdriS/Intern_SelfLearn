@@ -1,0 +1,24 @@
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: appBuild
+      source: personalProject (3)
+      trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  AZURE_SERVICE_CONNECTION: 'azure-sc'
+  APP_SERVICE_NAME: 'chow3-flask-webapp'
+
+steps:
+- download: appBuild
+  artifact: app-package
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: $(AZURE_SERVICE_CONNECTION)
+    appName: $(APP_SERVICE_NAME)
+    package: "$(Pipeline.Workspace)/appBuild/app-package/app.zip"
