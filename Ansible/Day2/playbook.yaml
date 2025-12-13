@@ -1,0 +1,124 @@
+# ---
+# - name: For Install nginx
+#   hosts: web
+#   become: yes
+
+#   tasks:
+#     - name: Install nginx
+#       apt:
+#         name: nginx
+#         state: present
+#         update_cache: yes
+#       tags: install
+
+#     - name: Copy index.html
+#       copy:
+#         src: index.html
+#         dest: /var/www/html/index.html
+
+#     - name: Deploy nginx config from template
+#       template:
+#         src: templates/nginx.conf.j2
+#         dest: /etc/nginx/sites-available/default
+#       notify: restart nginx
+
+#     - name: Start nginx service
+#       systemd:
+#         name: nginx
+#         enabled: yes
+#         state: started
+    
+#     - name: Show HTML
+#       debug:
+#         msg: "{{ lookup('file', 'index.html') }}"
+#       tags: lookup
+    
+#     - name: Read nginx default config from remote host
+#       slurp:
+#         src: /etc/nginx/sites-available/default
+#       register: nginx_conf
+    
+#     - name: Display nginx default config
+#       debug:
+#         msg: "{{ nginx_conf.content | b64decode }}"
+#       tags: slurp
+
+    
+#     - name: Show uppercased hostname
+#       debug:
+#         msg: "Host is {{ inventory_hostname }}"
+#       tags: debug
+
+
+#   handlers:
+#     - name: restart nginx
+#       systemd:
+#         name: nginx
+#         state: restarted
+
+
+
+---
+- name: For Install nginx
+  hosts: dev,prod
+  become: yes
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      tags: install
+    
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ web_root }}"
+        state: directory
+        mode: '0755'
+
+    - name: Deploy dynamic index.html
+      template:
+        src: templates/index.html.j2
+        dest: "{{ web_root }}/index.html"
+      notify: restart nginx
+
+    - name: Deploy nginx config from template
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/sites-available/default
+      notify: restart nginx
+
+    - name: Start nginx service
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
+    
+    # - name: Show HTML
+    #   debug:
+    #     msg: "{{ lookup('file', 'index.html') }}"
+    #   tags: lookup
+    
+    - name: Read nginx default config from remote host
+      slurp:
+        src: /etc/nginx/sites-available/default
+      register: nginx_conf
+    
+    - name: Display nginx default config
+      debug:
+        msg: "{{ nginx_conf.content | b64decode }}"
+      tags: slurp
+
+    
+    - name: Show uppercased hostname
+      debug:
+        msg: "Host is {{ inventory_hostname }}"
+      tags: debug
+
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted

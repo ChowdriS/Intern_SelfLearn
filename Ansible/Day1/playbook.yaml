@@ -1,0 +1,39 @@
+---
+- name: For Install nginx
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Copy index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+
+    - name: Start nginx service
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
+
+- name: For Install MySQL
+  hosts: db
+  become: yes
+
+  tasks:
+    - name: Install MySQL
+      apt:
+        name: mysql-server
+        state: present
+        update_cache: yes
+
+    - name: Start MySQL service
+      systemd:
+        name: mysql
+        enabled: yes
+        state: started
