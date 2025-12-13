@@ -1,17 +1,17 @@
 resource "aws_vpc" "chow3-vpc" {
-    cidr_block = "10.0.0.0/16"
-    tags = {
-        Name = "chow3-vpc"
-    }
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "chow3-vpc"
+  }
 }
 
 resource "aws_subnet" "chow3-vpc-public-subnet" {
-    vpc_id = aws_vpc.chow3-vpc.id
-    cidr_block = "10.0.1.0/24"
-    availability_zone = "${var.region}a"
-    tags = {
-        Name = "chow3-public-subnet"
-    }
+  vpc_id            = aws_vpc.chow3-vpc.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "${var.region}a"
+  tags = {
+    Name = "chow3-public-subnet"
+  }
 }
 
 resource "aws_internet_gateway" "chow3-igw" {
@@ -40,13 +40,13 @@ resource "aws_route_table_association" "chow3-public-subnet-assoc-to-routetable"
 }
 
 resource "aws_security_group" "chow3-sg" {
-    name        = "chow3-sg"
-    vpc_id      = aws_vpc.chow3-vpc.id
-    
-    tags = {
-        Name = "chow3-sg"
-    }
-  
+  name   = "chow3-sg"
+  vpc_id = aws_vpc.chow3-vpc.id
+
+  tags = {
+    Name = "chow3-sg"
+  }
+
 }
 
 resource "aws_security_group_rule" "Allow-inbound-http" {
