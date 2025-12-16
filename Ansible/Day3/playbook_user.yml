@@ -1,0 +1,107 @@
+---
+- name: User management
+  hosts: web
+  become: true
+
+  vars:
+    users:
+      - user1
+      - user2
+      - user3
+
+    dev_users:
+      - user2
+      - user3
+
+    ssh_key_path: /tmp/id_rsa_ansible
+
+  tasks:
+
+  - name: Create dev group
+    group:
+      name: dev
+      state: present
+
+  - name: Create users
+    user:
+      name: "{{ item }}"
+      state: present
+      create_home: yes
+      shell: /bin/bash
+    loop: "{{ users }}"
+
+  - name: Add user1 to sudo group
+    user:
+      name: user1
+      groups: sudo
+      append: yes
+
+  - name: Add user2 and user3 to dev group
+    user:
+      name: "{{ item }}"
+      groups: dev
+      append: yes
+    loop: "{{ dev_users }}"
+
+  - name: Generate an OpenSSH keypair
+    community.crypto.openssh_keypair:
+      path: "{{ ssh_key_path }}"
+    register: ssh_keypair
+
+  - name: Create .ssh directory for user2 and user3
+    file:
+      path: "/home/{{ item }}/.ssh"
+      state: directory
+      owner: "{{ item }}"
+      group: "{{ item }}"
+      mode: '0700'
+    loop: "{{ dev_users }}"
+
+  - name: Copy SSH public key to authorized_keys
+    authorized_key:
+      user: "{{ item }}"
+      state: present
+      # key: "{{ lookup('file', ssh_key_path + '.pub') }}"
+      key: "{{ ssh_keypair.public_key }}"
+    loop: "{{ dev_users }}"
+
+  - name: Verify home directory structure
+    stat:
+      path: "/home/{{ item }}"
+    register: home_dirs
+    loop: "{{ users }}"
+    tags: verify
+
+  - name: Display home directory verification
+    debug:
+      msg: "Home directory for {{ item.item }} exists: {{ item.stat.exists }}"
+    loop: "{{ home_dirs.results }}"
+    tags: verify
+  
+  - name: Check directory exists
+    stat:
+      path: "/home/{{ item }}/etc/chow3"
+    register: chow3_dir
+    loop: "{{ dev_users }}"
+    tags: chow3_conf
+
+  - name: Create /etc/chow3
+    file:
+      path: "/home/{{ item.item }}/etc/chow3"
+      state: directory
+      owner: "{{ item.item }}"
+      group: "{{ item.item }}"
+      mode: '0700'
+    when: not item.stat.exists
+    loop: "{{ chow3_dir.results }}"
+    tags: chow3_conf
+
+  - name: Copy app.conf
+    copy:
+      src: app.conf
+      dest: "/home/{{ item }}/etc/chow3/app.conf"
+      owner: "{{ item }}"
+      group: "{{ item }}"
+      mode: '0600'
+    loop: "{{ dev_users }}"
+    tags: chow3_conf

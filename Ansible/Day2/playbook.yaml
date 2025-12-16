@@ -122,3 +122,6 @@
       systemd:
         name: nginx
         state: restarted
+
+
+# setfact

@@ -37,3 +37,52 @@
         name: mysql
         enabled: yes
         state: started
+
+- name: Windows Server setup
+  hosts: windows
+  gather_facts: yes
+
+  tasks:
+    - name: Install IIS
+      ansible.windows.win_feature:
+        name: Web-Server
+        state: present
+        include_sub_features: true
+        include_management_tools: true
+      register: iis_install
+
+    - name: Copy index.html
+      ansible.windows.win_copy:
+        src: index.html
+        dest: 'C:\inetpub\wwwroot\index.html'
+
+    - name: Reboot after IIS
+      ansible.windows.win_reboot:
+      when: iis_install.reboot_required or iis_install.changed
+
+    - name: Install MySQL on Windows
+      ansible.windows.win_package:
+        path: 'C:\Users\Administrator\Downloads\mysql-9.5.0-winx64.msi'
+        state: present
+      tags: windows_setup
+
+    - name: Initialize MySQL data directory
+      ansible.windows.win_command: >
+        "C:\Program Files\MySQL\MySQL Server 9.5\bin\mysqld.exe"
+        --initialize-insecure
+      tags: windows_setup
+
+    - name: Install MySQL service
+      ansible.windows.win_command: >
+        "C:\Program Files\MySQL\MySQL Server 9.5\bin\mysqld.exe"
+        --install MySQL
+      tags: windows_setup
+
+    - name: Start MySQL service
+      ansible.windows.win_service:
+        name: MySQL
+        state: started
+      tags: windows_setup
+
+# ansible-navigator
+# ansible-docs

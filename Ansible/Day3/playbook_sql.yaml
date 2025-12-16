@@ -1,0 +1,40 @@
+---
+- name: Create table
+  hosts: db
+  become: true
+  vars_files:
+    - secret.yml
+
+  tasks:
+    - name: Install PyMySQL for Ansible MySQL modules
+      apt:
+        name: python3-pymysql
+        state: present
+        update_cache: yes
+      become: true
+
+    - name: Create new database
+      community.mysql.mysql_db:
+        name: mydb
+        state: present
+        login_user: "{{ db_username }}"
+        login_password: "{{ db_password }}"
+
+    - name: Create dummy_tb table
+      mysql_query:
+        login_db: mydb
+        login_user: "{{ db_username }}"
+        login_password: "{{ db_password }}"
+        query: |
+          CREATE TABLE IF NOT EXISTS dummy_tb (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+
+    - name: Insert into dummy_tb table
+      mysql_query:
+        login_db: mydb
+        login_user: "{{ db_username }}"
+        login_password: "{{ db_password }}"
+        query: |
+          INSERT INTO dummy_tb (id) VALUES (100);
