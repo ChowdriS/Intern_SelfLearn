@@ -1,0 +1,5 @@
+- name: Check website
+  command: curl http://localhost
+  register: result
+  failed_when: result.rc != 0
+  changed_when: false

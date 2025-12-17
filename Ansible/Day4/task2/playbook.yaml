@@ -1,0 +1,9 @@
+- name : Playbook for aws s3 creation
+  hosts: all
+  become: no
+  gather_facts: no
+  tasks:
+    - name: Create an S3 bucket
+      amazon.aws.s3_bucket:
+        name: chow3-s3-from-ansible
+        state: present

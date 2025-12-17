@@ -1,0 +1,7 @@
+- name: Configure firewall and check web
+  hosts: all
+  become: yes
+
+  tasks:
+    - import_tasks: tasks/allow_firewall.yaml
+    - import_tasks: tasks/web_check.yaml

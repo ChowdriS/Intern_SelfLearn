@@ -1,0 +1,9 @@
+- name: Provision S3 bucket
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  roles:
+    - role: chowdri.aws_s3.s3_bucket
+      vars:
+        s3_bucket_name: chow3-ansible-s3-bucket-2026

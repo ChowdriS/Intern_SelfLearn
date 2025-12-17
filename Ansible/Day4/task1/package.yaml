@@ -1,0 +1,8 @@
+- name: Install packages
+  hosts: all
+  become: yes
+
+  tasks:
+    - import_tasks: tasks/install_apache.yaml
+    - import_tasks: tasks/install_mysql.yaml
+    - import_tasks: tasks/install_php.yaml

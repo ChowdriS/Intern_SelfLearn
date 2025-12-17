@@ -1,0 +1,5 @@
+- name: Configure firewall and check web
+  hosts: all
+  become: yes
+  roles:
+    - firewall

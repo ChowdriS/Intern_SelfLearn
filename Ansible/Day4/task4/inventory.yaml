@@ -1,0 +1,3 @@
+- hosts: all
+  vars:
+    ansible_host: "13.217.49.156"

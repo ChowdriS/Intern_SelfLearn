@@ -1,0 +1,44 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/firewall
+
+- name: Configure firewall with error handling
+  block:
+
+    - name: Allow HTTP
+      firewalld:
+        port: 80/tcp
+        state: enabled
+        permanent: yes
+        immediate: yes
+
+    - name: Allow MySQL
+      firewalld:
+        port: 3306/tcp
+        state: enabled
+        permanent: yes
+        immediate: yes
+
+  rescue:
+
+    - name: Save firewall error to file
+      copy:
+        content: |
+          Firewall configuration failed on host: {{ inventory_hostname }}
+          Time: {{ ansible_date_time.iso8601 }}
+          Error: {{ ansible_failed_result.msg | default('Unknown error') }}
+        dest: /tmp/firewall_error.log
+        mode: '0644'
+
+  always:
+
+    - name: Firewall task finished
+      debug:
+        msg: "Firewall configuration attempted on {{ inventory_hostname }}"
+
+
+- name: Check website
+  command: curl http://localhost
+  register: result
+  failed_when: result.rc != 0
+  changed_when: false

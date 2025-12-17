@@ -1,0 +1,12 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/service
+- name : Start Apache service
+  service:
+    name: apache2
+    state: started
+  
+- name : Start mysql service
+  service:
+    name: mysql
+    state: started

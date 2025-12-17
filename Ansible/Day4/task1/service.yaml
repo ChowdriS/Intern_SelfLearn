@@ -1,0 +1,10 @@
+- name: Manage services
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Start Apache service
+      include_tasks: tasks/start_apache.yaml
+
+    - name: Start MySQL service
+      include_tasks: tasks/start_mysql.yaml
