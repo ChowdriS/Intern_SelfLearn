@@ -2,14 +2,14 @@
   block:
 
     - name: Allow HTTP
-      firewalld:
+      ansible.posix.firewalld:
         port: 80/tcp
         state: enabled
         permanent: yes
         immediate: yes
 
     - name: Allow MySQL
-      firewalld:
+      ansible.posix.firewalld:
         port: 3306/tcp
         state: enabled
         permanent: yes
